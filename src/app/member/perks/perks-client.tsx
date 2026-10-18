@@ -65,7 +65,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
         </div>
 
         <Link href="/member/card">
-          <Button className="rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-display text-xs font-bold uppercase tracking-wider px-5 py-2.5 shadow-lg shadow-indigo-600/30 gap-2">
+          <Button className="rounded-xl bg-red-600 hover:bg-red-500 text-white font-display text-xs font-bold uppercase tracking-wider px-5 py-2.5 shadow-lg shadow-red-600/30 gap-2">
             <QrCode className="h-4 w-4" />
             <span>Buka KTA Digital</span>
           </Button>
@@ -73,9 +73,9 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
       </div>
 
       {/* 2. KTA NOTICE BANNER */}
-      <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-r from-[#12162a] via-[#151a32] to-[#0f1322] p-5 sm:p-6 shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5">
+      <div className="rounded-2xl border border-red-500/30 bg-gradient-to-r from-[#12162a] via-[#151a32] to-[#0f1322] p-5 sm:p-6 shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5">
         <div className="flex items-start gap-4">
-          <div className="h-12 w-12 rounded-xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shrink-0 shadow-inner">
+          <div className="h-12 w-12 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0 shadow-inner">
             <CreditCard className="h-6 w-6" />
           </div>
           <div>
@@ -94,7 +94,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
         <Link href="/member/card" className="shrink-0">
           <Button
             variant="outline"
-            className="border-indigo-400/40 bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 text-xs font-display font-semibold uppercase tracking-wider"
+            className="border-red-400/40 bg-red-950/40 hover:bg-red-950/60 text-red-300 text-xs font-display font-semibold uppercase tracking-wider"
           >
             Lihat KTA Digital Anda
           </Button>
@@ -119,7 +119,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
             onClick={() => setSelectedCategory("all")}
             className={`px-3 py-1.5 rounded-xl text-xs font-sans font-semibold transition-all ${
               selectedCategory === "all"
-                ? "bg-indigo-600 text-white"
+                ? "bg-red-600 text-white"
                 : "bg-[#0a0d14] text-slate-400 hover:text-white"
             }`}
           >
@@ -129,7 +129,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
             onClick={() => setSelectedCategory("oil_fluids")}
             className={`px-3 py-1.5 rounded-xl text-xs font-sans font-semibold transition-all ${
               selectedCategory === "oil_fluids"
-                ? "bg-indigo-600 text-white"
+                ? "bg-red-600 text-white"
                 : "bg-[#0a0d14] text-slate-400 hover:text-white"
             }`}
           >
@@ -139,7 +139,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
             onClick={() => setSelectedCategory("automotive_parts")}
             className={`px-3 py-1.5 rounded-xl text-xs font-sans font-semibold transition-all ${
               selectedCategory === "automotive_parts"
-                ? "bg-indigo-600 text-white"
+                ? "bg-red-600 text-white"
                 : "bg-[#0a0d14] text-slate-400 hover:text-white"
             }`}
           >
@@ -149,7 +149,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
             onClick={() => setSelectedCategory("apparel_gear")}
             className={`px-3 py-1.5 rounded-xl text-xs font-sans font-semibold transition-all ${
               selectedCategory === "apparel_gear"
-                ? "bg-indigo-600 text-white"
+                ? "bg-red-600 text-white"
                 : "bg-[#0a0d14] text-slate-400 hover:text-white"
             }`}
           >
@@ -159,7 +159,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
             onClick={() => setSelectedCategory("workshop_service")}
             className={`px-3 py-1.5 rounded-xl text-xs font-sans font-semibold transition-all ${
               selectedCategory === "workshop_service"
-                ? "bg-indigo-600 text-white"
+                ? "bg-red-600 text-white"
                 : "bg-[#0a0d14] text-slate-400 hover:text-white"
             }`}
           >
@@ -183,11 +183,11 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
             return (
               <div
                 key={s.id}
-                className="rounded-2xl border border-white/[0.08] bg-[#121624] p-6 shadow-xl flex flex-col justify-between hover:border-indigo-500/50 hover:bg-[#15192e] transition-all duration-300 group relative overflow-hidden"
+                className="rounded-2xl border border-white/[0.08] bg-[#121624] p-6 shadow-xl flex flex-col justify-between hover:border-red-500/50 hover:bg-[#15192e] transition-all duration-300 group relative overflow-hidden"
               >
                 <div>
                   {/* Featured Cover Banner */}
-                  <div className="relative h-40 sm:h-44 w-full rounded-xl overflow-hidden mb-4 bg-[#080a12] border border-white/10 group-hover:border-indigo-500/40 transition-colors shadow-md">
+                  <div className="relative h-40 sm:h-44 w-full rounded-xl overflow-hidden mb-4 bg-[#080a12] border border-white/10 group-hover:border-red-500/40 transition-colors shadow-md">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={s.bannerUrl || s.logoUrl}
@@ -199,7 +199,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
 
                     {/* Floating Brand Logo Badge (if provided) */}
                     {s.logoUrl && (
-                      <div className="absolute bottom-2.5 left-3 h-12 w-20 rounded-lg bg-[#0a0d14]/95 backdrop-blur-md border border-white/20 p-1.5 flex items-center justify-center shadow-lg group-hover:border-indigo-500/60 transition-colors">
+                      <div className="absolute bottom-2.5 left-3 h-12 w-20 rounded-lg bg-[#0a0d14]/95 backdrop-blur-md border border-white/20 p-1.5 flex items-center justify-center shadow-lg group-hover:border-red-500/60 transition-colors">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={s.logoUrl}
@@ -211,14 +211,14 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
                     )}
 
                     <div className="absolute top-2.5 right-2.5">
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border bg-indigo-500/25 text-indigo-300 border-indigo-500/40 backdrop-blur-md">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border bg-red-500/25 text-red-300 border-red-500/40 backdrop-blur-md">
                         {s.tier.toUpperCase()} PARTNER
                       </span>
                     </div>
                   </div>
 
                   <p className="text-[11px] font-mono text-slate-400">{s.name}</p>
-                  <h3 className="font-display text-lg font-bold text-white uppercase group-hover:text-indigo-300 transition-colors mt-0.5">
+                  <h3 className="font-display text-lg font-bold text-white uppercase group-hover:text-red-300 transition-colors mt-0.5">
                     {perk.title}
                   </h3>
 
@@ -251,7 +251,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
                         size="sm"
                         variant="ghost"
                         onClick={() => copyToClipboard(perk.promoCode!)}
-                        className="h-8 px-2.5 text-xs text-indigo-400 hover:text-white hover:bg-indigo-600 gap-1.5 transition-colors"
+                        className="h-8 px-2.5 text-xs text-red-400 hover:text-white hover:bg-red-600 gap-1.5 transition-colors"
                       >
                         {copiedCode === perk.promoCode ? (
                           <>
@@ -280,7 +280,7 @@ export function MemberPerksClient({ sponsors }: MemberPerksClientProps) {
                       href={s.websiteUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono text-indigo-400 hover:text-indigo-300 hover:underline"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono text-red-400 hover:text-red-300 hover:underline"
                     >
                       <span>Kunjungi Merchant</span>
                       <ExternalLink className="h-3 w-3" />

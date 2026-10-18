@@ -60,8 +60,8 @@ const TIER_LABELS: Record<SponsorTier, { label: string; color: string; badgeClas
   },
   official: {
     label: "Official Partner",
-    color: "#6366f1",
-    badgeClass: "bg-indigo-500/15 text-indigo-400 border-indigo-500/40",
+    color: "#dc2626",
+    badgeClass: "bg-red-500/15 text-red-400 border-red-500/40",
   },
   event: {
     label: "Event Sponsor",
@@ -387,7 +387,7 @@ export function SponsorsManagementClient({
       {/* 1. HEADER SECTION */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-indigo-400">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-red-400">
             <Handshake className="h-4 w-4" />
             <span>Kemitraan & Ekosistem Bisnis</span>
           </div>
@@ -402,7 +402,7 @@ export function SponsorsManagementClient({
         <div className="flex items-center gap-3">
           <Button
             onClick={openAddModal}
-            className="rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-display text-xs font-bold uppercase tracking-wider px-5 py-2.5 shadow-lg shadow-indigo-600/30 gap-2"
+            className="rounded-xl bg-red-600 hover:bg-red-500 text-white font-display text-xs font-bold uppercase tracking-wider px-5 py-2.5 shadow-lg shadow-red-600/30 gap-2"
           >
             <Plus className="h-4 w-4" />
             <span>Tambah Sponsor</span>
@@ -433,7 +433,7 @@ export function SponsorsManagementClient({
         <div className="rounded-2xl border border-white/[0.08] bg-[#121624] p-5 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">Total Partner</span>
-            <div className="h-8 w-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <div className="h-8 w-8 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400">
               <Handshake className="h-4 w-4" />
             </div>
           </div>
@@ -496,19 +496,19 @@ export function SponsorsManagementClient({
         <button
           onClick={() => setActiveTab("sponsors")}
           className={`pb-3 font-display text-sm font-bold uppercase tracking-wider transition-colors relative ${
-            activeTab === "sponsors" ? "text-indigo-400" : "text-slate-400 hover:text-white"
+            activeTab === "sponsors" ? "text-red-400" : "text-slate-400 hover:text-white"
           }`}
         >
           <span>Daftar Sponsor & Partner ({sponsors.length})</span>
           {activeTab === "sponsors" && (
-            <span className="absolute bottom-0 inset-x-0 h-0.5 bg-indigo-500 shadow-[0_0_8px_#6366f1]" />
+            <span className="absolute bottom-0 inset-x-0 h-0.5 bg-red-500 shadow-[0_0_8px_#dc2626]" />
           )}
         </button>
 
         <button
           onClick={() => setActiveTab("inquiries")}
           className={`pb-3 font-display text-sm font-bold uppercase tracking-wider transition-colors relative flex items-center gap-2 ${
-            activeTab === "inquiries" ? "text-indigo-400" : "text-slate-400 hover:text-white"
+            activeTab === "inquiries" ? "text-red-400" : "text-slate-400 hover:text-white"
           }`}
         >
           <span>Prospek & Pengajuan ({inquiries.length})</span>
@@ -518,7 +518,7 @@ export function SponsorsManagementClient({
             </span>
           )}
           {activeTab === "inquiries" && (
-            <span className="absolute bottom-0 inset-x-0 h-0.5 bg-indigo-500 shadow-[0_0_8px_#6366f1]" />
+            <span className="absolute bottom-0 inset-x-0 h-0.5 bg-red-500 shadow-[0_0_8px_#dc2626]" />
           )}
         </button>
       </div>
@@ -546,7 +546,7 @@ export function SponsorsManagementClient({
                 <select
                   value={selectedTier}
                   onChange={(e) => setSelectedTier(e.target.value)}
-                  className="bg-[#0a0d14] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 font-sans"
+                  className="bg-[#0a0d14] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500 font-sans"
                 >
                   <option value="all">Semua Tier</option>
                   <option value="main">Main Sponsor</option>
@@ -562,7 +562,7 @@ export function SponsorsManagementClient({
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-[#0a0d14] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 font-sans"
+                  className="bg-[#0a0d14] border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500 font-sans"
                 >
                   <option value="all">Semua Kategori</option>
                   <option value="oil_fluids">Oli & Pelumas</option>
@@ -592,7 +592,7 @@ export function SponsorsManagementClient({
                 return (
                   <div
                     key={s.id}
-                    className="rounded-2xl border border-white/[0.08] bg-[#121624] p-5 shadow-xl flex flex-col justify-between hover:border-indigo-500/40 transition-all duration-300 group relative overflow-hidden"
+                    className="rounded-2xl border border-white/[0.08] bg-[#121624] p-5 shadow-xl flex flex-col justify-between hover:border-red-500/40 transition-all duration-300 group relative overflow-hidden"
                   >
                     <div>
                       {/* Top Bar: Logo & Tier Badge */}
@@ -607,7 +607,7 @@ export function SponsorsManagementClient({
                               loading="lazy"
                             />
                           ) : (
-                            <Building2 className="h-6 w-6 text-indigo-400" />
+                            <Building2 className="h-6 w-6 text-red-400" />
                           )}
                         </div>
 
@@ -624,10 +624,10 @@ export function SponsorsManagementClient({
                       </div>
 
                       {/* Brand Info */}
-                      <h3 className="font-display text-lg font-bold text-white uppercase group-hover:text-indigo-300 transition-colors">
+                      <h3 className="font-display text-lg font-bold text-white uppercase group-hover:text-red-300 transition-colors">
                         {s.name}
                       </h3>
-                      <p className="text-[11px] font-mono text-indigo-400/90 mt-0.5">
+                      <p className="text-[11px] font-mono text-red-400/90 mt-0.5">
                         {CATEGORY_LABELS[s.category] || "Kemitraan"}
                       </p>
 
@@ -637,9 +637,9 @@ export function SponsorsManagementClient({
 
                       {/* Member Perk Card (If Available) */}
                       {s.memberPerk && (
-                        <div className="mt-3.5 p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-xs space-y-1">
-                          <div className="flex items-center gap-1.5 text-indigo-300 font-semibold font-sans">
-                            <Gift className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+                        <div className="mt-3.5 p-3 rounded-xl bg-red-950/40 border border-red-500/20 text-xs space-y-1">
+                          <div className="flex items-center gap-1.5 text-red-300 font-semibold font-sans">
+                            <Gift className="h-3.5 w-3.5 text-red-400 shrink-0" />
                             <span>{s.memberPerk.title}</span>
                           </div>
                           <p className="text-[11px] font-mono text-emerald-400 font-bold">
@@ -676,7 +676,7 @@ export function SponsorsManagementClient({
                         )}
                         <div className="flex justify-between items-center text-slate-400">
                           <span className="flex items-center gap-1">
-                            <MousePointerClick className="h-3 w-3 text-indigo-400" />
+                            <MousePointerClick className="h-3 w-3 text-red-400" />
                             Total Klik:
                           </span>
                           <span className="text-white font-bold">{s.clickCount || 0}</span>
@@ -691,7 +691,7 @@ export function SponsorsManagementClient({
                           href={s.websiteUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-[11px] font-mono text-slate-400 hover:text-indigo-300 flex items-center gap-1"
+                          className="text-[11px] font-mono text-slate-400 hover:text-red-300 flex items-center gap-1"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
                           <span>Website</span>
@@ -770,14 +770,14 @@ export function SponsorsManagementClient({
 
                       <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 font-sans">
                         <span className="flex items-center gap-1 text-slate-300">
-                          <User className="h-3.5 w-3.5 text-indigo-400" />
+                          <User className="h-3.5 w-3.5 text-red-400" />
                           {inq.contactPerson}
                         </span>
                         <a
                           href={`mailto:${inq.email}`}
-                          className="flex items-center gap-1 text-slate-300 hover:text-indigo-400 transition-colors"
+                          className="flex items-center gap-1 text-slate-300 hover:text-red-400 transition-colors"
                         >
-                          <Mail className="h-3.5 w-3.5 text-indigo-400" />
+                          <Mail className="h-3.5 w-3.5 text-red-400" />
                           {inq.email}
                         </a>
                         <a
@@ -850,7 +850,7 @@ export function SponsorsManagementClient({
             <form onSubmit={handleSaveSponsor} className="mt-6 space-y-6">
               {/* Profil Brand */}
               <div className="space-y-4">
-                <h4 className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-widest flex items-center gap-1.5">
+                <h4 className="text-xs font-mono font-bold text-red-400 uppercase tracking-widest flex items-center gap-1.5">
                   <Building2 className="h-3.5 w-3.5" />
                   <span>1. Profil Utama Brand</span>
                 </h4>
@@ -866,7 +866,7 @@ export function SponsorsManagementClient({
                       placeholder="Contoh: Motul Lubricants"
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
-                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
                     />
                   </div>
 
@@ -879,7 +879,7 @@ export function SponsorsManagementClient({
                       placeholder="motul-lubricants"
                       value={formSlug}
                       onChange={(e) => setFormSlug(e.target.value)}
-                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
                     />
                   </div>
                 </div>
@@ -890,7 +890,7 @@ export function SponsorsManagementClient({
                     <select
                       value={formTier}
                       onChange={(e) => setFormTier(e.target.value as SponsorTier)}
-                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-red-500"
                     >
                       <option value="main">Main Sponsor (Beranda Layer 1)</option>
                       <option value="official">Official Partner (Direktori Layer 3)</option>
@@ -904,7 +904,7 @@ export function SponsorsManagementClient({
                     <select
                       value={formCategory}
                       onChange={(e) => setFormCategory(e.target.value as BusinessCategory)}
-                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-red-500"
                     >
                       <option value="oil_fluids">Oli & Pelumas Mesin</option>
                       <option value="automotive_parts">Ban & Komponen Motor</option>
@@ -926,7 +926,7 @@ export function SponsorsManagementClient({
                     placeholder="https://brand-sponsor.com"
                     value={formWebsiteUrl}
                     onChange={(e) => setFormWebsiteUrl(e.target.value)}
-                    className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
                   />
                 </div>
 
@@ -952,7 +952,7 @@ export function SponsorsManagementClient({
                         }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-all ${
                           logoInputMode === "upload"
-                            ? "bg-indigo-600 text-white shadow-sm"
+                            ? "bg-red-600 text-white shadow-sm"
                             : "text-slate-400 hover:text-white"
                         }`}
                       >
@@ -967,7 +967,7 @@ export function SponsorsManagementClient({
                         }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-all ${
                           logoInputMode === "url"
-                            ? "bg-indigo-600 text-white shadow-sm"
+                            ? "bg-red-600 text-white shadow-sm"
                             : "text-slate-400 hover:text-white"
                         }`}
                       >
@@ -1006,20 +1006,20 @@ export function SponsorsManagementClient({
                         onClick={() => logoFileInputRef.current?.click()}
                         className={`border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
                           isDraggingLogo
-                            ? "border-indigo-500 bg-indigo-950/40"
-                            : "border-white/15 bg-[#0a0d14] hover:border-indigo-500/50 hover:bg-white/[0.02]"
+                            ? "border-red-500 bg-red-950/40"
+                            : "border-white/15 bg-[#0a0d14] hover:border-red-500/50 hover:bg-white/[0.02]"
                         }`}
                       >
                         {isUploadingLogo ? (
                           <div className="flex flex-col items-center py-2">
-                            <Loader2 className="h-7 w-7 text-indigo-400 animate-spin mb-1.5" />
-                            <span className="text-xs text-indigo-300 font-sans font-medium">
+                            <Loader2 className="h-7 w-7 text-red-400 animate-spin mb-1.5" />
+                            <span className="text-xs text-red-300 font-sans font-medium">
                               Mengunggah logo ke server...
                             </span>
                           </div>
                         ) : (
                           <>
-                            <div className="h-10 w-10 rounded-xl bg-indigo-950/70 border border-indigo-500/30 text-indigo-400 flex items-center justify-center shadow-inner">
+                            <div className="h-10 w-10 rounded-xl bg-red-950/70 border border-red-500/30 text-red-400 flex items-center justify-center shadow-inner">
                               <UploadCloud className="h-5 w-5" />
                             </div>
                             <div>
@@ -1043,7 +1043,7 @@ export function SponsorsManagementClient({
                           placeholder="https://images.unsplash.com/... atau tautan gambar langsung"
                           value={formLogoUrl}
                           onChange={(e) => setFormLogoUrl(e.target.value)}
-                          className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 pl-9 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                          className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 pl-9 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
                         />
                         <LinkIcon className="h-3.5 w-3.5 text-slate-500 absolute left-3 top-2.5" />
                       </div>
@@ -1095,7 +1095,7 @@ export function SponsorsManagementClient({
                           <button
                             type="button"
                             onClick={() => logoFileInputRef.current?.click()}
-                            className="px-2.5 py-1.5 rounded-lg text-xs font-sans text-indigo-300 hover:text-white bg-indigo-950/50 hover:bg-indigo-900/60 border border-indigo-500/30 transition-colors"
+                            className="px-2.5 py-1.5 rounded-lg text-xs font-sans text-red-300 hover:text-white bg-red-950/50 hover:bg-red-900/60 border border-red-500/30 transition-colors"
                           >
                             Ganti Berkas
                           </button>
@@ -1138,7 +1138,7 @@ export function SponsorsManagementClient({
                         }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-all ${
                           bannerInputMode === "upload"
-                            ? "bg-indigo-600 text-white shadow-sm"
+                            ? "bg-red-600 text-white shadow-sm"
                             : "text-slate-400 hover:text-white"
                         }`}
                       >
@@ -1153,7 +1153,7 @@ export function SponsorsManagementClient({
                         }}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-all ${
                           bannerInputMode === "url"
-                            ? "bg-indigo-600 text-white shadow-sm"
+                            ? "bg-red-600 text-white shadow-sm"
                             : "text-slate-400 hover:text-white"
                         }`}
                       >
@@ -1192,20 +1192,20 @@ export function SponsorsManagementClient({
                         onClick={() => bannerFileInputRef.current?.click()}
                         className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
                           isDraggingBanner
-                            ? "border-indigo-500 bg-indigo-950/40"
-                            : "border-white/15 bg-[#0a0d14] hover:border-indigo-500/50 hover:bg-white/[0.02]"
+                            ? "border-red-500 bg-red-950/40"
+                            : "border-white/15 bg-[#0a0d14] hover:border-red-500/50 hover:bg-white/[0.02]"
                         }`}
                       >
                         {isUploadingBanner ? (
                           <div className="flex flex-col items-center py-2">
-                            <Loader2 className="h-7 w-7 text-indigo-400 animate-spin mb-1.5" />
-                            <span className="text-xs text-indigo-300 font-sans font-medium">
+                            <Loader2 className="h-7 w-7 text-red-400 animate-spin mb-1.5" />
+                            <span className="text-xs text-red-300 font-sans font-medium">
                               Mengunggah banner ke server...
                             </span>
                           </div>
                         ) : (
                           <>
-                            <div className="h-9 w-9 rounded-xl bg-indigo-950/70 border border-indigo-500/30 text-indigo-400 flex items-center justify-center shadow-inner">
+                            <div className="h-9 w-9 rounded-xl bg-red-950/70 border border-red-500/30 text-red-400 flex items-center justify-center shadow-inner">
                               <ImageIcon className="h-5 w-5" />
                             </div>
                             <div>
@@ -1229,7 +1229,7 @@ export function SponsorsManagementClient({
                           placeholder="https://images.unsplash.com/... atau URL foto banner"
                           value={formBannerUrl}
                           onChange={(e) => setFormBannerUrl(e.target.value)}
-                          className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 pl-9 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                          className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 pl-9 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
                         />
                         <LinkIcon className="h-3.5 w-3.5 text-slate-500 absolute left-3 top-2.5" />
                       </div>
@@ -1273,7 +1273,7 @@ export function SponsorsManagementClient({
                           <button
                             type="button"
                             onClick={() => bannerFileInputRef.current?.click()}
-                            className="px-2.5 py-1.5 rounded-lg text-xs font-sans text-indigo-300 hover:text-white bg-indigo-950/50 hover:bg-indigo-900/60 border border-indigo-500/30 transition-colors"
+                            className="px-2.5 py-1.5 rounded-lg text-xs font-sans text-red-300 hover:text-white bg-red-950/50 hover:bg-red-900/60 border border-red-500/30 transition-colors"
                           >
                             Ganti Berkas
                           </button>
@@ -1304,14 +1304,14 @@ export function SponsorsManagementClient({
                     placeholder="Jelaskan peran sponsor, teknologi produk, atau sejarah kemitraan..."
                     value={formDescription}
                     onChange={(e) => setFormDescription(e.target.value)}
-                    className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-[#0a0d14] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
                   />
                 </div>
               </div>
 
               {/* Status & Kontrak */}
               <div className="space-y-4 pt-4 border-t border-white/[0.08]">
-                <h4 className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-widest flex items-center gap-1.5">
+                <h4 className="text-xs font-mono font-bold text-red-400 uppercase tracking-widest flex items-center gap-1.5">
                   <Calendar className="h-3.5 w-3.5" />
                   <span>2. Masa Kontrak & Tampilan</span>
                 </h4>
@@ -1365,7 +1365,7 @@ export function SponsorsManagementClient({
 
               {/* Benefit Eksklusif Member */}
               <div className="space-y-4 pt-4 border-t border-white/[0.08]">
-                <h4 className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-widest flex items-center gap-1.5">
+                <h4 className="text-xs font-mono font-bold text-red-400 uppercase tracking-widest flex items-center gap-1.5">
                   <Gift className="h-3.5 w-3.5" />
                   <span>3. Benefit & Voucher Anggota (KTA Digital)</span>
                 </h4>
@@ -1435,7 +1435,7 @@ export function SponsorsManagementClient({
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-display text-xs font-bold uppercase tracking-wider px-6 py-2.5 shadow-lg shadow-indigo-600/30"
+                  className="rounded-xl bg-red-600 hover:bg-red-500 text-white font-display text-xs font-bold uppercase tracking-wider px-6 py-2.5 shadow-lg shadow-red-600/30"
                 >
                   {isSubmitting ? "Menyimpan..." : editingId ? "Perbarui Sponsor" : "Simpan Sponsor"}
                 </Button>

@@ -8,21 +8,21 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-indigo-600 text-white font-semibold hover:bg-indigo-500 shadow-md shadow-indigo-600/25 focus-visible:ring-indigo-500",
+          "bg-red-600 text-white font-semibold hover:bg-red-700 shadow-md shadow-red-600/20 focus-visible:ring-red-500",
         destructive:
           "bg-red-900/80 text-red-100 hover:bg-red-800 border border-red-700/50",
         outline:
-          "border border-white/15 text-slate-200 hover:border-indigo-400 hover:text-white hover:bg-indigo-500/10 bg-transparent",
+          "border border-white/15 text-slate-200 hover:border-red-500/50 hover:text-white hover:bg-red-600/10 bg-transparent",
         secondary:
           "bg-[#191e2e] text-slate-200 hover:bg-[#20273c] border border-white/[0.08]",
         ghost:
           "text-slate-300 hover:text-white hover:bg-white/5",
         link:
-          "text-indigo-400 underline-offset-4 hover:underline p-0 h-auto",
+          "text-red-500 underline-offset-4 hover:underline p-0 h-auto",
         gold:
-          "bg-indigo-600 text-white font-semibold hover:bg-indigo-500 shadow-md shadow-indigo-600/25",
+          "bg-red-600 text-white font-semibold hover:bg-red-700 shadow-md shadow-red-600/20",
         goldGlow:
-          "bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-600/35 hover:bg-indigo-500 hover:brightness-105",
+          "bg-red-600 text-white font-bold shadow-lg shadow-red-600/30 hover:bg-red-700 hover:brightness-105",
       },
       size: {
         default: "h-10 px-4 py-2",

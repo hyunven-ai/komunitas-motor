@@ -3,17 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 import {
-  Shield,
-  Compass,
   ArrowRight,
   ChevronLeft,
   ChevronRight,
   MapPin,
   Calendar,
-  Award,
-  Users,
-  CheckCircle2,
-  HeartHandshake,
+  Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroSlide, DEFAULT_HERO_SLIDES } from "@/features/sliders/types";
@@ -33,7 +28,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
-    }, 6500);
+    }, 7000);
 
     return () => clearInterval(interval);
   }, [isPaused, activeSlides.length]);
@@ -50,13 +45,13 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 
   return (
     <section
-      className="relative overflow-hidden bg-[#0a0c0f] min-h-[640px] lg:h-[calc(100vh)] lg:min-h-[700px] lg:max-h-[860px] flex flex-col justify-between"
+      className="relative overflow-hidden bg-[#0A0C0F] min-h-[580px] lg:h-[calc(88vh)] lg:min-h-[640px] lg:max-h-[820px] flex flex-col justify-between"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={() => setIsPaused(true)}
       onTouchEnd={() => setIsPaused(false)}
     >
-      {/* 1. CRYSTAL CLEAR BACKGROUND IMAGE (BOS Style: High contrast, vivid photo, no dark veil on the right) */}
+      {/* Background Documentary Photos */}
       {activeSlides.map((s, idx) => (
         <div
           key={s.id}
@@ -67,203 +62,138 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={s.bgUrl}
-            alt={s.headlineGold}
-            className={`w-full h-full object-cover object-center transition-transform duration-[9000ms] ease-out ${
+            alt={`${s.headlinePart1} ${s.headlineGold}`}
+            className={`w-full h-full object-cover object-center transition-transform duration-[8000ms] ease-out ${
               idx === currentSlide ? "scale-105" : "scale-100"
             }`}
           />
 
-          {/* BOS-STYLE DIRECTIONAL SCRIM: Dark on the left (text area) so words are ultra-crisp, but totally clear & vibrant on the right so the bikes and scenery shine brilliantly */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0c0f]/95 via-[#0a0c0f]/80 via-40% to-transparent" />
-          
-          {/* Soft top gradient to integrate with navbar */}
-          <div className="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-[#0a0c0f]/80 to-transparent pointer-events-none" />
-
-          {/* Bottom gradient fade into feature strip */}
-          <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#0a0c0f] to-transparent pointer-events-none" />
+          {/* Documentary Scrim: Deep dark gradient on text side for crisp legibility, transparent on image focal point */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0C0F]/95 via-[#0A0C0F]/80 via-45% to-[#0A0C0F]/25" />
+          <div className="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-[#0A0C0F]/90 to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#0A0C0F] to-transparent pointer-events-none" />
         </div>
       ))}
 
-      {/* Subtle cosmic neon indigo ambient glow behind the title */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] bg-gradient-to-tr from-indigo-600/25 via-sky-500/15 to-transparent blur-[140px] rounded-full pointer-events-none z-10" />
-
-      {/* 2. MAIN CONTENT HERO (Structured cleanly like BOS Smart) */}
-      <div className="container relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 lg:pt-24 pb-6 z-20 w-full flex-1 flex flex-col justify-center">
-        <div className="max-w-3xl space-y-4 sm:space-y-5">
-          {/* Top Brand & Subtitle Lockup (BOS Style Logo Badge) */}
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-indigo-500/40 bg-[#161a29]/80 shadow-lg shadow-black/40 backdrop-blur-md">
-              <Shield className="h-5 w-5 text-indigo-400" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-display text-base sm:text-lg font-bold tracking-wider text-white uppercase leading-none">
-                  BROTHERHOOD MOTORCYCLE COMMUNITY
-                </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-bold">
-                  MC
-                </span>
-              </div>
-              <p className="text-[11px] tracking-widest text-indigo-400 font-mono uppercase mt-1">
-                RESPECT ALL &bull; FEAR NONE &bull; EST. 2018
-              </p>
-            </div>
+      {/* Main Editorial Hero Content */}
+      <div className="container relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 lg:pt-32 pb-8 z-20 w-full flex-1 flex flex-col justify-center">
+        <div className="max-w-3xl space-y-5">
+          {/* Documentary Dispatch Stamp */}
+          <div className="inline-flex items-center gap-2.5 text-xs font-mono tracking-widest text-neutral-400 uppercase">
+            <span className="h-1.5 w-6 bg-red-600 rounded-full" />
+            <span className="text-white font-medium">Brotherhood MC</span>
+            <span className="text-neutral-600">&bull;</span>
+            <span>{slide.location || "Jalur Touring Nusantara"}</span>
           </div>
 
-          {/* Main H1 Title (Extra Bold, Sharp White & Vibrant Neon Indigo Gradient) */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold uppercase tracking-tight text-white leading-[1.02] drop-shadow-lg">
-            {slide.headlinePart1} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-indigo-300 drop-shadow-[0_2px_15px_rgba(99,102,241,0.5)]">
-              {slide.headlineGold}
-            </span>
+          {/* Bold Editorial Headline */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold uppercase tracking-tight text-[#F5F5F2] leading-[1.02]">
+            {slide.headlinePart1}{" "}
+            <span className="text-red-500">{slide.headlineGold}</span>
           </h1>
 
-          {/* Sub-headline Bullets */}
-          <p className="text-xs sm:text-sm font-semibold tracking-wide text-white/95 font-sans flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-indigo-400 shadow-sm shadow-indigo-400" />
-            <span>{slide.taglineSub}</span>
-          </p>
+          {/* Tagline Sub-bullet from Slider Settings */}
+          {slide.taglineSub && (
+            <p className="text-xs sm:text-sm font-mono text-neutral-300 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-red-500 shrink-0" />
+              <span>{slide.taglineSub}</span>
+            </p>
+          )}
 
-          {/* Description Paragraph (High contrast, easy to read, clean typography) */}
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-2xl font-sans drop-shadow-sm">
+          {/* Concise Supporting Copy */}
+          <p className="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-2xl font-sans font-normal">
             {slide.subtitle}
           </p>
 
-          {/* 4 Feature Icon Badges */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-1 text-xs">
-            <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-full border border-indigo-500/40 bg-[#131724]/80 backdrop-blur-sm flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/20">
-                <Shield className="h-4 w-4" />
-              </div>
-              <span className="font-semibold text-white/95">Safety Riding</span>
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-full border border-indigo-500/40 bg-[#131724]/80 backdrop-blur-sm flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/20">
-                <Compass className="h-4 w-4" />
-              </div>
-              <span className="font-semibold text-white/95">Eksplorasi Rute</span>
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-full border border-indigo-500/40 bg-[#131724]/80 backdrop-blur-sm flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/20">
-                <Award className="h-4 w-4" />
-              </div>
-              <span className="font-semibold text-white/95">Non-Komersial</span>
-            </div>
-
-            <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-full border border-indigo-500/40 bg-[#131724]/80 backdrop-blur-sm flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/20">
-                <HeartHandshake className="h-4 w-4" />
-              </div>
-              <span className="font-semibold text-white/95">Solidaritas Sosial</span>
-            </div>
-          </div>
-
-          {/* Dual Action Buttons */}
-          <div className="flex flex-wrap items-center gap-3.5 pt-3">
+          {/* Single Primary Action + Editorial Secondary Link */}
+          <div className="flex flex-wrap items-center gap-4 pt-4">
             <Link href={slide.ctaLink || "/join"}>
               <Button
                 size="lg"
-                className="rounded-lg px-7 py-3.5 text-xs font-bold uppercase tracking-wider bg-indigo-600 hover:bg-indigo-500 text-white shadow-xl shadow-indigo-600/35 transition-all gap-2"
+                className="rounded-md px-7 py-3 text-xs font-display font-bold uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white shadow-md transition-colors gap-2"
               >
-                <span>{slide.ctaText || "Daftar Calon Member"}</span>
+                <span>{slide.ctaText || "Daftar Calon Anggota"}</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/events">
-              <Button
-                variant="outline"
-                size="lg"
-                className="rounded-lg px-7 py-3.5 text-xs font-bold uppercase tracking-wider border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/15 hover:border-indigo-400/60 transition-all gap-2"
+
+            {slide.ctaLink !== "/events" ? (
+              <Link
+                href="/events"
+                className="inline-flex items-center gap-2 px-4 py-3 text-xs font-display font-semibold uppercase tracking-wider text-neutral-300 hover:text-white transition-colors"
               >
                 <span>Lihat Agenda Touring</span>
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
+                <ArrowRight className="h-3.5 w-3.5 text-red-500" />
+              </Link>
+            ) : (
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 px-4 py-3 text-xs font-display font-semibold uppercase tracking-wider text-neutral-300 hover:text-white transition-colors"
+              >
+                <span>Pelajari Profil &amp; SOP</span>
+                <ArrowRight className="h-3.5 w-3.5 text-red-500" />
+              </Link>
+            )}
           </div>
         </div>
       </div>
 
-      {/* 3. BOTTOM BAR: FULL-WIDTH 4-COLUMN FEATURE STRIP */}
-      <div className="w-full bg-[#0d101a]/95 border-t border-white/[0.08] backdrop-blur-md z-20 py-4 sm:py-5">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          {/* 4 Feature Columns */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 flex-1">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/10">
-                <Users className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-display text-base sm:text-lg font-bold text-white leading-tight">280+ Rider</p>
-                <p className="text-[11px] text-slate-400 font-sans">Anggota Resmi Aktif</p>
-              </div>
+      {/* Grounded Editorial Footer Bar */}
+      <div className="w-full bg-[#0E1017]/95 border-t border-white/10 backdrop-blur-sm z-20 py-3.5 sm:py-4">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          {/* Real Community Context */}
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs font-mono text-neutral-400">
+            <div className="flex items-center gap-1.5">
+              <Shield className="h-3.5 w-3.5 text-red-500" />
+              <span className="text-neutral-200">Zero-Incident Discipline</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/10">
-                <Compass className="h-5 w-5" />
+            {slide.location && (
+              <div className="hidden md:flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5 text-red-500" />
+                <span className="text-neutral-200">{slide.location}</span>
               </div>
-              <div>
-                <p className="font-display text-base sm:text-lg font-bold text-white leading-tight">142K+ KM</p>
-                <p className="text-[11px] text-slate-400 font-sans">Jelajah Aspal Nusantara</p>
+            )}
+            {slide.date && (
+              <div className="hidden lg:flex items-center gap-1.5">
+                <Calendar className="h-3.5 w-3.5 text-neutral-500" />
+                <span>{slide.date}</span>
               </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/10">
-                <CheckCircle2 className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-display text-base sm:text-lg font-bold text-white leading-tight">100% Safety</p>
-                <p className="text-[11px] text-slate-400 font-sans">Zero-Laka SOP Konvoi</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 shadow-sm shadow-indigo-500/10">
-                <Award className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-display text-base sm:text-lg font-bold text-white leading-tight">8 Tahun</p>
-                <p className="text-[11px] text-slate-400 font-sans">Dedikasi Sewindu</p>
-              </div>
-            </div>
+            )}
           </div>
 
-          {/* Carousel Indicators & Controls */}
-          <div className="flex items-center justify-between sm:justify-end gap-5 shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-white/[0.08]">
-            <span className="font-mono text-xs text-indigo-400 font-bold">
-              0{currentSlide + 1} <span className="text-slate-500 font-normal">/ 0{activeSlides.length}</span>
+          {/* Minimal Editorial Slide Switcher */}
+          <div className="flex items-center gap-4 self-end sm:self-auto">
+            <span className="font-mono text-xs text-neutral-400">
+              <strong className="text-white">0{currentSlide + 1}</strong> / 0{activeSlides.length}
             </span>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               {activeSlides.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentSlide(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    idx === currentSlide ? "w-8 bg-indigo-500 shadow-sm shadow-indigo-500/50" : "w-2 bg-white/20 hover:bg-white/40"
+                  className={`h-1 transition-all duration-300 rounded-full ${
+                    idx === currentSlide ? "w-6 bg-red-600" : "w-2 bg-white/20 hover:bg-white/40"
                   }`}
-                  aria-label={`Buka slide ${idx + 1}`}
+                  aria-label={`Slide ${idx + 1}`}
                 />
               ))}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 pl-2 border-l border-white/10">
               <button
                 onClick={prevSlide}
-                className="h-8 w-8 rounded-lg bg-white/5 border border-white/20 hover:border-indigo-400 text-slate-300 hover:text-indigo-400 flex items-center justify-center transition-colors"
+                className="h-7 w-7 rounded border border-white/10 hover:border-white/30 text-neutral-400 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="Slide sebelumnya"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-3.5 w-3.5" />
               </button>
               <button
                 onClick={nextSlide}
-                className="h-8 w-8 rounded-lg bg-white/5 border border-white/20 hover:border-indigo-400 text-slate-300 hover:text-indigo-400 flex items-center justify-center transition-colors"
+                className="h-7 w-7 rounded border border-white/10 hover:border-white/30 text-neutral-400 hover:text-white flex items-center justify-center transition-colors"
                 aria-label="Slide berikutnya"
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>

@@ -5,41 +5,44 @@
   --font-sans: var(--font-geist-sans), sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
 
-  --color-charcoal: #0B0D14;
-  --color-charcoal-card: #131724;
-  --color-charcoal-light: #161A29;
-  --color-asphalt: #131724;
-  --color-asphalt-light: #191E2E;
-  --color-bone: #F1F5F9;
-  --color-bone-muted: #94A3B8;
-  --color-muted-gold: #818CF8;
-  --color-muted-gold-hover: #6366F1;
-  --color-gold-dark: #4F46E5;
-  --color-amber-gold: #818CF8;
-  --color-forged-gold: #A5B4FC;
-  --color-tarmac: #07090E;
+  --color-charcoal: #0B0D12;
+  --color-charcoal-card: #12141C;
+  --color-charcoal-light: #181B26;
+  --color-asphalt: #12141C;
+  --color-asphalt-light: #1A1D28;
+  --color-bone: #F5F5F2;
+  --color-bone-muted: #9E9EA8;
+  --color-muted-gold: #DC2626;
+  --color-muted-gold-hover: #B91C1C;
+  --color-gold-dark: #991B1B;
+  --color-amber-gold: #E5E7EB;
+  --color-forged-gold: #F3F4F6;
+  --color-tarmac: #07080C;
+  --color-crimson: #DC2626;
+  --color-crimson-dark: #991B1B;
+  --color-crimson-hover: #EF4444;
 }
 
 :root {
-  --background: #0B0D14;
-  --foreground: #F1F5F9;
-  --card: #131724;
-  --card-foreground: #F1F5F9;
-  --popover: #131724;
-  --popover-foreground: #F1F5F9;
-  --primary: #6366F1;
+  --background: #0B0D12;
+  --foreground: #F5F5F2;
+  --card: #12141C;
+  --card-foreground: #F5F5F2;
+  --popover: #12141C;
+  --popover-foreground: #F5F5F2;
+  --primary: #DC2626;
   --primary-foreground: #FFFFFF;
-  --secondary: #191E2E;
-  --secondary-foreground: #F1F5F9;
-  --muted: #161A29;
-  --muted-foreground: #94A3B8;
-  --accent: #6366F1;
+  --secondary: #181B26;
+  --secondary-foreground: #F5F5F2;
+  --muted: #181B26;
+  --muted-foreground: #9E9EA8;
+  --accent: #DC2626;
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
   --border: rgba(255, 255, 255, 0.08);
-  --input: #161A29;
-  --ring: #6366F1;
+  --input: #181B26;
+  --ring: #DC2626;
   --radius: 0.5rem;
 }
 
@@ -56,24 +59,24 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   min-height: 100vh;
-  selection-background-color: #6366F1;
+  selection-background-color: #DC2626;
   selection-color: #FFFFFF;
 }
 
 /* Custom scrollbar for brotherhood theme */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0D14;
+  background: #0B0D12;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E2438;
-  border-radius: 3px;
+  background: #232733;
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366F1;
+  background: #DC2626;
 }
 
 /* Mechanical & Biker Design System Utilities */
@@ -81,59 +84,59 @@ body {
   font-family: var(--font-display);
 }
 
-/* Tactile Asphalt & Mesh Background */
+/* Tactile Asphalt Background */
 .bg-asphalt-grit {
-  background-color: #0B0D14;
-  background-image: radial-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px),
-    radial-gradient(rgba(255, 255, 255, 0.03) 1px, #0B0D14 1px);
-  background-size: 28px 28px, 14px 14px;
+  background-color: #0B0D12;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Highway Center-line stripe divider */
 .highway-stripe {
   background-image: repeating-linear-gradient(
     90deg,
-    #6366F1 0px,
-    #6366F1 24px,
-    transparent 24px,
-    transparent 40px
+    rgba(255, 255, 255, 0.16) 0px,
+    rgba(255, 255, 255, 0.16) 16px,
+    transparent 16px,
+    transparent 28px
   );
-  height: 2px;
+  height: 1px;
 }
 
 /* Chamfered Tactical Corner Cut */
 .tactical-cut {
   clip-path: polygon(
     0 0,
-    calc(100% - 16px) 0,
-    100% 16px,
+    calc(100% - 14px) 0,
+    100% 14px,
     100% 100%,
-    16px 100%,
-    0 calc(100% - 16px)
+    14px 100%,
+    0 calc(100% - 14px)
   );
 }
 
 .tactical-cut-sm {
   clip-path: polygon(
     0 0,
-    calc(100% - 10px) 0,
-    100% 10px,
+    calc(100% - 8px) 0,
+    100% 8px,
     100% 100%,
-    10px 100%,
-    0 calc(100% - 10px)
+    8px 100%,
+    0 calc(100% - 8px)
   );
 }
 
-/* Metallic Indigo & Cool White Sheen Text */
+/* Editorial Crisp Sheen Text */
 .text-metallic-gold {
-  background: linear-gradient(135deg, #FFFFFF 0%, #A5B4FC 50%, #6366F1 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 50%, #94A3B8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Embossed Badge Border Glow */
-.gold-glow {
-  box-shadow: 0 0 25px -4px rgba(99, 102, 241, 0.35);
+/* Subtle Editorial Border Accent */
+.editorial-frame {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #12141C;
 }
 
 /* Perforated Ticket Notch (Left & Right) */
@@ -358,8 +361,8 @@ body {
 }
 
 /* ============================================================================ */
-/* APEX COSMIC OBSIDIAN THEME OVERRIDES FOR ADMIN & MEMBER PAGES                */
-/* Replaces all brown/gold/charcoal tokens with deep indigo & obsidian palette  */
+/* APEX COSMIC OBSIDIAN & CRIMSON THEME FOR ADMIN & MEMBER PAGES               */
+/* Unified prestigious red palette across admin panel & member portal          */
 /* ============================================================================ */
 .admin-portal-theme,
 .member-portal-theme {
@@ -370,23 +373,23 @@ body {
   --color-asphalt-light: #191e2e;
   --color-bone: #ffffff;
   --color-bone-muted: #94a3b8;
-  --color-muted-gold: #818cf8;
-  --color-muted-gold-hover: #6366f1;
-  --color-gold-dark: #4f46e5;
-  --color-forged-gold: #a5b4fc;
-  --color-amber-gold: #38bdf8;
+  --color-muted-gold: #DC2626;
+  --color-muted-gold-hover: #B91C1C;
+  --color-gold-dark: #991B1B;
+  --color-forged-gold: #EF4444;
+  --color-amber-gold: #F87171;
   --color-tarmac: #07090e;
   --background: #0b0d14;
   --foreground: #f8fafc;
   --card: #131724;
   --card-foreground: #f8fafc;
-  --primary: #6366f1;
+  --primary: #DC2626;
   --primary-foreground: #ffffff;
   --secondary: #171b29;
   --secondary-foreground: #f8fafc;
   --muted: #171b29;
   --muted-foreground: #94a3b8;
-  --accent: #6366f1;
+  --accent: #DC2626;
   --accent-foreground: #ffffff;
   --border: rgba(255, 255, 255, 0.08);
 }
@@ -396,7 +399,7 @@ body {
 .member-portal-theme .text-muted-gold,
 .admin-portal-theme [class*="text-muted-gold"],
 .member-portal-theme [class*="text-muted-gold"] {
-  color: #818cf8 !important;
+  color: #DC2626 !important;
 }
 
 .admin-portal-theme .text-bone,
@@ -413,7 +416,7 @@ body {
 
 .admin-portal-theme .text-metallic-gold,
 .member-portal-theme .text-metallic-gold {
-  background: linear-gradient(135deg, #ffffff 0%, #818cf8 50%, #38bdf8 100%) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #DC2626 50%, #EF4444 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
@@ -440,7 +443,7 @@ body {
 .member-portal-theme .border-muted-gold,
 .admin-portal-theme [class*="border-muted-gold"],
 .member-portal-theme [class*="border-muted-gold"] {
-  border-color: rgba(99, 102, 241, 0.35) !important;
+  border-color: rgba(220, 38, 38, 0.35) !important;
 }
 
 .admin-portal-theme .border-white\/10,
@@ -458,38 +461,38 @@ body {
 .member-portal-theme div[class*="bg-muted-gold"],
 .admin-portal-theme span[class*="bg-muted-gold"],
 .member-portal-theme span[class*="bg-muted-gold"] {
-  background-color: rgba(99, 102, 241, 0.15) !important;
-  border-color: rgba(99, 102, 241, 0.35) !important;
-  color: #a5b4fc !important;
+  background-color: rgba(220, 38, 38, 0.15) !important;
+  border-color: rgba(220, 38, 38, 0.35) !important;
+  color: #F87171 !important;
 }
 
-/* 5. BUTTONS (ELECTRIC INDIGO SHADOW & HOVER) */
+/* 5. BUTTONS (CRIMSON RED SHADOW & HOVER) */
 .admin-portal-theme button.bg-muted-gold,
 .member-portal-theme button.bg-muted-gold,
 .admin-portal-theme button[class*="bg-muted-gold"],
 .member-portal-theme button[class*="bg-muted-gold"] {
-  background-color: #4f46e5 !important;
+  background-color: #DC2626 !important;
   color: #ffffff !important;
-  box-shadow: 0 0 16px rgba(99, 102, 241, 0.32) !important;
+  box-shadow: 0 0 16px rgba(220, 38, 38, 0.32) !important;
 }
 
 .admin-portal-theme button.bg-muted-gold:hover,
 .member-portal-theme button.bg-muted-gold:hover,
 .admin-portal-theme button[class*="bg-muted-gold"]:hover,
 .member-portal-theme button[class*="bg-muted-gold"]:hover {
-  background-color: #4338ca !important;
+  background-color: #B91C1C !important;
 }
 
 .admin-portal-theme button[class*="border-muted-gold"],
 .member-portal-theme button[class*="border-muted-gold"] {
-  border-color: rgba(99, 102, 241, 0.35) !important;
+  border-color: rgba(220, 38, 38, 0.35) !important;
   color: #cbd5e1 !important;
 }
 
 .admin-portal-theme button[class*="border-muted-gold"]:hover,
 .member-portal-theme button[class*="border-muted-gold"]:hover {
-  border-color: #818cf8 !important;
-  background-color: rgba(99, 102, 241, 0.12) !important;
+  border-color: #DC2626 !important;
+  background-color: rgba(220, 38, 38, 0.12) !important;
   color: #ffffff !important;
 }
 
@@ -528,7 +531,7 @@ body {
 .member-portal-theme select:focus,
 .admin-portal-theme textarea:focus,
 .member-portal-theme textarea:focus {
-  border-color: rgba(99, 102, 241, 0.5) !important;
+  border-color: rgba(220, 38, 38, 0.5) !important;
 }
 
 /* 9. MOTORSPORT / TACHOMETER LOADING KEYFRAMES */
@@ -585,18 +588,17 @@ body {
   }
 }
 
-/* Luxury Interactive Card Utility */
+/* Luxury Editorial Card Utility */
 .modern-card-interactive {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modern-card-interactive:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.22),
-              0 0 20px rgba(99, 102, 241, 0.15);
-  border-color: rgba(129, 140, 248, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .animate-float-slow {
@@ -605,4 +607,14 @@ body {
 
 .animate-pulse-glow {
   animation: pulse-glow 5s ease-in-out infinite;
+}
+
+/* Accessible reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

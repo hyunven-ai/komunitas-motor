@@ -2,431 +2,317 @@ import Link from "next/link";
 import {
   Shield,
   Calendar,
-  Users,
-  Award,
-  ChevronRight,
   MapPin,
+  ArrowRight,
+  ChevronRight,
   CheckCircle2,
   QrCode,
-  Flame,
-  ArrowRight,
-  Radio,
   Compass,
-  AlertTriangle,
-  Clock,
-  Sparkles,
-  Image as ImageIcon,
+  Award,
+  Users,
+  Camera,
+  BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { HeroCarousel } from "@/components/home/hero-carousel";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { MainSponsors } from "@/components/home/main-sponsors";
 import { fetchEventsList } from "@/features/events/queries";
 import { getActiveHeroSlides } from "@/features/sliders/queries";
 import { getMainSponsors } from "@/features/sponsors/queries";
-import { MainSponsors } from "@/components/home/main-sponsors";
+import { fetchGalleryAlbumsList } from "@/features/gallery/queries";
+import { fetchNewsArticlesList } from "@/features/cms/queries";
+import { getSystemSettings } from "@/features/settings/queries";
+import committeeData from "@/data/committee-data.json";
 import { formatRupiah, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [allEvents, heroSlides, mainSponsors] = await Promise.all([
-    fetchEventsList(),
-    getActiveHeroSlides(),
-    getMainSponsors(),
-  ]);
+  const [allEvents, heroSlides, mainSponsors, galleryAlbums, newsArticles, settings] =
+    await Promise.all([
+      fetchEventsList(),
+      getActiveHeroSlides(),
+      getMainSponsors(),
+      fetchGalleryAlbumsList(),
+      fetchNewsArticlesList("published"),
+      getSystemSettings(),
+    ]);
 
   const spotlightEvents = allEvents
     .filter((e) => e.status === "published")
     .slice(0, 3);
 
+  const featuredAlbum = galleryAlbums[0] || null;
+  const recentStories = newsArticles.slice(0, 2);
+  const featuredLeaders = (committeeData?.members || []).slice(0, 4);
+
   return (
-    <div className="flex flex-col w-full overflow-x-hidden bg-charcoal">
-      {/* 1. CINEMATIC HERO CAROUSEL */}
+    <div className="flex flex-col w-full overflow-x-hidden bg-[#0B0D12] text-[#F5F5F2]">
+      {/* 1. DOCUMENTARY HERO */}
       <HeroCarousel slides={heroSlides} />
 
-      {/* 2. INFINITE HIGHWAY MARQUEE TICKER TAPE */}
-      <div className="relative overflow-hidden bg-tarmac border-y border-white/10 py-3.5 select-none">
-        <div className="animate-marquee flex items-center gap-8 whitespace-nowrap text-xs font-mono tracking-widest text-bone-muted uppercase">
-          <span className="flex items-center gap-3">
-            <span className="h-2 w-2 rounded-full bg-muted-gold" />
-            <span className="text-bone font-bold">BROTHERHOOD MC</span>
-          </span>
-          <span className="text-muted-gold">//</span>
-          <span>SATU ASPAL, SATU JIWA</span>
-          <span className="text-muted-gold">//</span>
-          <span className="text-emerald-400 font-semibold">ZERO-INCIDENT DISCIPLINE</span>
-          <span className="text-muted-gold">//</span>
-          <span>RESPECT ALL, FEAR NONE</span>
-          <span className="text-muted-gold">//</span>
-          <span className="text-bone font-bold">142.500+ KM CONQUERED</span>
-          <span className="text-muted-gold">//</span>
-          <span>ROAD CAPTAIN CERTIFIED</span>
-          <span className="text-muted-gold">//</span>
-          <span className="text-muted-gold font-bold">EST. OCTOBER 2018</span>
-          <span className="text-muted-gold">//</span>
-          <span>DIENG &bull; BROMO &bull; BALI &bull; RINJANI</span>
-          <span className="text-muted-gold">//</span>
-          {/* Duplicate set for smooth infinite loop */}
-          <span className="flex items-center gap-3">
-            <span className="h-2 w-2 rounded-full bg-muted-gold" />
-            <span className="text-bone font-bold">BROTHERHOOD MC</span>
-          </span>
-          <span className="text-muted-gold">//</span>
-          <span>SATU ASPAL, SATU JIWA</span>
-          <span className="text-muted-gold">//</span>
-          <span className="text-emerald-400 font-semibold">ZERO-INCIDENT DISCIPLINE</span>
-          <span className="text-muted-gold">//</span>
-          <span>RESPECT ALL, FEAR NONE</span>
-          <span className="text-muted-gold">//</span>
-          <span className="text-bone font-bold">142.500+ KM CONQUERED</span>
-          <span className="text-muted-gold">//</span>
-          <span>ROAD CAPTAIN CERTIFIED</span>
-          <span className="text-muted-gold">//</span>
-          <span className="text-muted-gold font-bold">EST. OCTOBER 2018</span>
-          <span className="text-muted-gold">//</span>
-          <span>DIENG &bull; BROMO &bull; BALI &bull; RINJANI</span>
-        </div>
-      </div>
-
-      {/* 2.5. MAIN SPONSORS SHOWCASE (LAYER 1) */}
-      <MainSponsors sponsors={mainSponsors} />
-
-      {/* 3. BROTHERHOOD PILLARS — ASYMMETRICAL EDITORIAL BENTO */}
-      <section className="py-20 sm:py-28 bg-asphalt-grit border-b border-white/10 relative overflow-hidden">
-        {/* Subtle Ambient Glow */}
-        <div className="absolute top-1/3 left-10 w-80 h-80 bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none animate-pulse-glow" />
-
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Section Header with Road Marker */}
-          <ScrollReveal animation="fade-up">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 border-b border-white/10 pb-8">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 text-xs font-mono text-muted-gold uppercase tracking-widest">
-                  <span className="h-1.5 w-6 bg-muted-gold rounded-full" />
-                  <span>Code of Honor & Heritage</span>
-                </div>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-bone">
-                  PRINSIP KEHORMATAN <span className="text-metallic-gold">BROTHERHOOD</span>
-                </h2>
-              </div>
-              <p className="text-xs sm:text-sm text-bone-muted max-w-md leading-relaxed font-sans">
-                Kami bukan sekadar klub motor yang beriringan di aspal. Kami dipersatukan oleh sumpah integritas, disiplin jalan raya, dan rasa hormat kepada sesama.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          {/* Asymmetrical Bento Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
-            {/* Bento Card 1: Flagship Principle (Spans 7 cols) */}
-            <ScrollReveal animation="fade-right" delay={100} className="lg:col-span-7 flex flex-col">
-              <div className="modern-card-interactive rounded-2xl border border-muted-gold/40 bg-gradient-to-br from-charcoal via-asphalt to-charcoal p-8 sm:p-10 relative overflow-hidden shadow-2xl flex flex-col justify-between group h-full">
-                {/* Huge Distressed Number Watermark */}
-                <span className="absolute -right-4 -bottom-10 font-display text-[160px] sm:text-[220px] font-black text-white/[0.03] select-none pointer-events-none group-hover:text-muted-gold/[0.08] group-hover:scale-105 transition-all duration-500">
-                  01
+      {/* 2. GROUNDED DISPATCH BAR (Configurable from Admin Panel) */}
+      {settings.showOperationalBar !== false && (
+        <section className="bg-[#10121A] border-y border-white/10 py-3.5">
+          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-center justify-between gap-y-2 text-xs font-mono text-neutral-400">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-red-600 animate-pulse" />
+                <span className="text-neutral-200 font-semibold tracking-wider uppercase">
+                  Status Operasional
                 </span>
+                <span className="text-neutral-600">&bull;</span>
+                <span>{settings.operationalStatus || "Sekretariat Wilayah Aktif"}</span>
+              </div>
 
-                <div className="space-y-6 relative z-10">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="h-12 w-12 rounded-xl bg-charcoal border border-muted-gold/50 flex items-center justify-center text-muted-gold shadow-md group-hover:scale-110 group-hover:border-indigo-400 transition-all duration-300">
-                        <Shield className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-muted-gold">
-                          Prinsip Fundamental #01
-                        </span>
-                        <h4 className="font-display text-lg font-bold text-bone uppercase tracking-wider">
-                          Aturan Emas Jalanan
-                        </h4>
-                      </div>
-                    </div>
-                    <Badge variant="gold" className="text-[10px] font-mono shadow-[0_0_12px_rgba(99,102,241,0.25)]">
-                      NON-NEGOTIABLE
-                    </Badge>
+              <div className="hidden md:flex items-center gap-6">
+                <span>
+                  <strong className="text-neutral-200">KODE JALAN:</strong>{" "}
+                  {settings.roadCode || "Respect All, Fear None"}
+                </span>
+                <span className="text-neutral-600">&bull;</span>
+                <span>
+                  <strong className="text-neutral-200">FORMASI KONVOI:</strong>{" "}
+                  {settings.convoyFormation || "Staggered Formation (Selang-Seling)"}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-neutral-500">Kepatuhan AD/ART:</span>
+                <span className="text-neutral-200 font-bold">
+                  {settings.complianceNote || "100% Zero-Alcohol"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 3. EDITORIAL MANIFESTO (Asymmetrical Magazine Layout) */}
+      <section className="py-20 sm:py-28 bg-[#0B0D12] border-b border-white/10">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Left Column: Bold Typographic Narrative */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400">
+                <span className="h-1.5 w-6 bg-red-600 rounded-full" />
+                <span>Prinsip Kehormatan Komunitas</span>
+              </div>
+
+              <h2 className="text-3xl sm:text-5xl font-display font-extrabold uppercase tracking-tight text-[#F5F5F2] leading-tight">
+                MENJELAJAH DENGAN KEHORMATAN. <br />
+                <span className="text-red-500">SATU ASPAL, TANPA AROGANSI.</span>
+              </h2>
+
+              <blockquote className="border-l-2 border-red-600 pl-5 py-1 text-sm sm:text-base text-neutral-300 italic font-sans leading-relaxed">
+                &ldquo;Jalan raya adalah fasilitas bersama milik rakyat. Strobo liar, sirine intimidatif, dan arogansi knalpot adalah musuh terbesar kehormatan seorang rider sejati.&rdquo;
+              </blockquote>
+
+              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed font-sans">
+                Sejak berdiri pada Oktober 2018 di kaki Gunung Salak, Bogor, Brotherhood Motorcycle Community berkomitmen mengikis stigma negatif klub motor. Kami dipersatukan oleh sumpah integritas, disiplin berkendara yang ketat, dan dedikasi sosial di setiap titik singgah ekspedisi.
+              </p>
+
+              <div className="pt-2">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 text-xs font-display font-semibold uppercase tracking-wider text-red-500 hover:text-red-400 transition-colors group"
+                >
+                  <span>Pelajari Anggaran Dasar &amp; SOP Konvoi</span>
+                  <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: 3 Authentic Tenets */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="p-6 rounded-lg border border-white/10 bg-[#12141C] transition-colors hover:border-white/20">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-[#181B26] border border-white/10 flex items-center justify-center text-red-500 shrink-0">
+                    <Shield className="h-5 w-5" />
                   </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-2xl sm:text-4xl font-display font-bold text-bone uppercase tracking-tight group-hover:text-indigo-200 transition-colors">
-                      RESPECT ALL, FEAR NONE
+                  <div className="space-y-1">
+                    <h3 className="font-display text-base font-bold text-white uppercase tracking-wide">
+                      01. Disiplin Formasi &amp; Komando Road Captain
                     </h3>
-                    <blockquote className="text-sm sm:text-base text-bone-muted leading-relaxed italic border-l-2 border-muted-gold/60 pl-4 py-1">
-                      &ldquo;Jalan raya adalah fasilitas bersama milik rakyat. Strobo liar, sirine intimidatif, dan arogansi knalpot adalah musuh terbesar kehormatan seorang rider sejati.&rdquo;
-                    </blockquote>
+                    <p className="text-xs text-neutral-400 leading-relaxed font-sans">
+                      Formasi zig-zag teratur dengan batas kecepatan terkoordinasi (maksimal 70 km/jam). Mematuhi sinyal tangan komando Road Captain dan memastikan tidak ada peserta yang terpisah dari barisan.
+                    </p>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-bone-muted font-sans">
-                    <div className="p-3 rounded-lg bg-black/30 border border-white/5 flex items-start gap-2.5 hover:border-indigo-500/30 transition-colors">
-                      <CheckCircle2 className="h-4 w-4 text-muted-gold shrink-0 mt-0.5" />
-                      <span>Santun melintasi pemukiman warga desa dan hormati tradisi adat lokal.</span>
-                    </div>
-                    <div className="p-3 rounded-lg bg-black/30 border border-white/5 flex items-start gap-2.5 hover:border-indigo-500/30 transition-colors">
-                      <CheckCircle2 className="h-4 w-4 text-muted-gold shrink-0 mt-0.5" />
-                      <span>Nol toleransi bagi anggota yang bersikap arogan terhadap sesama pemotor.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-8 border-t border-white/10 mt-6 flex items-center justify-between text-xs text-bone-muted">
-                  <span className="font-mono text-[11px] text-muted-gold">SOP PASAL 04 — KODE ETIK</span>
-                  <Link href="/about" className="text-bone hover:text-muted-gold transition-colors font-medium flex items-center gap-1 group/link">
-                    <span>Pelajari AD/ART</span>
-                    <ChevronRight className="h-3.5 w-3.5 group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
                 </div>
               </div>
-            </ScrollReveal>
 
-            {/* Bento Right Column (Spans 5 cols) */}
-            <div className="lg:col-span-5 flex flex-col gap-6 sm:gap-8">
-              {/* Bento Card 2: Safety Protocol Cockpit */}
-              <ScrollReveal animation="fade-left" delay={200} className="flex-1 flex flex-col">
-                <div className="modern-card-interactive rounded-2xl border border-white/10 bg-charcoal/90 p-7 sm:p-8 relative overflow-hidden shadow-xl hover:border-muted-gold/40 flex-1 flex flex-col justify-between group">
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="h-10 w-10 rounded-lg bg-asphalt border border-white/10 flex items-center justify-center text-muted-gold group-hover:scale-110 transition-transform">
-                        <Award className="h-5 w-5" />
-                      </div>
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 px-2.5 py-1 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                        100% SOP COMPLIANCE
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl sm:text-2xl font-display font-bold text-bone uppercase tracking-tight mb-2 group-hover:text-indigo-200 transition-colors">
-                      Safety Riding Tanpa Kompromi
+              <div className="p-6 rounded-lg border border-white/10 bg-[#12141C] transition-colors hover:border-white/20">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-[#181B26] border border-white/10 flex items-center justify-center text-red-500 shrink-0">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-display text-base font-bold text-white uppercase tracking-wide">
+                      02. Zero Alcohol &amp; Kepatuhan Safety Gear
                     </h3>
-                    <p className="text-xs sm:text-sm text-bone-muted leading-relaxed mb-4">
-                      Kelayakan teknis pra-touring, helm berstandar internasional, protektor lengkap, dan koordinasi formasi zigzag oleh Road Captain bersertifikat.
+                    <p className="text-xs text-neutral-400 leading-relaxed font-sans">
+                      Nol toleransi bagi alkohol dan obat terlarang. Wajib menggunakan helm standar SNI/DOT/ECE, jaket berprotektor, sarung tangan tertutup, dan sepatu tinggi menutupi mata kaki.
                     </p>
                   </div>
-
-                  <div className="space-y-2 border-t border-white/5 pt-3 text-xs font-mono text-bone">
-                    <div className="flex justify-between items-center py-1 border-b border-white/5">
-                      <span className="text-bone-muted">Formasi Konvoi:</span>
-                      <span className="text-muted-gold font-bold">Staggered (Selang-Seling)</span>
-                    </div>
-                    <div className="flex justify-between items-center py-1 border-b border-white/5">
-                      <span className="text-bone-muted">Kecepatan Maksimal Jalur:</span>
-                      <span className="text-bone">70 KM/Jam Terkoordinir</span>
-                    </div>
-                  </div>
                 </div>
-              </ScrollReveal>
+              </div>
 
-              {/* Bento Card 3: Solidarity & Charity */}
-              <ScrollReveal animation="fade-left" delay={300} className="flex-1 flex flex-col">
-                <div className="modern-card-interactive rounded-2xl border border-white/10 bg-charcoal/90 p-7 sm:p-8 relative overflow-hidden shadow-xl hover:border-muted-gold/40 flex-1 flex flex-col justify-between group">
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="h-10 w-10 rounded-lg bg-asphalt border border-white/10 flex items-center justify-center text-muted-gold group-hover:scale-110 transition-transform">
-                        <Users className="h-5 w-5" />
-                      </div>
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-muted-gold bg-muted-gold/15 border border-muted-gold/30 px-2.5 py-1 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.2)]">
-                        LEBIH DARI HOBI
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl sm:text-2xl font-display font-bold text-bone uppercase tracking-tight mb-2 group-hover:text-indigo-200 transition-colors">
-                      Solidaritas & Aksi Kemanusiaan
+              <div className="p-6 rounded-lg border border-white/10 bg-[#12141C] transition-colors hover:border-white/20">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-[#181B26] border border-white/10 flex items-center justify-center text-red-500 shrink-0">
+                    <Award className="h-5 w-5" />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-display text-base font-bold text-white uppercase tracking-wide">
+                      03. Aksi Kemanusiaan &amp; Non-Komersial
                     </h3>
-                    <p className="text-xs sm:text-sm text-bone-muted leading-relaxed mb-4">
-                      Tak ada saudara yang tertinggal saat kendala mesin di tengah rute. Setiap kilometer touring selalu membawa donasi sosial bagi warga terpencil.
+                    <p className="text-xs text-neutral-400 leading-relaxed font-sans">
+                      Organisasi tidak mencari keuntungan materiil dari anggota. Setiap agenda ekspedisi selalu mengalokasikan donasi sosial bagi warga lokal di daerah yang dilalui.
                     </p>
                   </div>
-
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-asphalt/80 border border-white/5">
-                    <div>
-                      <p className="text-[10px] uppercase font-mono text-bone-muted">Donasi Tersalurkan</p>
-                      <p className="font-display text-lg font-bold text-muted-gold">Rp 120.000.000+</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[10px] uppercase font-mono text-bone-muted">Titik Baksos</p>
-                      <p className="font-display text-lg font-bold text-bone">24 Daerah</p>
-                    </div>
-                  </div>
                 </div>
-              </ScrollReveal>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. SPOTLIGHT AGENDA TOURING — BOARDING PASS / EXPEDITION TICKETS */}
-      <section className="py-20 sm:py-28 bg-charcoal border-b border-white/10 relative overflow-hidden">
-        {/* Subtle Ambient Glow */}
-        <div className="absolute top-1/2 right-10 w-96 h-96 bg-indigo-600/10 blur-[130px] rounded-full pointer-events-none animate-pulse-glow" />
-
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <ScrollReveal animation="fade-up">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 text-xs font-mono text-muted-gold uppercase tracking-widest">
-                  <span className="h-1.5 w-6 bg-muted-gold rounded-full" />
-                  <span>Expedition Calendar 2026-2027</span>
-                </div>
-                <h2 className="text-3xl sm:text-5xl font-display font-bold uppercase tracking-tight text-bone">
-                  AGENDA TOURING & <span className="text-metallic-gold">EKSPEDISI RESMI</span>
-                </h2>
-                <p className="text-xs sm:text-sm text-bone-muted max-w-xl">
-                  Setiap event memiliki limitasi kuota peserta ketat demi keselamatan barisan konvoi di jalur aspal.
-                </p>
-              </div>
-              <Link href="/events">
-                <Button
-                  variant="outline"
-                  className="w-full sm:w-auto gap-2 justify-center border-white/20 hover:border-muted-gold text-xs font-display font-semibold uppercase tracking-wider py-5 group"
-                >
-                  <span>Lihat Seluruh Kalender</span>
-                  <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
+      {/* 4. UPCOMING TOURING AGENDA (Editorial Expedition Slate) */}
+      <section className="py-20 sm:py-28 bg-[#0E1017] border-b border-white/10">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/10">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+                Kalender Ekspedisi Resmi 2026–2027
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-display font-extrabold uppercase tracking-tight text-[#F5F5F2] mt-1">
+                Agenda Touring <span className="text-red-500">Mendatang</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-400 mt-2 max-w-xl font-sans">
+                Kuota rombongan dibatasi secara ketat demi keselamatan barisan konvoi, keselamatan peserta, dan kelancaran arus lalu lintas publik.
+              </p>
             </div>
-          </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Link href="/events">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto text-xs font-display font-semibold uppercase tracking-wider py-4 border-white/20 text-neutral-200 hover:text-white hover:border-white/40 rounded-md"
+              >
+                <span>Lihat Seluruh Kalender</span>
+                <ChevronRight className="h-4 w-4 ml-1.5" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {spotlightEvents.length === 0 ? (
-              <div className="col-span-full p-10 rounded-2xl border border-white/10 bg-asphalt/50 text-center text-bone-muted space-y-4">
-                <Calendar className="h-10 w-10 mx-auto text-muted-gold opacity-60" />
-                <p className="text-base font-medium text-bone">Belum ada agenda touring yang dipublikasikan saat ini.</p>
-                <p className="text-xs text-bone-muted max-w-md mx-auto">
-                  Silakan pantau berkala kalender ekspedisi resmi Brotherhood untuk informasi touring akbar mendatang.
+              <div className="col-span-full p-12 rounded-lg border border-white/10 bg-[#12141C] text-center text-neutral-400 space-y-4">
+                <Calendar className="h-10 w-10 mx-auto text-neutral-500" />
+                <p className="text-base font-medium text-white">Belum ada agenda touring yang dipublikasikan saat ini.</p>
+                <p className="text-xs text-neutral-400 max-w-md mx-auto">
+                  Informasi rute ekspedisi berikutnya sedang disurvei oleh Road Captain dan akan diumumkan secara bertahap.
                 </p>
                 <Link href="/events">
-                  <Button variant="outline" size="sm" className="text-xs border-white/20 hover:border-muted-gold text-bone">
-                    Lihat Arsip Ekspedisi
+                  <Button variant="outline" size="sm" className="text-xs border-white/20 text-neutral-200">
+                    Buka Arsip Ekspedisi
                   </Button>
                 </Link>
               </div>
             ) : (
-              spotlightEvents.map((event, idx) => {
+              spotlightEvents.map((event) => {
                 const isFull = event.registeredCount >= event.capacity;
                 const remainingSlots = Math.max(0, event.capacity - event.registeredCount);
-                const percentage = Math.min(
-                  100,
-                  Math.round(((event.registeredCount || 0) / (event.capacity || 1)) * 100)
-                );
 
                 return (
-                  <ScrollReveal key={event.id || event.slug || idx} animation="fade-up" delay={idx * 150} className="flex flex-col">
-                    <div className="modern-card-interactive tactical-panel rounded-2xl border border-muted-gold/40 bg-asphalt/90 overflow-hidden flex flex-col justify-between shadow-2xl hover:border-muted-gold group h-full">
-                      <div>
-                        {/* Ticket Top Flight / Featured Image Banner */}
-                        <div className="relative aspect-[16/9] w-full bg-charcoal overflow-hidden border-b border-white/10">
-                          {event.cover_image_url ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={event.cover_image_url}
-                              alt={event.title}
-                              className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
-                              loading="lazy"
-                            />
+                  <div
+                    key={event.id}
+                    className="group rounded-lg border border-white/10 bg-[#12141C] overflow-hidden flex flex-col justify-between transition-colors hover:border-white/25"
+                  >
+                    <div>
+                      {/* Image Banner */}
+                      <div className="relative aspect-[16/10] w-full bg-[#181B26] overflow-hidden">
+                        {event.cover_image_url ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={event.cover_image_url}
+                            alt={event.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-[#181B26] text-neutral-500 font-mono text-xs uppercase tracking-wider">
+                            Brotherhood Expedition
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+
+                        {/* Status Stamp */}
+                        <div className="absolute top-3 right-3">
+                          {isFull ? (
+                            <span className="text-[10px] font-mono text-red-400 bg-red-950/80 border border-red-800/60 px-2 py-0.5 rounded font-semibold">
+                              KUOTA PENUH
+                            </span>
                           ) : (
-                            <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-br from-charcoal via-asphalt to-charcoal text-bone-muted/40">
-                              <ImageIcon className="h-10 w-10 mb-2 stroke-[1.5] text-muted-gold/60" />
-                              <span className="text-[10px] font-mono uppercase tracking-wider">Brotherhood Expedition</span>
-                            </div>
+                            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">
+                              SISA {remainingSlots} SLOT
+                            </span>
                           )}
-
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none" />
-
-                          {/* Top Badges */}
-                          <div className="absolute top-3 left-3 flex items-center gap-2">
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-muted-gold border border-muted-gold/40 bg-charcoal/80 backdrop-blur-sm px-2.5 py-0.5 rounded shadow">
-                              {event.category || "TOURING AKBAR"}
-                            </span>
-                          </div>
-
-                          <div className="absolute top-3 right-3">
-                            {isFull ? (
-                              <span className="text-[10px] font-mono text-red-400 bg-red-950/80 border border-red-500/30 px-2 py-0.5 rounded font-bold backdrop-blur-sm">
-                                KUOTA PENUH
-                              </span>
-                            ) : remainingSlots <= 10 ? (
-                              <span className="text-[10px] font-mono text-amber-400 bg-amber-950/80 border border-amber-500/30 px-2 py-0.5 rounded font-bold backdrop-blur-sm flex items-center gap-1">
-                                <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-                                SISA {remainingSlots} SLOT
-                              </span>
-                            ) : (
-                              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2 py-0.5 rounded font-bold backdrop-blur-sm flex items-center gap-1">
-                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                SISA {remainingSlots} SLOT
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="absolute bottom-3 right-3">
-                            <span className="text-xs font-mono text-white bg-indigo-600 px-2.5 py-1 rounded-md font-bold shadow-md">
-                              {event.fee > 0 ? formatRupiah(event.fee) : "GRATIS (Member)"}
-                            </span>
-                          </div>
                         </div>
 
-                        {/* Perforated Divider Line */}
-                        <div className="relative highway-stripe opacity-40" />
-
-                        {/* Ticket Details Body */}
-                        <div className="p-6 space-y-4">
-                          <Link href={`/events/${event.slug}`}>
-                            <h3 className="font-display text-2xl font-bold text-bone uppercase tracking-tight leading-snug group-hover:text-muted-gold transition-colors line-clamp-2">
-                              {event.title}
-                            </h3>
-                          </Link>
-
-                          <p className="text-xs text-bone-muted leading-relaxed line-clamp-2">
-                            {event.description}
-                          </p>
-
-                          <div className="space-y-2 text-xs font-mono text-bone border-t border-white/5 pt-4">
-                            <div className="flex items-center justify-between">
-                              <span className="text-bone-muted flex items-center gap-1.5">
-                                <Calendar className="h-3.5 w-3.5 text-muted-gold shrink-0" />
-                                Tanggal:
-                              </span>
-                              <span className="text-right truncate max-w-[170px]">{formatDate(event.start_time)}</span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-bone-muted flex items-center gap-1.5">
-                                <MapPin className="h-3.5 w-3.5 text-muted-gold shrink-0" />
-                                Lokasi:
-                              </span>
-                              <span className="text-right truncate max-w-[170px]">{event.location_name}</span>
-                            </div>
-                            <div className="flex items-center justify-between pt-1">
-                              <span className="text-bone-muted">Biaya Registrasi:</span>
-                              <span className="font-bold text-muted-gold font-display text-base">
-                                {event.fee > 0 ? formatRupiah(event.fee) : "Gratis"}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Convoy Capacity Meter */}
-                          <div className="space-y-1.5 pt-2">
-                            <div className="flex justify-between text-[10px] font-mono text-bone-muted">
-                              <span>Kapasitas Konvoi</span>
-                              <span className="text-bone">
-                                {event.registeredCount} / {event.capacity} Rider ({percentage}%)
-                              </span>
-                            </div>
-                            <div className="h-2 w-full rounded-full bg-charcoal overflow-hidden border border-white/5">
-                              <div
-                                className="h-full bg-gradient-to-r from-muted-gold to-forged-gold transition-all duration-500"
-                                style={{ width: `${percentage}%` }}
-                              />
-                            </div>
-                          </div>
+                        <div className="absolute bottom-3 left-3">
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-300 bg-black/60 px-2 py-0.5 rounded border border-white/10">
+                            {event.category || "TOURING RESMI"}
+                          </span>
                         </div>
                       </div>
 
-                      <div className="p-6 pt-0">
+                      {/* Content Body */}
+                      <div className="p-6 space-y-3">
                         <Link href={`/events/${event.slug}`}>
-                          <Button className="tactical-cut-sm w-full py-5 text-xs font-display font-bold uppercase tracking-wider bg-muted-gold text-white hover:bg-muted-gold-hover shadow-md group/btn">
-                            <span>Detail Rute & Registrasi</span>
-                            <ArrowRight className="h-4 w-4 ml-1 group-hover/btn:translate-x-1.5 transition-transform" />
-                          </Button>
+                          <h3 className="font-display text-xl font-bold text-white uppercase tracking-tight group-hover:text-red-400 transition-colors line-clamp-2">
+                            {event.title}
+                          </h3>
                         </Link>
+
+                        <p className="text-xs text-neutral-400 leading-relaxed line-clamp-2 font-sans">
+                          {event.description}
+                        </p>
+
+                        <div className="space-y-1.5 pt-3 border-t border-white/5 text-xs font-mono text-neutral-300">
+                          <div className="flex items-center justify-between">
+                            <span className="text-neutral-500 flex items-center gap-1.5">
+                              <Calendar className="h-3.5 w-3.5 text-neutral-400" />
+                              Waktu:
+                            </span>
+                            <span className="truncate max-w-[180px]">{formatDate(event.start_time)}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-neutral-500 flex items-center gap-1.5">
+                              <MapPin className="h-3.5 w-3.5 text-neutral-400" />
+                              Lokasi:
+                            </span>
+                            <span className="truncate max-w-[180px]">{event.location_name}</span>
+                          </div>
+                          <div className="flex items-center justify-between pt-1">
+                            <span className="text-neutral-500">Biaya:</span>
+                            <span className="font-semibold text-white">
+                              {event.fee > 0 ? formatRupiah(event.fee) : "Gratis (Kas Member)"}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </ScrollReveal>
+
+                    <div className="p-6 pt-0">
+                      <Link href={`/events/${event.slug}`}>
+                        <Button className="w-full py-4 text-xs font-display font-semibold uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white rounded-md shadow-sm">
+                          <span>Detail Rute &amp; Registrasi</span>
+                          <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
                 );
               })
             )}
@@ -434,68 +320,266 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5. DIGITAL MEMBERSHIP & HOLOGRAPHIC KTA SHOWCASE */}
-      <section className="py-20 sm:py-28 bg-asphalt-grit border-b border-white/10 relative overflow-hidden">
-        {/* Ambient Glow */}
-        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-indigo-600/15 blur-[140px] rounded-full pointer-events-none animate-pulse-glow" />
+      {/* 5. DOCUMENTARY GALLERY & REAL ACTIVITY STORIES */}
+      <section className="py-20 sm:py-28 bg-[#0B0D12] border-b border-white/10">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/10">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+                Jurnal &amp; Fotografi Lapangan
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-display font-extrabold uppercase tracking-tight text-[#F5F5F2] mt-1">
+                Catatan Perjalanan &amp; <span className="text-red-500">Dokumentasi</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-400 mt-2 max-w-xl font-sans">
+                Kisah nyata di balik helm dan aspal — persahabatan, tantangan cuaca ekstrem, dan indahnya bentang alam Indonesia.
+              </p>
+            </div>
 
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            {/* Left Narrative */}
-            <ScrollReveal animation="fade-right" className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 text-xs font-mono text-muted-gold uppercase tracking-widest">
-                <span className="h-1.5 w-6 bg-muted-gold rounded-full" />
-                <span>Modern Member Identification</span>
+            <div className="flex items-center gap-3">
+              <Link href="/gallery">
+                <Button variant="outline" size="sm" className="text-xs border-white/20 text-neutral-200 hover:text-white rounded-md">
+                  <Camera className="h-3.5 w-3.5 mr-1.5 text-neutral-400" />
+                  <span>Galeri Foto</span>
+                </Button>
+              </Link>
+              <Link href="/news">
+                <Button variant="outline" size="sm" className="text-xs border-white/20 text-neutral-200 hover:text-white rounded-md">
+                  <BookOpen className="h-3.5 w-3.5 mr-1.5 text-neutral-400" />
+                  <span>Seluruh Berita</span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Featured Documentary Photo Frame (7 Cols) */}
+            <div className="lg:col-span-7 flex flex-col justify-between rounded-lg border border-white/10 bg-[#12141C] overflow-hidden">
+              <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full bg-[#181B26] overflow-hidden">
+                {featuredAlbum?.coverImageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={featuredAlbum.coverImageUrl}
+                    alt={featuredAlbum.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-[#181B26] text-neutral-500 font-mono text-xs">
+                    Dokumentasi Ekspedisi
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <div className="flex items-center gap-2 text-[10px] font-mono text-red-400 uppercase tracking-wider mb-1">
+                    <span>{featuredAlbum?.category || "Ekspedisi Resmi"}</span>
+                    <span>&bull;</span>
+                    <span>{featuredAlbum?.location || "Nusantara"}</span>
+                  </div>
+                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase tracking-tight text-white leading-snug">
+                    {featuredAlbum?.title || "Ekspedisi Dieng Plateau: Kabut Negeri di Atas Awan"}
+                  </h3>
+                </div>
               </div>
 
-              <h2 className="text-3xl sm:text-5xl font-display font-bold uppercase tracking-tight text-bone leading-tight">
+              <div className="p-6 flex flex-col justify-between flex-1 space-y-4">
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans">
+                  {featuredAlbum?.description ||
+                    "Dokumentasi barisan konvoi saat melintasi tanjakan ekstrem Sikatok dan penyerahan santunan pendidikan bagi warga di lereng pegunungan."}
+                </p>
+                <div className="flex items-center justify-between pt-3 border-t border-white/5 text-xs font-mono text-neutral-400">
+                  <span>Waktu: {featuredAlbum?.date || "Oktober 2026"}</span>
+                  <Link
+                    href="/gallery"
+                    className="text-neutral-200 hover:text-white font-medium flex items-center gap-1 group"
+                  >
+                    <span>Buka Album Foto Lengkap</span>
+                    <ArrowRight className="h-3.5 w-3.5 text-red-500 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Stacked Field Dispatches / Stories (5 Cols) */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              {recentStories.map((story) => (
+                <div
+                  key={story.id}
+                  className="rounded-lg border border-white/10 bg-[#12141C] p-6 flex flex-col justify-between flex-1 transition-colors hover:border-white/20"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 uppercase">
+                      <span className="text-red-400 font-semibold">{story.category}</span>
+                      <span>{story.publishedAt}</span>
+                    </div>
+
+                    <Link href={`/news/${story.slug}`}>
+                      <h4 className="font-display text-lg font-bold text-white uppercase tracking-tight hover:text-red-400 transition-colors line-clamp-2">
+                        {story.title}
+                      </h4>
+                    </Link>
+
+                    <p className="text-xs text-neutral-400 leading-relaxed line-clamp-3 font-sans">
+                      {story.summary}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/5 mt-4 flex items-center justify-between text-xs">
+                    <span className="text-[11px] font-mono text-neutral-500">
+                      Oleh: {story.authorName}
+                    </span>
+                    <Link
+                      href={`/news/${story.slug}`}
+                      className="text-xs font-display font-semibold uppercase tracking-wider text-neutral-300 hover:text-white flex items-center gap-1 group"
+                    >
+                      <span>Baca Catatan</span>
+                      <ChevronRight className="h-3.5 w-3.5 text-red-500 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. COMMUNITY LEADERSHIP (Genuine Committee Data) */}
+      <section className="py-20 sm:py-28 bg-[#0E1017] border-b border-white/10">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-white/10">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+                Struktur Organisasi Periode 2024–2027
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-display font-extrabold uppercase tracking-tight text-[#F5F5F2] mt-1">
+                Dewan Pengurus &amp; <span className="text-red-500">Komando Lapangan</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-400 mt-2 max-w-xl font-sans">
+                Pengurus Brotherhood tidak menerima gaji atau kompensasi komersial. Seluruh jabatan diemban secara sukarela atas dasar kecintaan pada dunia touring dan pelayanan bagi sesama anggota.
+              </p>
+            </div>
+
+            <Link href="/committee">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto text-xs font-display font-semibold uppercase tracking-wider py-4 border-white/20 text-neutral-200 hover:text-white rounded-md"
+              >
+                <span>Lihat Seluruh Pengurus</span>
+                <ChevronRight className="h-4 w-4 ml-1.5" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredLeaders.map((m) => (
+              <div
+                key={m.id}
+                className="rounded-lg border border-white/10 bg-[#12141C] p-5 flex flex-col justify-between space-y-4 transition-colors hover:border-white/20"
+              >
+                <div className="space-y-3">
+                  {/* Portrait Avatar */}
+                  <div className="relative aspect-square w-full rounded-md overflow-hidden bg-[#181B26] border border-white/5">
+                    {m.avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={m.avatarUrl}
+                        alt={m.name}
+                        className="w-full h-full object-cover filter grayscale contrast-110"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-neutral-600">
+                        <Users className="h-8 w-8" />
+                      </div>
+                    )}
+                    <div className="absolute top-2 left-2">
+                      <span className="text-[9px] font-mono uppercase tracking-wider bg-black/80 text-white px-2 py-0.5 rounded border border-white/10">
+                        {m.code}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] font-mono text-red-400 uppercase tracking-wider">
+                      {m.position}
+                    </span>
+                    <h4 className="font-display text-lg font-bold text-white uppercase tracking-tight mt-0.5">
+                      {m.name}
+                    </h4>
+                    <p className="text-[11px] font-mono text-neutral-400">
+                      KTA: {m.memberNumber}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 border-t border-white/5">
+                    <p className="text-[11px] font-mono text-neutral-400">
+                      Tunggangan: <span className="text-neutral-200">{m.motorcycle}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-xs text-neutral-400 leading-relaxed line-clamp-3 font-sans">
+                  {m.roleDescription}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. DIGITAL MEMBERSHIP & QR VERIFICATION (Grounded Matte Card) */}
+      <section className="py-20 sm:py-28 bg-[#0B0D12] border-b border-white/10">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Left Narrative */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400">
+                <span className="h-1.5 w-6 bg-red-600 rounded-full" />
+                <span>Identitas &amp; Hak Anggota</span>
+              </div>
+
+              <h2 className="text-3xl sm:text-5xl font-display font-extrabold uppercase tracking-tight text-[#F5F5F2] leading-tight">
                 KTA DIGITAL DENGAN <br />
-                <span className="text-metallic-gold">VERIFIKASI QR ANTI-PEMALSUAN</span>
+                <span className="text-red-500">VERIFIKASI QR RESMI</span>
               </h2>
 
-              <p className="text-xs sm:text-sm text-bone-muted leading-relaxed font-sans">
-                Setiap anggota Brotherhood yang telah melewati tahapan seleksi dan pelantikan resmi dibekali nomor registrasi urut sistematis dan Kartu Tanda Anggota (KTA) digital. Terhubung langsung dengan database pusat untuk verifikasi presensi touring kilat.
+              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans">
+                Setiap anggota Brotherhood yang telah melewati tahapan seleksi administrasi, uji kelayakan safety riding, dan pelantikan resmi dibekali nomor registrasi urut sistematis dan Kartu Tanda Anggota (KTA) digital.
               </p>
 
               <div className="space-y-3 pt-2">
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-charcoal/80 border border-white/10 hover:border-indigo-500/40 transition-colors">
-                  <div className="h-7 w-7 rounded-lg bg-asphalt border border-muted-gold/40 flex items-center justify-center text-muted-gold shrink-0">
-                    <CheckCircle2 className="h-4 w-4" />
-                  </div>
+                <div className="flex items-start gap-3 p-3.5 rounded-lg bg-[#12141C] border border-white/5">
+                  <CheckCircle2 className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold font-display uppercase tracking-wider text-bone">
-                      Nomor Anggota Unik Berurutan (Concurrency-Safe)
+                    <h5 className="text-xs font-bold font-display uppercase tracking-wider text-white">
+                      Nomor Anggota Unik Berurutan
                     </h5>
-                    <p className="text-[11px] text-bone-muted">
-                      Mencegah duplikasi nomor KTA secara permanen menggunakan urutan serial otomatis PostgreSQL.
+                    <p className="text-[11px] text-neutral-400">
+                      Format resmi serial PostgreSQL mencegah duplikasi nomor anggota (misal: BMC-2018-0001).
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-charcoal/80 border border-white/10 hover:border-indigo-500/40 transition-colors">
-                  <div className="h-7 w-7 rounded-lg bg-asphalt border border-muted-gold/40 flex items-center justify-center text-muted-gold shrink-0">
-                    <QrCode className="h-4 w-4" />
-                  </div>
+                <div className="flex items-start gap-3 p-3.5 rounded-lg bg-[#12141C] border border-white/5">
+                  <QrCode className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold font-display uppercase tracking-wider text-bone">
-                      Presensi QR Instan di Titik Kumpul
+                    <h5 className="text-xs font-bold font-display uppercase tracking-wider text-white">
+                      Presensi QR di Titik Kumpul (Tikum)
                     </h5>
-                    <p className="text-[11px] text-bone-muted">
-                      Road Captain cukup memindai QR code dari HP member untuk mencatat absensi dan kelengkapan riding.
+                    <p className="text-[11px] text-neutral-400">
+                      Road Captain dan Safety Officer memindai kode QR dari layar smartphone member untuk verifikasi kehadiran cepat.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-charcoal/80 border border-muted-gold/30 hover:border-indigo-500/50 transition-colors">
-                  <div className="h-7 w-7 rounded-lg bg-asphalt border border-muted-gold/40 flex items-center justify-center text-muted-gold shrink-0">
-                    <Shield className="h-4 w-4" />
-                  </div>
+                <div className="flex items-start gap-3 p-3.5 rounded-lg bg-[#12141C] border border-white/5">
+                  <Shield className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
-                    <h5 className="text-xs font-bold font-display uppercase tracking-wider text-bone">
-                      Hak Suara Musyawarah & Forum Internal
+                    <h5 className="text-xs font-bold font-display uppercase tracking-wider text-white">
+                      Hak Suara Musyawarah &amp; Akses Forum
                     </h5>
-                    <p className="text-[11px] text-bone-muted">
-                      Akses penuh voting pemilihan pengurus, forum diskusi tertutup, dan potongan harga merchandise resmi.
+                    <p className="text-[11px] text-neutral-400">
+                      Hak memilih kepengurusan dalam Musyawarah Besar dan akses ruang diskusi internal tertutup.
                     </p>
                   </div>
                 </div>
@@ -505,154 +589,125 @@ export default async function HomePage() {
                 <Link href="/join" className="w-full sm:w-auto">
                   <Button
                     size="lg"
-                    className="tactical-cut w-full sm:w-auto font-display font-bold uppercase tracking-wider text-xs py-6 sm:py-3.5 bg-gradient-to-r from-muted-gold via-forged-gold to-muted-gold text-white hover:brightness-110 shadow-xl shadow-muted-gold/25 group"
+                    className="w-full sm:w-auto font-display font-semibold uppercase tracking-wider text-xs py-4 px-6 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-sm"
                   >
-                    <span>Daftar Calon Member Sekarang</span>
-                    <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    <span>Daftar Calon Anggota</span>
+                    <ArrowRight className="h-4 w-4 ml-1.5" />
                   </Button>
                 </Link>
                 <Link href="/verify" className="w-full sm:w-auto">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="tactical-cut w-full sm:w-auto text-xs font-display font-semibold uppercase tracking-wider py-6 sm:py-3.5 border-white/20 text-bone hover:border-muted-gold"
+                    className="w-full sm:w-auto text-xs font-display font-semibold uppercase tracking-wider py-4 px-6 border-white/20 text-neutral-200 hover:text-white rounded-md"
                   >
                     <span>Verifikasi KTA Publik</span>
                   </Button>
                 </Link>
               </div>
-            </ScrollReveal>
+            </div>
 
-            {/* Right: Realistic 3D Holographic KTA Card */}
-            <ScrollReveal animation="fade-left" delay={200} className="lg:col-span-6 flex justify-center">
-              <div className="relative w-full max-w-md animate-float-slow group">
-                {/* Decorative Background Glow Ring */}
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-muted-gold/40 via-sky-500/20 to-indigo-600/50 blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500" />
-
-                {/* The Physical Card Replica */}
-                <div className="relative rounded-2xl border-2 border-indigo-500/40 bg-gradient-to-br from-[#1c2237] via-[#131724] to-[#0b0d14] p-6 sm:p-8 text-white shadow-2xl backdrop-blur-xl overflow-hidden group-hover:border-indigo-400 transition-colors duration-500">
-                  {/* Subtle carbon weave / metallic lines */}
-                  <div className="absolute inset-0 bg-[radial-gradient(#818cf8_0.5px,transparent_0.5px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
-
-                  {/* Top Card Header */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-5 relative z-10">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-muted-gold/60 bg-charcoal shadow-inner group-hover:scale-105 transition-transform">
-                        <Shield className="h-6 w-6 text-muted-gold" />
-                      </div>
-                      <div>
-                        <h4 className="font-display text-lg font-bold tracking-widest text-bone uppercase leading-tight">
-                          BROTHERHOOD MC
-                        </h4>
-                        <p className="text-[9px] uppercase tracking-widest text-muted-gold font-mono">
-                          Official Membership Pass
-                        </p>
-                      </div>
+            {/* Right: Grounded Matte KTA Card Replica */}
+            <div className="lg:col-span-6 flex justify-center">
+              <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#12141C] p-7 text-white shadow-xl space-y-6">
+                {/* Card Header */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-5">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#181B26]">
+                      <Shield className="h-5 w-5 text-red-500" />
                     </div>
-
-                    <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/60 px-2.5 py-0.5 text-[9px] font-mono text-emerald-400 font-bold uppercase shadow-[0_0_10px_rgba(16,185,129,0.3)]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      ACTIVE RIDER
-                    </div>
-                  </div>
-
-                  {/* Middle Rider Bio & Photo Chip */}
-                  <div className="my-6 flex items-center gap-5 relative z-10">
-                    {/* Simulated Rider Avatar with Brass Frame */}
-                    <div className="h-24 w-24 rounded-xl border-2 border-muted-gold/50 bg-charcoal flex flex-col items-center justify-center shrink-0 overflow-hidden relative shadow-inner">
-                      <Users className="h-10 w-10 text-muted-gold/70" />
-                      <div className="absolute bottom-0 inset-x-0 bg-indigo-600 text-white text-[8px] font-mono font-bold text-center py-0.5 uppercase tracking-wider">
-                        VERIFIED
-                      </div>
-                    </div>
-
-                    {/* Member Details */}
-                    <div className="space-y-1">
-                      <p className="text-[9px] uppercase tracking-widest text-bone-muted font-mono">Nama Anggota</p>
-                      <p className="text-xl font-display font-bold text-bone uppercase tracking-wider">BAMBANG WIJAYA</p>
-                      <p className="text-xs font-mono font-bold text-muted-gold">NO: BMC-2024-0012</p>
-                      <div className="pt-1">
-                        <p className="text-[10px] text-bone-muted font-mono flex items-center gap-1.5">
-                          <span className="h-1 w-1 rounded-full bg-muted-gold" />
-                          Kawasaki Versys 650 (B 4421 KBR)
-                        </p>
-                        <p className="text-[10px] text-bone-muted font-mono flex items-center gap-1.5">
-                          <span className="h-1 w-1 rounded-full bg-muted-gold" />
-                          Gold Blood Member &bull; Chapter Bogor
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Verification Footer */}
-                  <div className="flex items-center justify-between border-t border-white/10 pt-5 text-xs relative z-10">
                     <div>
-                      <p className="text-[9px] uppercase font-mono text-bone-muted">Masa Berlaku KTA</p>
-                      <p className="font-mono text-xs font-bold text-bone">PERMANEN (SEUMUR HIDUP)</p>
+                      <h4 className="font-display text-base font-bold tracking-widest text-white uppercase">
+                        BROTHERHOOD MC
+                      </h4>
+                      <p className="text-[9px] uppercase tracking-widest text-neutral-400 font-mono">
+                        Official Member Pass
+                      </p>
                     </div>
+                  </div>
 
-                    {/* QR Code Scanner Badge */}
-                    <div className="flex items-center gap-2 rounded-xl bg-charcoal border border-muted-gold/40 px-3 py-1.5 shadow-md">
-                      <QrCode className="h-5 w-5 text-muted-gold" />
-                      <div className="text-left font-mono">
-                        <p className="text-[8px] uppercase text-bone-muted">Security QR</p>
-                        <p className="text-[10px] font-bold text-muted-gold">VALIDATED</p>
-                      </div>
-                    </div>
+                  <span className="font-mono text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">
+                    TERVERIFIKASI
+                  </span>
+                </div>
+
+                {/* Card Bio */}
+                <div className="flex items-center gap-5">
+                  <div className="h-20 w-20 rounded-lg border border-white/10 bg-[#181B26] flex flex-col items-center justify-center shrink-0">
+                    <Users className="h-8 w-8 text-neutral-500" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[9px] uppercase font-mono text-neutral-400">Nama Anggota</p>
+                    <p className="font-display text-xl font-bold uppercase text-white">
+                      BAMBANG WIJAYA
+                    </p>
+                    <p className="font-mono text-xs font-semibold text-red-400">
+                      NO: BMC-2024-0012
+                    </p>
+                    <p className="text-[10px] font-mono text-neutral-400 pt-0.5">
+                      Kawasaki Versys 650 &bull; Chapter Bogor
+                    </p>
+                  </div>
+                </div>
+
+                {/* Card Footer */}
+                <div className="flex items-center justify-between border-t border-white/10 pt-4 text-xs font-mono text-neutral-400">
+                  <div>
+                    <p className="text-[9px] uppercase text-neutral-500">Masa Berlaku</p>
+                    <p className="font-semibold text-neutral-200">SEUMUR HIDUP</p>
+                  </div>
+                  <div className="flex items-center gap-2 bg-[#181B26] border border-white/5 px-3 py-1.5 rounded">
+                    <QrCode className="h-4 w-4 text-red-500" />
+                    <span className="text-[10px] text-neutral-300">SECURITY QR</span>
                   </div>
                 </div>
               </div>
-            </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 6. INITIATION OATH & CALL TO ACTION */}
-      <section className="py-20 sm:py-28 bg-gradient-to-b from-charcoal via-tarmac to-charcoal border-b border-white/10 text-center relative overflow-hidden">
-        {/* Subtle highway center line accent */}
-        <div className="absolute top-0 inset-x-0 highway-stripe opacity-50" />
-        
-        {/* Center Ambient Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-indigo-600/10 blur-[150px] rounded-full pointer-events-none animate-pulse-glow" />
+      {/* 8. INTEGRATED SPONSORS & PARTNERS */}
+      <MainSponsors sponsors={mainSponsors} />
 
-        <ScrollReveal animation="scale-up" duration={800} className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
-          <div className="inline-flex items-center gap-2 rounded-full border border-muted-gold/40 bg-asphalt px-4 py-1 text-xs font-mono font-semibold uppercase tracking-widest text-muted-gold shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Pintu Terbuka Untuk Rider Sejati</span>
-          </div>
+      {/* 9. RESTRAINED MEMBERSHIP CTA */}
+      <section className="py-20 sm:py-24 bg-[#0B0D12] border-b border-white/10 text-center">
+        <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 space-y-6">
+          <span className="inline-block border border-white/10 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-widest text-neutral-400">
+            Pintu Terbuka Untuk Rider Sejati
+          </span>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight text-bone leading-none">
+          <h2 className="text-3xl sm:text-5xl font-display font-extrabold uppercase tracking-tight text-[#F5F5F2] leading-tight">
             SIAP MENJELAJAH BERSAMA <br />
-            <span className="text-metallic-gold">KELUARGA BESAR BROTHERHOOD?</span>
+            <span className="text-red-500">KELUARGA BESAR BROTHERHOOD?</span>
           </h2>
 
-          <p className="text-xs sm:text-base text-bone-muted max-w-2xl mx-auto leading-relaxed font-sans">
-            Persyaratan utama adalah kepemilikan SIM C aktif, motor terawat prima, dan kesiapan menjunjung tinggi adab berkendara. Terbuka untuk seluruh merk dan kapasitas motor.
+          <p className="text-xs sm:text-sm text-neutral-400 max-w-xl mx-auto leading-relaxed font-sans">
+            Syarat utama adalah memiliki SIM C aktif, motor terawat prima, dan kesiapan menjunjung tinggi adab berkendara. Terbuka bagi seluruh merk dan kapasitas mesin motor.
           </p>
 
-          <div className="pt-4 flex flex-col sm:flex-row justify-center gap-4">
+          <div className="pt-2 flex flex-col sm:flex-row justify-center gap-3">
             <Link href="/join" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                className="tactical-cut w-full sm:w-auto px-8 font-display font-bold uppercase tracking-wider text-sm py-6 sm:py-4 bg-gradient-to-r from-muted-gold via-forged-gold to-muted-gold text-white hover:brightness-110 shadow-2xl shadow-muted-gold/30 group"
+                className="w-full sm:w-auto px-8 font-display font-semibold uppercase tracking-wider text-xs py-4 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-sm"
               >
-                <span>Isi Formulir Pendaftaran Sekarang</span>
-                <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1.5 transition-transform" />
+                <span>Isi Formulir Pendaftaran</span>
+                <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
             </Link>
             <Link href="/about" className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
-                className="tactical-cut w-full sm:w-auto px-8 font-display font-semibold uppercase tracking-wider text-xs py-6 sm:py-4 border-white/20 text-bone hover:border-muted-gold hover:bg-white/5 transition-colors"
+                className="w-full sm:w-auto px-8 font-display font-semibold uppercase tracking-wider text-xs py-4 border-white/20 text-neutral-200 hover:text-white rounded-md"
               >
-                <span>Pelajari Syarat & SOP Konvoi</span>
+                <span>Pelajari Syarat &amp; AD/ART</span>
               </Button>
             </Link>
           </div>
-        </ScrollReveal>
+        </div>
       </section>
     </div>
   );
 }
-

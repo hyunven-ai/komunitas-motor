@@ -21,11 +21,16 @@ import {
   X,
   Loader2,
   Compass,
+  Save,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { HeroSlide } from "@/features/sliders/types";
+import { SystemSettings } from "@/features/settings/types";
+import { saveSystemSettingsAction } from "@/features/settings/actions";
 import {
   addSlideAction,
   updateSlideAction,
@@ -37,10 +42,22 @@ import {
 
 interface SliderManagerClientProps {
   initialSlides: HeroSlide[];
+  initialSettings?: SystemSettings;
 }
 
-export function SliderManagerClient({ initialSlides }: SliderManagerClientProps) {
+export function SliderManagerClient({
+  initialSlides,
+  initialSettings,
+}: SliderManagerClientProps) {
   const [slides, setSlides] = useState<HeroSlide[]>(initialSlides);
+  const [opSettings, setOpSettings] = useState<Partial<SystemSettings>>({
+    operationalStatus: initialSettings?.operationalStatus ?? "Sekretariat Sungai Pinyuh Aktif",
+    roadCode: initialSettings?.roadCode ?? "Respect All, Fear None",
+    convoyFormation: initialSettings?.convoyFormation ?? "Staggered Formation",
+    complianceNote: initialSettings?.complianceNote ?? "100% Zero-Alcohol",
+    showOperationalBar: initialSettings?.showOperationalBar ?? true,
+  });
+  const [isSavingOp, setIsSavingOp] = useState(false);
   const [selectedPreviewIndex, setSelectedPreviewIndex] = useState<number>(0);
   const [isPending, startTransition] = useTransition();
 
@@ -268,7 +285,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
         <div className="space-y-1">
           <div className="flex items-center gap-2.5">
-            <div className="h-10 w-10 rounded-xl bg-[#161a29] border border-indigo-500/40 flex items-center justify-center text-indigo-400 shadow-md">
+            <div className="h-10 w-10 rounded-xl bg-[#161a29] border border-red-500/40 flex items-center justify-center text-red-500 shadow-md">
               <SlidersHorizontal className="h-5 w-5" />
             </div>
             <div>
@@ -291,7 +308,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
             size="sm"
             onClick={handleResetToDefault}
             disabled={isPending}
-            className="border-white/10 text-slate-300 hover:text-white hover:border-indigo-500/50 text-xs"
+            className="border-white/10 text-slate-300 hover:text-white hover:border-red-500/50 text-xs"
           >
             <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
             <span>Reset Default</span>
@@ -299,7 +316,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
 
           <Button
             onClick={openCreateModal}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white font-display uppercase tracking-wider text-xs px-4 py-2 shadow-[0_0_15px_rgba(99,102,241,0.35)]"
+            className="bg-red-600 hover:bg-red-700 text-white font-display uppercase tracking-wider text-xs px-4 py-2 shadow-[0_0_15px_rgba(220,38,38,0.35)]"
           >
             <Plus className="h-4 w-4 mr-1.5" />
             <span>Tambah Slide Baru</span>
@@ -329,14 +346,14 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
       {previewSlide && (
         <div className="space-y-3">
           <div className="flex items-center justify-between text-xs font-mono text-slate-400 uppercase tracking-wider">
-            <span className="flex items-center gap-2 text-indigo-400 font-bold">
+            <span className="flex items-center gap-2 text-red-400 font-bold">
               <Sparkles className="h-3.5 w-3.5" />
               Live Preview: Slide #{previewSlide.orderIndex + 1} ({previewSlide.headlineGold})
             </span>
             <span>Frontend Hero Aspect Ratio (16:9 Cinema)</span>
           </div>
 
-          <div className="relative w-full aspect-[21/9] sm:aspect-[16/7] rounded-2xl overflow-hidden border border-indigo-500/30 bg-[#0B0D14] shadow-2xl group">
+          <div className="relative w-full aspect-[21/9] sm:aspect-[16/7] rounded-2xl overflow-hidden border border-red-500/30 bg-[#0B0D14] shadow-2xl group">
             {/* Background Image */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -352,16 +369,16 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
 
             {/* Text Overlay */}
             <div className="absolute inset-0 p-6 sm:p-10 flex flex-col justify-center max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-950/70 border border-indigo-500/40 backdrop-blur-md w-max">
-                <Shield className="h-3 w-3 text-indigo-400" />
-                <span className="text-[10px] font-mono font-bold tracking-widest text-indigo-300 uppercase">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-red-950/70 border border-red-500/40 backdrop-blur-md w-max">
+                <Shield className="h-3 w-3 text-red-400" />
+                <span className="text-[10px] font-mono font-bold tracking-widest text-red-300 uppercase">
                   {previewSlide.date} &bull; {previewSlide.location}
                 </span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-black uppercase tracking-tight text-white leading-tight">
                 {previewSlide.headlinePart1} <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-indigo-300">
+                <span className="text-red-500">
                   {previewSlide.headlineGold}
                 </span>
               </h2>
@@ -371,7 +388,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
               </p>
 
               <div className="pt-2 flex items-center gap-3">
-                <Button size="sm" className="bg-indigo-600 text-white text-xs font-display font-bold uppercase tracking-wider">
+                <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white text-xs font-display font-bold uppercase tracking-wider">
                   {previewSlide.ctaText || "DAFTAR CALON MEMBER"}
                 </Button>
                 {previewSlide.isActive ? (
@@ -406,7 +423,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
               key={slide.id}
               className={`border transition-all duration-300 ${
                 selectedPreviewIndex === index
-                  ? "border-indigo-500/60 bg-[#161A29] shadow-[0_0_20px_rgba(99,102,241,0.15)]"
+                  ? "border-red-500/60 bg-[#1A1418] shadow-[0_0_20px_rgba(220,38,38,0.15)]"
                   : "border-white/10 bg-[#131724]/90 hover:border-white/20"
               }`}
             >
@@ -417,7 +434,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                   onClick={() => setSelectedPreviewIndex(index)}
                 >
                   {/* Order Number Badge */}
-                  <div className="flex flex-col items-center justify-center h-12 w-9 rounded-lg bg-black/40 border border-white/10 shrink-0 font-mono text-xs font-bold text-indigo-400">
+                  <div className="flex flex-col items-center justify-center h-12 w-9 rounded-lg bg-black/40 border border-white/10 shrink-0 font-mono text-xs font-bold text-red-400">
                     #{index + 1}
                   </div>
 
@@ -441,7 +458,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     <div className="flex flex-wrap items-center gap-2">
                       <h4 className="font-display font-bold text-white text-base sm:text-lg uppercase tracking-wide truncate">
                         {slide.headlinePart1}{" "}
-                        <span className="text-indigo-400">{slide.headlineGold}</span>
+                        <span className="text-red-400">{slide.headlineGold}</span>
                       </h4>
                       {slide.isActive ? (
                         <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 font-bold">
@@ -520,7 +537,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     variant="outline"
                     size="sm"
                     onClick={() => openEditModal(slide)}
-                    className="h-9 px-3 text-xs border-white/15 text-indigo-400 hover:text-indigo-300 hover:border-indigo-500/50"
+                    className="h-9 px-3 text-xs border-white/15 text-red-400 hover:text-red-300 hover:border-red-500/50"
                   >
                     <Edit3 className="h-3.5 w-3.5 mr-1.5" />
                     <span>Edit</span>
@@ -544,14 +561,185 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
         </div>
       </div>
 
+      {/* 3.5. PENGATURAN SECTION STATUS OPERASIONAL (FRONTEND DISPATCH BAR) */}
+      <div className="space-y-4 pt-4 border-t border-white/10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-red-600 animate-pulse" />
+              <h2 className="font-display font-extrabold text-xl text-white uppercase tracking-tight">
+                Pengaturan Section Status Operasional
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400 mt-1">
+              Atur teks ringkasan operasional jalan raya yang tampil di bar hitam tepat di bawah banner slider utama beranda.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 self-start sm:self-auto bg-[#131724] px-3 py-1.5 rounded-lg border border-white/10">
+            <input
+              type="checkbox"
+              id="showOpBarInSlider"
+              checked={opSettings.showOperationalBar !== false}
+              onChange={(e) =>
+                setOpSettings((prev) => ({ ...prev, showOperationalBar: e.target.checked }))
+              }
+              className="rounded border-white/20 bg-charcoal text-red-600 focus:ring-red-500 cursor-pointer"
+            />
+            <Label htmlFor="showOpBarInSlider" className="text-xs text-white cursor-pointer select-none">
+              Tampilkan Bar di Beranda
+            </Label>
+          </div>
+        </div>
+
+        {/* Live Preview Bar */}
+        <div className="rounded-xl border border-white/10 bg-[#0E1017] p-4 space-y-2">
+          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-neutral-400 border-b border-white/5 pb-2">
+            <span>Pratinjau Tampilan di Frontend</span>
+            <span className="text-red-400">Live Dispatch Preview</span>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-y-2 text-xs font-mono text-neutral-300 pt-1">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-red-600" />
+              <span className="text-white font-semibold uppercase">Status Operasional</span>
+              <span className="text-neutral-600">&bull;</span>
+              <span className="text-neutral-200">
+                {opSettings.operationalStatus || "Sekretariat Wilayah Aktif"}
+              </span>
+            </div>
+            <div className="hidden md:flex items-center gap-4">
+              <span>
+                <strong className="text-white">KODE JALAN:</strong>{" "}
+                {opSettings.roadCode || "Respect All, Fear None"}
+              </span>
+              <span className="text-neutral-600">&bull;</span>
+              <span>
+                <strong className="text-white">FORMASI KONVOI:</strong>{" "}
+                {opSettings.convoyFormation || "Staggered Formation (Selang-Seling)"}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-neutral-400">Kepatuhan:</span>
+              <span className="text-red-400 font-bold">
+                {opSettings.complianceNote || "100% Zero-Alcohol"}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Form Inputs */}
+        <div className="rounded-2xl border border-white/10 bg-[#131724] p-6 space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="inputOpStatus" className="text-xs text-white font-medium">
+                1. Status Operasional (Kiri)
+              </Label>
+              <Input
+                id="inputOpStatus"
+                value={opSettings.operationalStatus || ""}
+                onChange={(e) =>
+                  setOpSettings((prev) => ({ ...prev, operationalStatus: e.target.value }))
+                }
+                placeholder="Contoh: Sekretariat Sungai Pinyuh Aktif"
+                className="text-xs bg-[#0b0d14] border-white/10 text-white"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="inputRoadCode" className="text-xs text-white font-medium">
+                2. Kode Jalan (Tengah)
+              </Label>
+              <Input
+                id="inputRoadCode"
+                value={opSettings.roadCode || ""}
+                onChange={(e) =>
+                  setOpSettings((prev) => ({ ...prev, roadCode: e.target.value }))
+                }
+                placeholder="Contoh: Respect All, Fear None"
+                className="text-xs bg-[#0b0d14] border-white/10 text-white"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="inputConvoy" className="text-xs text-white font-medium">
+                3. Formasi Konvoi (Tengah-Kanan)
+              </Label>
+              <Input
+                id="inputConvoy"
+                value={opSettings.convoyFormation || ""}
+                onChange={(e) =>
+                  setOpSettings((prev) => ({ ...prev, convoyFormation: e.target.value }))
+                }
+                placeholder="Contoh: Staggered Formation (Selang-Seling)"
+                className="text-xs bg-[#0b0d14] border-white/10 text-white"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="inputCompliance" className="text-xs text-white font-medium">
+                4. Kepatuhan AD/ART (Kanan)
+              </Label>
+              <Input
+                id="inputCompliance"
+                value={opSettings.complianceNote || ""}
+                onChange={(e) =>
+                  setOpSettings((prev) => ({ ...prev, complianceNote: e.target.value }))
+                }
+                placeholder="Contoh: 100% Zero-Alcohol"
+                className="text-xs bg-[#0b0d14] border-white/10 text-white"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-2 border-t border-white/5">
+            <Button
+              type="button"
+              disabled={isSavingOp}
+              onClick={async () => {
+                setIsSavingOp(true);
+                try {
+                  const merged: SystemSettings = {
+                    ...(initialSettings || ({} as SystemSettings)),
+                    ...opSettings,
+                  };
+                  const res = await saveSystemSettingsAction(merged);
+                  if (res.success) {
+                    showAlert("success", "Section status operasional berhasil disimpan & diperbarui!");
+                  } else {
+                    showAlert("error", res.message || "Gagal menyimpan status operasional.");
+                  }
+                } catch {
+                  showAlert("error", "Terjadi kesalahan saat menyimpan data.");
+                } finally {
+                  setIsSavingOp(false);
+                }
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider gap-2 px-5 py-2.5 rounded-lg shadow-md"
+            >
+              {isSavingOp ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Menyimpan...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  <span>Simpan Status Operasional</span>
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* 4. MODAL DIALOG: ADD / EDIT SLIDE */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-3xl my-8 rounded-2xl border border-indigo-500/40 bg-[#131724] p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-3xl my-8 rounded-2xl border border-red-500/40 bg-[#131724] p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-center justify-between pb-5 border-b border-white/10">
               <div className="flex items-center gap-2.5">
-                <div className="h-9 w-9 rounded-lg bg-indigo-950/70 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+                <div className="h-9 w-9 rounded-lg bg-red-950/70 border border-red-500/40 flex items-center justify-center text-red-500">
                   <SlidersHorizontal className="h-4 w-4" />
                 </div>
                 <div>
@@ -590,7 +778,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                       value={formData.bgUrl}
                       onChange={(e) => setFormData({ ...formData, bgUrl: e.target.value })}
                       required
-                      className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                      className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                     />
                   </div>
 
@@ -607,7 +795,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                       variant="outline"
                       onClick={() => fileInputRef.current?.click()}
                       disabled={isUploading}
-                      className="w-full border-indigo-500/40 bg-indigo-950/40 text-indigo-300 hover:bg-indigo-900/50 text-xs h-10"
+                      className="w-full border-red-500/40 bg-red-950/40 text-red-300 hover:bg-red-900/50 text-xs h-10"
                     >
                       {isUploading ? (
                         <>
@@ -652,13 +840,13 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     value={formData.headlinePart1}
                     onChange={(e) => setFormData({ ...formData, headlinePart1: e.target.value })}
                     required
-                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
-                    Headline Highlight (Gradasi Neon)
+                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-red-500">
+                    Headline Highlight
                   </label>
                   <input
                     type="text"
@@ -666,7 +854,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     value={formData.headlineGold}
                     onChange={(e) => setFormData({ ...formData, headlineGold: e.target.value })}
                     required
-                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none font-bold text-indigo-300"
+                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none font-bold text-red-400"
                   />
                 </div>
               </div>
@@ -681,7 +869,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                   placeholder="Contoh: Touring & Safety Riding • Solidaritas Kemanusiaan • KTA Digital"
                   value={formData.taglineSub}
                   onChange={(e) => setFormData({ ...formData, taglineSub: e.target.value })}
-                  className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                 />
               </div>
 
@@ -696,7 +884,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                   value={formData.subtitle}
                   onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                   required
-                  className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                  className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                 />
               </div>
 
@@ -712,7 +900,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     required
-                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                   />
                 </div>
 
@@ -726,7 +914,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     required
-                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                   />
                 </div>
               </div>
@@ -742,7 +930,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     placeholder="Contoh: DAFTAR CALON MEMBER"
                     value={formData.ctaText}
                     onChange={(e) => setFormData({ ...formData, ctaText: e.target.value })}
-                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                   />
                 </div>
 
@@ -755,7 +943,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                     placeholder="Contoh: /join atau /events"
                     value={formData.ctaLink}
                     onChange={(e) => setFormData({ ...formData, ctaLink: e.target.value })}
-                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-[#0B0D14] px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
                   />
                 </div>
               </div>
@@ -767,7 +955,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                   id="isActiveToggle"
                   checked={formData.isActive}
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                  className="h-4 w-4 rounded border-gray-700 bg-gray-900 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-gray-700 bg-gray-900 text-red-600 focus:ring-red-500"
                 />
                 <label htmlFor="isActiveToggle" className="text-xs font-mono text-white cursor-pointer">
                   Aktifkan slide ini di banner utama frontend (Dapat dilihat oleh publik)
@@ -787,7 +975,7 @@ export function SliderManagerClient({ initialSlides }: SliderManagerClientProps)
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-display uppercase tracking-wider text-xs px-6 py-2.5 shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                  className="bg-red-600 hover:bg-red-700 text-white font-display uppercase tracking-wider text-xs px-6 py-2.5 shadow-[0_0_15px_rgba(220,38,38,0.4)]"
                 >
                   {isPending ? (
                     <>

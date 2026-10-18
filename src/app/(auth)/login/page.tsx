@@ -72,7 +72,7 @@ export default function MemberLoginPage() {
   return (
     <Card className="border-white/[0.08] bg-[#131724] shadow-2xl backdrop-blur-md text-[#f1f5f9]">
       <CardHeader className="space-y-1.5 text-center pb-4">
-        <div className="mx-auto mb-1 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-950/60 border border-indigo-500/30 text-indigo-400">
+        <div className="mx-auto mb-1 flex h-10 w-10 items-center justify-center rounded-xl bg-red-950/60 border border-red-500/30 text-red-400">
           <User className="h-5 w-5" />
         </div>
         <CardTitle className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -104,7 +104,7 @@ export default function MemberLoginPage() {
                 placeholder="nama@brotherhood.id"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-indigo-500/50"
+                className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-red-500/50"
                 required
               />
             </div>
@@ -117,7 +117,7 @@ export default function MemberLoginPage() {
               </Label>
               <Link
                 href="/forgot-password"
-                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                className="text-xs text-red-400 hover:text-red-300 transition-colors"
               >
                 Lupa sandi?
               </Link>
@@ -130,7 +130,7 @@ export default function MemberLoginPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-indigo-500/50"
+                className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-red-500/50"
                 required
               />
             </div>
@@ -138,7 +138,7 @@ export default function MemberLoginPage() {
 
           <Button
             type="submit"
-            className="w-full h-10 font-semibold text-xs bg-indigo-600 hover:bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.35)] mt-2 transition-all"
+            className="w-full h-10 font-semibold text-xs bg-red-600 hover:bg-red-500 text-white shadow-[0_0_15px_rgba(220,38,38,0.35)] mt-2 transition-all"
             disabled={loading}
           >
             {loading ? (
@@ -159,7 +159,7 @@ export default function MemberLoginPage() {
       <CardFooter className="flex flex-col gap-3 pt-0 text-center">
         <p className="text-xs text-slate-400">
           Belum terdaftar sebagai anggota?{" "}
-          <Link href="/join" className="text-indigo-400 hover:underline font-medium">
+          <Link href="/join" className="text-red-400 hover:underline font-medium">
             Daftar Calon Member
           </Link>
         </p>
@@ -167,9 +167,9 @@ export default function MemberLoginPage() {
         <div className="w-full pt-3 border-t border-white/[0.06]">
           <Link
             href="/admin/login"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-indigo-300 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-red-300 transition-colors"
           >
-            <ShieldCheck className="h-3.5 w-3.5 text-indigo-400" />
+            <ShieldCheck className="h-3.5 w-3.5 text-red-400" />
             <span>Akses Khusus Dewan Pengurus & Admin HQ &rarr;</span>
           </Link>
         </div>

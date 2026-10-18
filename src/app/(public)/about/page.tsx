@@ -100,31 +100,24 @@ export default async function AboutPage() {
             </h2>
 
             <div className="space-y-4 pt-2">
-              {org.sopItems?.map((item, index) => {
-                const isGold = index === 0 || index === 1 || index === org.sopItems.length - 1;
-                return (
-                  <div
-                    key={index}
-                    className="flex gap-5 items-start p-4 rounded-xl bg-charcoal/80 border border-white/5"
-                  >
-                    <span
-                      className={`font-display font-bold text-3xl shrink-0 ${
-                        isGold ? "text-muted-gold" : "text-bone"
-                      }`}
-                    >
-                      {item.number || `0${index + 1}`}
-                    </span>
-                    <div>
-                      <h4 className="font-display font-bold text-bone text-lg uppercase tracking-wider">
-                        {item.title}
-                      </h4>
-                      <p className="text-xs sm:text-sm text-bone-muted leading-relaxed font-sans">
-                        {item.description}
-                      </p>
-                    </div>
+              {org.sopItems?.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-5 items-start p-4 rounded-xl bg-charcoal/80 border border-white/5"
+                >
+                  <span className="font-display font-bold text-3xl shrink-0 text-muted-gold">
+                    {item.number || `0${index + 1}`}
+                  </span>
+                  <div>
+                    <h4 className="font-display font-bold text-bone text-lg uppercase tracking-wider">
+                      {item.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-bone-muted leading-relaxed font-sans">
+                      {item.description}
+                    </p>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </div>

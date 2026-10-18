@@ -94,6 +94,7 @@ export async function saveSystemSettingsAction(
     revalidatePath("/admin/finance/reports");
     revalidatePath("/join");
     revalidatePath("/");
+    revalidatePath("/", "layout");
 
     return {
       success: true,

@@ -2,16 +2,17 @@
   {
     "id": "slide-2",
     "headlinePart1": "MENAKLUKKAN",
-    "headlineGold": "DIENG PLATEAU.",
+    "headlineGold": "Singkawang",
     "taglineSub": "Ekspedisi 2.093 MDPL • Jalur Tanjakan Sikatok • Formasi Zig-zag Tertib",
     "subtitle": "Menembus medan ekstrem pegunungan berkabut dalam barisan formasi konvoi selang-seling yang disiplin, aman, dan berpegang teguh pada prinsip zero incident.",
-    "location": "Dieng Plateau, Wonosobo",
+    "location": "Singkawang",
     "date": "2.093 MDPL • 1.200 KM",
     "bgUrl": "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=2400&q=95",
     "ctaText": "LIHAT AGENDA TOURING",
     "ctaLink": "/events",
     "isActive": true,
-    "orderIndex": 0
+    "orderIndex": 0,
+    "updatedAt": "2026-10-18T05:16:43.582Z"
   },
   {
     "id": "slide-1",

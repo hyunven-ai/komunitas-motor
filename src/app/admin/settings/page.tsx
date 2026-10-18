@@ -267,7 +267,7 @@ export default function AdminSettingsPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 sm:col-span-2">
                 <Label htmlFor="basecamp" className="text-xs">Alamat Sekretariat / Basecamp</Label>
                 <Input
                   id="basecamp"
@@ -284,6 +284,110 @@ export default function AdminSettingsPage() {
                   value={settings.hotlinePhone}
                   onChange={(e) => setSettings({ ...settings, hotlinePhone: e.target.value })}
                   className="text-xs font-mono bg-charcoal border-white/10"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="secretariatEmail" className="text-xs">Email Resmi Sekretariat</Label>
+                <Input
+                  id="secretariatEmail"
+                  type="email"
+                  value={settings.secretariatEmail || ""}
+                  onChange={(e) => setSettings({ ...settings, secretariatEmail: e.target.value })}
+                  placeholder="sekretariat@brotherhood.id"
+                  className="text-xs font-mono bg-charcoal border-white/10"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 2.5. Bar Status Operasional (Frontend Dispatch Bar) */}
+        <Card className="border-white/10 bg-asphalt/60">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Shield className="h-4 w-4 text-red-500" />
+                <span>Bar Status Operasional (Frontend Dispatch Bar)</span>
+              </CardTitle>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="showOpBar"
+                  checked={settings.showOperationalBar !== false}
+                  onChange={(e) =>
+                    setSettings({ ...settings, showOperationalBar: e.target.checked })
+                  }
+                  className="rounded border-white/20 bg-charcoal text-red-600 focus:ring-red-500"
+                />
+                <Label htmlFor="showOpBar" className="text-xs text-bone cursor-pointer">
+                  Tampilkan di Beranda
+                </Label>
+              </div>
+            </div>
+            <CardDescription className="text-xs text-bone-muted pt-1">
+              Konfigurasi teks ringkasan operasional jalan raya yang tampil tepat di bawah banner hero beranda.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="opStatus" className="text-xs">
+                  Status Operasional (Kiri)
+                </Label>
+                <Input
+                  id="opStatus"
+                  value={settings.operationalStatus || ""}
+                  onChange={(e) =>
+                    setSettings({ ...settings, operationalStatus: e.target.value })
+                  }
+                  placeholder="Contoh: Sekretariat Sungai Pinyuh Aktif"
+                  className="text-xs bg-charcoal border-white/10"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="roadCode" className="text-xs">
+                  Kode Jalan / Semboyan (Tengah)
+                </Label>
+                <Input
+                  id="roadCode"
+                  value={settings.roadCode || ""}
+                  onChange={(e) =>
+                    setSettings({ ...settings, roadCode: e.target.value })
+                  }
+                  placeholder="Contoh: Respect All, Fear None"
+                  className="text-xs bg-charcoal border-white/10"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="convoyFormation" className="text-xs">
+                  Formasi Konvoi (Tengah-Kanan)
+                </Label>
+                <Input
+                  id="convoyFormation"
+                  value={settings.convoyFormation || ""}
+                  onChange={(e) =>
+                    setSettings({ ...settings, convoyFormation: e.target.value })
+                  }
+                  placeholder="Contoh: Staggered Formation (Selang-Seling)"
+                  className="text-xs bg-charcoal border-white/10"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="complianceNote" className="text-xs">
+                  Kepatuhan AD/ART (Kanan)
+                </Label>
+                <Input
+                  id="complianceNote"
+                  value={settings.complianceNote || ""}
+                  onChange={(e) =>
+                    setSettings({ ...settings, complianceNote: e.target.value })
+                  }
+                  placeholder="Contoh: 100% Zero-Alcohol"
+                  className="text-xs bg-charcoal border-white/10"
                 />
               </div>
             </div>

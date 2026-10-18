@@ -236,14 +236,14 @@ export function AdminDashboardClient() {
       {/* 1. TOP HERO BANNER: APEX COSMIC OBSIDIAN THEME */}
       <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#131724] p-6 sm:p-7 shadow-2xl">
         {/* Soft cosmic glow spot */}
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-indigo-600/15 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-red-600/15 blur-3xl" />
         <div className="pointer-events-none absolute -left-20 -bottom-20 h-60 w-60 rounded-full bg-sky-500/10 blur-3xl" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/40 bg-indigo-950/40 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-indigo-300 font-mono">
-                <Sparkles className="h-3 w-3 text-indigo-400" />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-red-500/40 bg-red-950/40 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-red-300 font-mono">
+                <Sparkles className="h-3 w-3 text-red-400" />
                 EXECUTIVE DASHBOARD
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-2.5 py-0.5 text-[10px] font-mono font-medium text-emerald-400">
@@ -264,7 +264,7 @@ export function AdminDashboardClient() {
             </p>
 
             {currentTime && (
-              <p className="text-[11px] font-mono text-indigo-300/80 pt-0.5">
+              <p className="text-[11px] font-mono text-red-300/80 pt-0.5">
                 {currentTime}
               </p>
             )}
@@ -278,12 +278,12 @@ export function AdminDashboardClient() {
               className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#191e2e] px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-[#20273c] transition-all"
               title="Perbarui data"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin text-indigo-400" : ""}`} />
+              <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin text-red-400" : ""}`} />
               <span className="hidden sm:inline">Refresh</span>
             </button>
 
             <Link href="/admin/applications">
-              <button className="flex items-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 shadow-[0_0_15px_rgba(99,102,241,0.35)] transition-all">
+              <button className="flex items-center gap-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-4 py-2 shadow-[0_0_15px_rgba(220,38,38,0.35)] transition-all">
                 <UserCheck className="h-4 w-4" />
                 <span>Review Calon ({pendingCount})</span>
               </button>
@@ -291,7 +291,7 @@ export function AdminDashboardClient() {
 
             <Link href="/admin/events/new">
               <button className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#191e2e] px-3.5 py-2 text-xs text-slate-200 hover:text-white hover:bg-[#20273c] transition-all">
-                <PlusCircle className="h-3.5 w-3.5 text-indigo-400" />
+                <PlusCircle className="h-3.5 w-3.5 text-red-400" />
                 <span>Buat Event</span>
               </button>
             </Link>
@@ -302,7 +302,7 @@ export function AdminDashboardClient() {
       {/* 2. APEX METRIC CARDS (MATCHING SCREENSHOT LAYOUT & PILL TAGS) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1: Total Active Members */}
-        <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-indigo-500/40 hover:-translate-y-0.5 group">
+        <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-red-500/40 hover:-translate-y-0.5 group">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-slate-400">Total Anggota Aktif</span>
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[11px] font-medium text-emerald-400 font-mono">
@@ -313,7 +313,7 @@ export function AdminDashboardClient() {
             <div className="text-3xl font-bold text-white tracking-tight">
               {memberCount}
             </div>
-            <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-indigo-400">
+            <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-red-400">
               <Users className="h-4 w-4" />
             </div>
           </div>
@@ -342,7 +342,7 @@ export function AdminDashboardClient() {
             </div>
             <p className="text-[11px] text-slate-500 mt-2 flex items-center justify-between">
               <span>Menunggu persetujuan</span>
-              <span className="text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-red-400 group-hover:translate-x-0.5 transition-transform">
                 Tinjau &rarr;
               </span>
             </p>
@@ -354,7 +354,7 @@ export function AdminDashboardClient() {
           <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-emerald-500/40 hover:-translate-y-0.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-slate-400">Saldo Kas Bersih</span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 text-[11px] font-medium text-indigo-300 font-mono">
+              <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 border border-red-500/20 px-2 py-0.5 text-[11px] font-medium text-red-300 font-mono">
                 Ledger Riil
               </span>
             </div>
@@ -368,7 +368,7 @@ export function AdminDashboardClient() {
             </div>
             <p className="text-[11px] text-slate-500 mt-2 flex items-center justify-between">
               <span>Buku kas & kas masuk</span>
-              <span className="text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-red-400 group-hover:translate-x-0.5 transition-transform">
                 Laporan &rarr;
               </span>
             </p>
@@ -377,10 +377,10 @@ export function AdminDashboardClient() {
 
         {/* Metric 4: Pending Invoices / Payments */}
         <Link href="/admin/finance" className="block group">
-          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-indigo-500/40 hover:-translate-y-0.5">
+          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-red-500/40 hover:-translate-y-0.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-slate-400">Verifikasi Iuran</span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 text-[11px] font-medium text-indigo-300 font-mono">
+              <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 border border-red-500/20 px-2 py-0.5 text-[11px] font-medium text-red-300 font-mono">
                 {pendingPaymentsCount} Menunggu
               </span>
             </div>
@@ -389,13 +389,13 @@ export function AdminDashboardClient() {
                 {pendingPaymentsCount}{" "}
                 <span className="text-sm font-normal text-slate-400">Bukti</span>
               </div>
-              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-indigo-400">
+              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-red-400">
                 <CreditCard className="h-4 w-4" />
               </div>
             </div>
             <p className="text-[11px] text-slate-500 mt-2 flex items-center justify-between">
               <span>Validasi bendahara</span>
-              <span className="text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-red-400 group-hover:translate-x-0.5 transition-transform">
                 Validasi &rarr;
               </span>
             </p>
@@ -415,7 +415,7 @@ export function AdminDashboardClient() {
                   <h3 className="text-base font-bold text-white">
                     Calon Anggota Menunggu Review
                   </h3>
-                  <span className="rounded-full bg-indigo-500/15 border border-indigo-500/30 px-2 py-0.5 text-[10px] font-mono text-indigo-300 font-bold">
+                  <span className="rounded-full bg-red-500/15 border border-red-500/30 px-2 py-0.5 text-[10px] font-mono text-red-300 font-bold">
                     {pendingCount} Antrean
                   </span>
                 </div>
@@ -444,7 +444,7 @@ export function AdminDashboardClient() {
                     </p>
                   </div>
                   <Link href="/admin/applications/history" className="inline-block pt-1">
-                    <button className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+                    <button className="text-xs text-red-400 hover:text-red-300 font-medium transition-colors">
                       Buka Riwayat Pendaftaran &rarr;
                     </button>
                   </Link>
@@ -453,15 +453,15 @@ export function AdminDashboardClient() {
                 displayPending.map((item) => (
                   <div
                     key={item.id}
-                    className="p-4 rounded-xl bg-[#171b29] border border-white/[0.06] hover:border-indigo-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
+                    className="p-4 rounded-xl bg-[#171b29] border border-white/[0.06] hover:border-red-500/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
                   >
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-2.5">
-                        <div className="h-8 w-8 rounded-full bg-[#1e2438] border border-indigo-500/30 flex items-center justify-center text-indigo-300 font-bold text-xs shrink-0">
+                        <div className="h-8 w-8 rounded-full bg-[#1e2438] border border-red-500/30 flex items-center justify-center text-red-300 font-bold text-xs shrink-0">
                           {item.full_name?.slice(0, 2).toUpperCase() || "CA"}
                         </div>
                         <div>
-                          <span className="font-semibold text-white text-sm group-hover:text-indigo-300 transition-colors">
+                          <span className="font-semibold text-white text-sm group-hover:text-red-300 transition-colors">
                             {item.full_name}
                           </span>
                           <span className="ml-2 rounded bg-white/[0.06] px-1.5 py-0.5 text-[10px] text-slate-300 font-mono">
@@ -472,7 +472,7 @@ export function AdminDashboardClient() {
 
                       <p className="text-xs text-slate-400">
                         Motor: <strong className="text-slate-200">{item.motorcycle_model}</strong> &bull;{" "}
-                        <span className="font-mono text-indigo-300">{item.plate_number}</span>
+                        <span className="font-mono text-red-300">{item.plate_number}</span>
                       </p>
 
                       {item.reason_joining && (
@@ -484,7 +484,7 @@ export function AdminDashboardClient() {
 
                     <div className="shrink-0 self-end sm:self-center">
                       <Link href="/admin/applications">
-                        <button className="flex items-center gap-1.5 rounded-lg bg-indigo-600/90 hover:bg-indigo-600 text-white font-medium text-xs px-3.5 py-1.5 shadow-sm transition-all">
+                        <button className="flex items-center gap-1.5 rounded-lg bg-red-600/90 hover:bg-red-600 text-white font-medium text-xs px-3.5 py-1.5 shadow-sm transition-all">
                           <FileCheck className="h-3.5 w-3.5" />
                           <span>Tinjau Berkas</span>
                         </button>
@@ -501,7 +501,7 @@ export function AdminDashboardClient() {
             <div className="p-5 sm:p-6 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-indigo-400" />
+                  <Calendar className="h-4 w-4 text-red-400" />
                   <span>Monitoring Event & Kuota Peserta</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -510,7 +510,7 @@ export function AdminDashboardClient() {
               </div>
 
               <Link href="/admin/events">
-                <button className="text-xs text-indigo-400 hover:text-indigo-300">
+                <button className="text-xs text-red-400 hover:text-red-300">
                   Manajemen Event &rarr;
                 </button>
               </Link>
@@ -526,13 +526,13 @@ export function AdminDashboardClient() {
                 return (
                   <div
                     key={ev.id}
-                    className="p-5 rounded-xl bg-[#171b29] border border-white/[0.06] space-y-3 hover:border-indigo-500/40 transition-all"
+                    className="p-5 rounded-xl bg-[#171b29] border border-white/[0.06] space-y-3 hover:border-red-500/40 transition-all"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <h4 className="font-semibold text-base text-white">
                         {ev.title}
                       </h4>
-                      <span className="rounded-full bg-indigo-500/15 border border-indigo-500/30 px-2.5 py-0.5 text-[11px] text-indigo-300 font-mono w-fit">
+                      <span className="rounded-full bg-red-500/15 border border-red-500/30 px-2.5 py-0.5 text-[11px] text-red-300 font-mono w-fit">
                         Kapasitas: {registered} / {capacity} Rider
                       </span>
                     </div>
@@ -541,16 +541,16 @@ export function AdminDashboardClient() {
                     <div className="space-y-1.5">
                       <div className="w-full bg-[#0e111a] rounded-full h-2.5 overflow-hidden p-0.5 border border-white/[0.06]">
                         <div
-                          className="bg-gradient-to-r from-indigo-500 to-sky-400 h-1.5 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.5)] transition-all duration-500"
+                          className="bg-gradient-to-r from-red-500 to-rose-400 h-1.5 rounded-full shadow-[0_0_8px_rgba(220,38,38,0.5)] transition-all duration-500"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
                       <div className="flex items-center justify-between text-[11px] text-slate-400 pt-0.5">
                         <span className="flex items-center gap-1 text-slate-300">
-                          <MapPin className="h-3 w-3 text-indigo-400" />
+                          <MapPin className="h-3 w-3 text-red-400" />
                           {ev.location_name}
                         </span>
-                        <span className="font-mono text-indigo-300">
+                        <span className="font-mono text-red-300">
                           Sisa Kuota: <strong>{remaining} Rider</strong> ({percentage}%)
                         </span>
                       </div>
@@ -563,7 +563,7 @@ export function AdminDashboardClient() {
                           {ev.fee > 0 ? formatRupiah(ev.fee) : "Gratis"}
                         </strong>
                       </span>
-                      <Link href="/admin/events" className="text-indigo-400 hover:underline">
+                      <Link href="/admin/events" className="text-red-400 hover:underline">
                         Daftar Peserta &rarr;
                       </Link>
                     </div>
@@ -609,9 +609,9 @@ export function AdminDashboardClient() {
                 </span>
               </div>
 
-              <div className="p-3.5 rounded-lg bg-[#191e2e] border border-indigo-500/30 flex items-center justify-between">
+              <div className="p-3.5 rounded-lg bg-[#191e2e] border border-red-500/30 flex items-center justify-between">
                 <span className="font-semibold text-white">Saldo Kas Bersih</span>
-                <span className="font-mono font-bold text-indigo-300 text-sm">
+                <span className="font-mono font-bold text-red-300 text-sm">
                   {formatRupiah(cashBalance)}
                 </span>
               </div>
@@ -619,7 +619,7 @@ export function AdminDashboardClient() {
 
             <Link href="/admin/finance/transactions" className="block pt-1">
               <button className="w-full flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#171b29] hover:bg-[#1d2337] py-2 text-xs font-semibold text-slate-200 transition-colors">
-                <Wallet className="h-3.5 w-3.5 text-indigo-400" />
+                <Wallet className="h-3.5 w-3.5 text-red-400" />
                 <span>Buka Buku Kas & Laporan Finansial</span>
               </button>
             </Link>
@@ -629,10 +629,10 @@ export function AdminDashboardClient() {
           <div className="rounded-2xl border border-white/[0.08] bg-[#131724] shadow-xl p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 font-mono">
-                <Megaphone className="h-3.5 w-3.5 text-indigo-400" />
+                <Megaphone className="h-3.5 w-3.5 text-red-400" />
                 <span>Maklumat Pengurus Terkini</span>
               </h3>
-              <Link href="/admin/announcements" className="text-xs text-indigo-400 hover:underline">
+              <Link href="/admin/announcements" className="text-xs text-red-400 hover:underline">
                 Kelola &rarr;
               </Link>
             </div>
@@ -665,20 +665,20 @@ export function AdminDashboardClient() {
           <div className="rounded-2xl border border-white/[0.08] bg-[#131724] shadow-xl p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 font-mono">
-                <Activity className="h-3.5 w-3.5 text-indigo-400" />
+                <Activity className="h-3.5 w-3.5 text-red-400" />
                 <span>Audit Log Sistem</span>
               </h3>
-              <Link href="/admin/audit-logs" className="text-xs text-indigo-400 hover:underline">
+              <Link href="/admin/audit-logs" className="text-xs text-red-400 hover:underline">
                 Semua &rarr;
               </Link>
             </div>
 
             <div className="space-y-3.5 text-xs">
-              <div className="relative pl-4 border-l-2 border-indigo-500 space-y-0.5">
-                <div className="absolute -left-[5px] top-1 h-2 w-2 rounded-full bg-indigo-500" />
+              <div className="relative pl-4 border-l-2 border-red-500 space-y-0.5">
+                <div className="absolute -left-[5px] top-1 h-2 w-2 rounded-full bg-red-500" />
                 <p className="font-semibold text-white">Penerbitan KTA Anggota</p>
                 <p className="text-[11px] text-slate-400">BMC-2026-0012 disetujui Sekjen</p>
-                <span className="text-[10px] text-indigo-400 font-mono">15 Menit lalu</span>
+                <span className="text-[10px] text-red-400 font-mono">15 Menit lalu</span>
               </div>
 
               <div className="relative pl-4 border-l-2 border-emerald-500 space-y-0.5">

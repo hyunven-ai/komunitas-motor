@@ -180,15 +180,15 @@ export default function MemberDashboardPage() {
       {/* 1. VIP MEMBER HERO BANNER: APEX COSMIC THEME */}
       <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#131724] p-6 sm:p-7 shadow-2xl">
         {/* Subtle Ambient Radial Glow */}
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-indigo-600/15 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-red-600/15 blur-3xl" />
         <div className="pointer-events-none absolute -left-20 -bottom-20 h-60 w-60 rounded-full bg-sky-500/10 blur-3xl" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2.5 max-w-2xl">
             {/* VIP Status Tag */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/40 bg-indigo-950/40 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-indigo-300 font-mono">
-                <Sparkles className="h-3 w-3 text-indigo-400" />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-red-500/40 bg-red-950/40 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-red-300 font-mono">
+                <Sparkles className="h-3 w-3 text-red-400" />
                 BROTHERHOOD ELITE MEMBER
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-2.5 py-0.5 text-[10px] font-mono font-medium text-emerald-400">
@@ -213,20 +213,20 @@ export default function MemberDashboardPage() {
             {/* Quick Action Buttons */}
             <div className="flex flex-wrap items-center gap-2.5 pt-2">
               <Link href="/member/card">
-                <button className="flex items-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 shadow-[0_0_15px_rgba(99,102,241,0.35)] transition-all">
+                <button className="flex items-center gap-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-4 py-2 shadow-[0_0_15px_rgba(220,38,38,0.35)] transition-all">
                   <CreditCard className="h-4 w-4" />
                   <span>Lihat KTA Digital & QR</span>
                 </button>
               </Link>
               <Link href="/member/events">
                 <button className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#191e2e] hover:bg-[#20273c] text-slate-200 text-xs px-3.5 py-2 transition-all">
-                  <Calendar className="h-3.5 w-3.5 text-indigo-400" />
+                  <Calendar className="h-3.5 w-3.5 text-red-400" />
                   <span>Agenda Touring</span>
                 </button>
               </Link>
               <Link href="/member/payments">
                 <button className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#191e2e] hover:bg-[#20273c] text-slate-300 text-xs px-3 py-2 transition-all">
-                  <Receipt className="h-3.5 w-3.5 text-indigo-400" />
+                  <Receipt className="h-3.5 w-3.5 text-red-400" />
                   <span>Status Iuran</span>
                 </button>
               </Link>
@@ -236,14 +236,14 @@ export default function MemberDashboardPage() {
           {/* Mini KTA Smart Pass Frame */}
           <Link
             href="/member/card"
-            className="group relative hidden lg:block shrink-0 rounded-xl border border-white/[0.08] bg-[#171b29] hover:border-indigo-500/40 p-4 shadow-xl transition-all duration-200 hover:scale-[1.02]"
+            className="group relative hidden lg:block shrink-0 rounded-xl border border-white/[0.08] bg-[#171b29] hover:border-red-500/40 p-4 shadow-xl transition-all duration-200 hover:scale-[1.02]"
           >
             <div className="flex items-center gap-3">
-              <div className="h-11 w-11 rounded-lg bg-[#111420] border border-white/10 flex items-center justify-center text-indigo-400 shadow-inner">
+              <div className="h-11 w-11 rounded-lg bg-[#111420] border border-white/10 flex items-center justify-center text-red-400 shadow-inner">
                 <QrCode className="h-6 w-6 group-hover:scale-110 transition-transform" />
               </div>
               <div className="text-left space-y-0.5">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-400 font-bold">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-red-400 font-bold">
                   KTA SMART PASS
                 </span>
                 <p className="text-xs font-bold text-white truncate max-w-[130px]">
@@ -284,10 +284,10 @@ export default function MemberDashboardPage() {
 
         {/* KPI 2: Touring Registered */}
         <Link href="/member/events" className="block group">
-          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-indigo-500/40 hover:-translate-y-0.5">
+          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-red-500/40 hover:-translate-y-0.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-slate-400">Touring Terdaftar</span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 text-[11px] font-medium text-indigo-300 font-mono">
+              <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 border border-red-500/20 px-2 py-0.5 text-[11px] font-medium text-red-300 font-mono">
                 Terjadwal
               </span>
             </div>
@@ -296,13 +296,13 @@ export default function MemberDashboardPage() {
                 {registeredEvents.length}{" "}
                 <span className="text-sm font-normal text-slate-400">Agenda</span>
               </div>
-              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-indigo-400">
+              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-red-400">
                 <Calendar className="h-4 w-4" />
               </div>
             </div>
             <p className="text-[11px] text-slate-500 mt-2 flex items-center justify-between">
               <span>Rute & konvoi resmi</span>
-              <span className="text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-red-400 group-hover:translate-x-0.5 transition-transform">
                 Buka &rarr;
               </span>
             </p>
@@ -311,7 +311,7 @@ export default function MemberDashboardPage() {
 
         {/* KPI 3: Invoice / Dues Status */}
         <Link href="/member/payments" className="block group">
-          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-indigo-500/40 hover:-translate-y-0.5">
+          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-red-500/40 hover:-translate-y-0.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-slate-400">Status Tagihan Iuran</span>
               <span
@@ -332,13 +332,13 @@ export default function MemberDashboardPage() {
               >
                 {invoiceSummaryText}
               </div>
-              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-indigo-400">
+              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-red-400">
                 <Receipt className="h-4 w-4" />
               </div>
             </div>
             <p className="text-[11px] text-slate-500 mt-2 flex items-center justify-between">
               <span>Kas & perbendaharaan</span>
-              <span className="text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-red-400 group-hover:translate-x-0.5 transition-transform">
                 Kelola &rarr;
               </span>
             </p>
@@ -347,7 +347,7 @@ export default function MemberDashboardPage() {
 
         {/* KPI 4: Attendance Rate */}
         <Link href="/member/attendance" className="block group">
-          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-indigo-500/40 hover:-translate-y-0.5">
+          <div className="relative rounded-xl border border-white/[0.08] bg-[#131724] p-5 shadow-xl transition-all duration-200 hover:border-red-500/40 hover:-translate-y-0.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-slate-400">Presensi & Disiplin</span>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[11px] font-medium text-emerald-400 font-mono">
@@ -358,13 +358,13 @@ export default function MemberDashboardPage() {
               <div className="text-2xl font-bold text-white tracking-tight">
                 On-Time
               </div>
-              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-indigo-400">
+              <div className="h-9 w-9 rounded-lg bg-[#191e2e] border border-white/[0.06] flex items-center justify-center text-red-400">
                 <Shield className="h-4 w-4" />
               </div>
             </div>
             <p className="text-[11px] text-slate-500 mt-2 flex items-center justify-between">
               <span>Log presensi roll-call</span>
-              <span className="text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-red-400 group-hover:translate-x-0.5 transition-transform">
                 Riwayat &rarr;
               </span>
             </p>
@@ -381,7 +381,7 @@ export default function MemberDashboardPage() {
             <div className="p-5 sm:p-6 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-indigo-400" />
+                  <Calendar className="h-4 w-4 text-red-400" />
                   <span>Agenda Touring Terdaftar Mendatang</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -390,7 +390,7 @@ export default function MemberDashboardPage() {
               </div>
 
               <Link href="/member/events">
-                <button className="text-xs text-indigo-400 hover:text-indigo-300">
+                <button className="text-xs text-red-400 hover:text-red-300">
                   Semua Agenda &rarr;
                 </button>
               </Link>
@@ -399,7 +399,7 @@ export default function MemberDashboardPage() {
             <div className="p-5 sm:p-6">
               {loading ? (
                 <div className="p-8 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin text-indigo-400" />
+                  <Loader2 className="h-4 w-4 animate-spin text-red-400" />
                   <span>Memuat agenda event Anda...</span>
                 </div>
               ) : nextRegisteredEvent ? (
@@ -407,7 +407,7 @@ export default function MemberDashboardPage() {
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                     <div className="space-y-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-indigo-500/15 border border-indigo-500/30 px-2 py-0.5 text-[10px] font-mono text-indigo-300 font-bold">
+                        <span className="rounded-full bg-red-500/15 border border-red-500/30 px-2 py-0.5 text-[10px] font-mono text-red-300 font-bold">
                           TERDAFTAR
                         </span>
                         {nextRegisteredEvent.invoiceStatus === "paid" && (
@@ -434,12 +434,12 @@ export default function MemberDashboardPage() {
                       <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 pt-1">
                         {nextRegisteredEvent.locationName && (
                           <span className="flex items-center gap-1.5 text-slate-300">
-                            <MapPin className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+                            <MapPin className="h-3.5 w-3.5 text-red-400 shrink-0" />
                             {nextRegisteredEvent.locationName}
                           </span>
                         )}
                         {nextRegisteredEvent.startTime && (
-                          <span className="flex items-center gap-1.5 font-mono text-indigo-300">
+                          <span className="flex items-center gap-1.5 font-mono text-red-300">
                             <Clock className="h-3.5 w-3.5 shrink-0" />
                             {new Date(nextRegisteredEvent.startTime).toLocaleDateString("id-ID", {
                               weekday: "long",
@@ -455,13 +455,13 @@ export default function MemberDashboardPage() {
                     <div className="flex sm:flex-col gap-2 shrink-0">
                       <Link href={`/member/events/${nextRegisteredEvent.id}`}>
                         <button className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#1d2337] px-3 py-1.5 text-xs text-slate-200 hover:text-white hover:bg-[#232b43] transition-all">
-                          <QrCode className="h-3.5 w-3.5 text-indigo-400" />
+                          <QrCode className="h-3.5 w-3.5 text-red-400" />
                           <span>Tiket & QR</span>
                         </button>
                       </Link>
                       {nextRegisteredEvent.invoiceStatus === "unpaid" && nextRegisteredEvent.invoiceId && (
                         <Link href={`/member/payments/${nextRegisteredEvent.invoiceId}`}>
-                          <button className="rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-1.5 shadow-sm transition-all">
+                          <button className="rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3.5 py-1.5 shadow-sm transition-all">
                             Bayar Iuran
                           </button>
                         </Link>
@@ -479,7 +479,7 @@ export default function MemberDashboardPage() {
                       </strong>
                     </span>
                     {nextRegisteredEvent.invoiceNumber && (
-                      <span className="font-mono text-indigo-300 text-[11px] bg-[#111420] px-2 py-0.5 rounded border border-white/[0.06]">
+                      <span className="font-mono text-red-300 text-[11px] bg-[#111420] px-2 py-0.5 rounded border border-white/[0.06]">
                         #{nextRegisteredEvent.invoiceNumber}
                       </span>
                     )}
@@ -487,7 +487,7 @@ export default function MemberDashboardPage() {
                 </div>
               ) : (
                 <div className="rounded-xl border border-dashed border-white/10 bg-[#171b29]/40 p-8 text-center space-y-3">
-                  <div className="h-11 w-11 rounded-full bg-[#1e2438] border border-indigo-500/30 flex items-center justify-center text-indigo-400 mx-auto">
+                  <div className="h-11 w-11 rounded-full bg-[#1e2438] border border-red-500/30 flex items-center justify-center text-red-400 mx-auto">
                     <Compass className="h-5 w-5" />
                   </div>
                   <div>
@@ -497,7 +497,7 @@ export default function MemberDashboardPage() {
                     </p>
                   </div>
                   <Link href="/member/events">
-                    <button className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-3.5 py-1.5 transition-all mt-1">
+                    <button className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3.5 py-1.5 transition-all mt-1">
                       <span>Jelajahi Kalender Touring</span>
                       <ArrowRight className="h-3.5 w-3.5" />
                     </button>
@@ -512,7 +512,7 @@ export default function MemberDashboardPage() {
             <div className="p-5 sm:p-6 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <MessageSquare className="h-4 w-4 text-indigo-400" />
+                  <MessageSquare className="h-4 w-4 text-red-400" />
                   <span>Diskusi Forum Komunitas</span>
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -530,7 +530,7 @@ export default function MemberDashboardPage() {
             <div className="p-5 sm:p-6 space-y-3">
               {loading ? (
                 <div className="py-6 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin text-indigo-400" />
+                  <Loader2 className="h-4 w-4 animate-spin text-red-400" />
                   <span>Memuat obrolan forum...</span>
                 </div>
               ) : latestTopics.length > 0 ? (
@@ -538,13 +538,13 @@ export default function MemberDashboardPage() {
                   <Link
                     key={topic.id}
                     href={`/member/forum/${topic.id}`}
-                    className="block p-3.5 rounded-xl bg-[#171b29] border border-white/[0.06] hover:border-indigo-500/40 transition-all duration-150 group"
+                    className="block p-3.5 rounded-xl bg-[#171b29] border border-white/[0.06] hover:border-red-500/40 transition-all duration-150 group"
                   >
                     <div className="flex items-center justify-between text-xs gap-3">
-                      <span className="font-semibold text-white text-sm group-hover:text-indigo-300 transition-colors line-clamp-1">
+                      <span className="font-semibold text-white text-sm group-hover:text-red-300 transition-colors line-clamp-1">
                         {topic.title}
                       </span>
-                      <span className="rounded-full bg-indigo-500/15 border border-indigo-500/30 px-2 py-0.5 text-indigo-300 text-[10px] font-mono shrink-0">
+                      <span className="rounded-full bg-red-500/15 border border-red-500/30 px-2 py-0.5 text-red-300 text-[10px] font-mono shrink-0">
                         {topic.replies || 0} Balasan
                       </span>
                     </div>
@@ -558,7 +558,7 @@ export default function MemberDashboardPage() {
                 <div className="p-6 rounded-xl bg-[#171b29]/40 border border-dashed border-white/10 text-center space-y-2">
                   <p className="text-xs text-slate-400">Belum ada obrolan terbaru di forum komunitas.</p>
                   <Link href="/member/forum">
-                    <button className="text-xs text-indigo-400 hover:underline">
+                    <button className="text-xs text-red-400 hover:underline">
                       Mulai Utas Diskusi Pertama &rarr;
                     </button>
                   </Link>
@@ -574,7 +574,7 @@ export default function MemberDashboardPage() {
           <div className="rounded-2xl border border-white/[0.08] bg-[#131724] shadow-xl p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 font-mono">
-                <Shield className="h-3.5 w-3.5 text-indigo-400" />
+                <Shield className="h-3.5 w-3.5 text-red-400" />
                 <span>Maklumat Dewan Pengurus</span>
               </h3>
               <span className="text-[10px] font-mono text-slate-500">Official</span>
@@ -583,7 +583,7 @@ export default function MemberDashboardPage() {
             <div className="space-y-2.5 text-xs">
               {loading ? (
                 <div className="py-6 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin text-indigo-400" />
+                  <Loader2 className="h-4 w-4 animate-spin text-red-400" />
                   <span>Memuat pengumuman...</span>
                 </div>
               ) : announcements.length > 0 ? (
@@ -594,7 +594,7 @@ export default function MemberDashboardPage() {
                     <div
                       key={ann.id}
                       className={`p-3.5 rounded-xl bg-[#171b29] border-l-2 ${
-                        isRed ? "border-l-rose-500" : "border-l-indigo-500"
+                        isRed ? "border-l-rose-500" : "border-l-red-500"
                       } space-y-1.5`}
                     >
                       <div className="flex items-center justify-between gap-2">
@@ -609,7 +609,7 @@ export default function MemberDashboardPage() {
                         {ann.content}
                       </p>
                       <div className="flex items-center justify-between text-[10px] pt-0.5">
-                        <span className={`font-mono font-medium ${isRed ? "text-rose-400" : "text-indigo-300"}`}>
+                        <span className={`font-mono font-medium ${isRed ? "text-rose-400" : "text-red-300"}`}>
                           {ann.division}
                         </span>
                         <span className="text-slate-500">{formatRelativeTime(ann.createdAt)}</span>
@@ -628,7 +628,7 @@ export default function MemberDashboardPage() {
           {/* Quick Access KTA Pass Card */}
           <div className="rounded-2xl border border-white/[0.08] bg-[#131724] shadow-xl p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-              <span className="text-xs font-mono uppercase tracking-wider text-indigo-400 font-bold">
+              <span className="text-xs font-mono uppercase tracking-wider text-red-400 font-bold">
                 KTA DIGITAL RESMI
               </span>
               <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.2 text-[9px] text-emerald-400 font-mono font-bold">
@@ -640,14 +640,14 @@ export default function MemberDashboardPage() {
               <p className="font-bold text-white text-sm">
                 {member?.fullName || "Anggota Brotherhood"}
               </p>
-              <p className="font-mono text-indigo-300">{memberNumber}</p>
+              <p className="font-mono text-red-300">{memberNumber}</p>
               <p className="text-[11px] text-slate-400 pt-1 leading-relaxed">
                 Tunjukkan QR Code ini kepada panitia saat registrasi ulang touring atau gathering resmi.
               </p>
             </div>
 
             <Link href="/member/card" className="block">
-              <button className="w-full flex items-center justify-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs py-2 shadow-sm transition-all">
+              <button className="w-full flex items-center justify-center gap-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold text-xs py-2 shadow-sm transition-all">
                 <QrCode className="h-4 w-4" />
                 <span>Buka KTA Digital & QR Barcode</span>
               </button>

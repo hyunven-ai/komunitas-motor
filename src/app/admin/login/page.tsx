@@ -75,20 +75,20 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0b0d14] px-4 py-12 text-[#f1f5f9] relative overflow-hidden selection:bg-indigo-600 selection:text-white">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0b0d14] px-4 py-12 text-[#f1f5f9] relative overflow-hidden selection:bg-red-600 selection:text-white">
       {/* Background cosmic radial glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-indigo-600/15 via-sky-500/5 to-transparent blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-red-600/10 via-neutral-500/5 to-transparent blur-[120px] rounded-full pointer-events-none" />
 
       {/* Top Logo */}
       <Link href="/" className="mb-6 flex items-center gap-3 group relative z-10">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#161a29] shadow-inner transition-transform group-hover:scale-105">
-          <Shield className="h-6 w-6 text-indigo-400" />
+          <Shield className="h-6 w-6 text-red-500" />
         </div>
         <div className="flex flex-col">
           <span className="font-bold text-lg tracking-wider text-white uppercase flex items-center gap-1.5">
-            BROTHERHOOD <span className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono">HQ</span>
+            BROTHERHOOD <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30 font-mono">HQ</span>
           </span>
-          <span className="text-[10px] tracking-widest text-indigo-400 font-mono uppercase font-semibold">
+          <span className="text-[10px] tracking-widest text-red-500 font-mono uppercase font-semibold">
             Executive Control Desk
           </span>
         </div>
@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
       <main className="w-full max-w-md relative z-10">
         <Card className="border-white/[0.08] bg-[#131724] shadow-2xl backdrop-blur-md text-[#f1f5f9]">
           <CardHeader className="space-y-1.5 text-center pb-4">
-            <div className="mx-auto mb-1 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-950/60 border border-indigo-500/30 text-indigo-400">
+            <div className="mx-auto mb-1 flex h-10 w-10 items-center justify-center rounded-xl bg-red-950/60 border border-red-500/30 text-red-400">
               <Lock className="h-5 w-5" />
             </div>
             <CardTitle className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -129,7 +129,7 @@ export default function AdminLoginPage() {
                     placeholder="admin@brotherhood.id"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-indigo-500/50"
+                    className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-red-500/50"
                     required
                   />
                 </div>
@@ -142,7 +142,7 @@ export default function AdminLoginPage() {
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                    className="text-xs text-red-400 hover:text-red-300 transition-colors"
                   >
                     Bantuan sandi?
                   </Link>
@@ -155,7 +155,7 @@ export default function AdminLoginPage() {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-indigo-500/50"
+                    className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-red-500/50"
                     required
                   />
                 </div>
@@ -163,7 +163,7 @@ export default function AdminLoginPage() {
 
               <Button
                 type="submit"
-                className="w-full h-10 font-semibold text-xs bg-indigo-600 hover:bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.35)] mt-2 transition-all"
+                className="w-full h-10 font-semibold text-xs bg-red-600 hover:bg-red-700 text-white shadow-[0_0_15px_rgba(220,38,38,0.35)] mt-2 transition-all"
                 disabled={loading}
               >
                 {loading ? (
@@ -187,7 +187,7 @@ export default function AdminLoginPage() {
                 href="/login"
                 className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
               >
-                <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
+                <ArrowLeft className="h-3.5 w-3.5 text-red-500" />
                 <span>Bukan pengurus? Masuk sebagai Anggota Komunitas</span>
               </Link>
             </div>

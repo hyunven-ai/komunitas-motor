@@ -13,6 +13,7 @@ export async function GET() {
         adminWhatsApp: settings.adminWhatsApp,
         hotlinePhone: settings.hotlinePhone,
         basecampAddress: settings.basecampAddress,
+        secretariatEmail: settings.secretariatEmail,
         whatsAppGreeting: settings.whatsAppGreeting,
       },
     });

@@ -180,10 +180,10 @@ export default function AdminPortalLayout({
   }
 
   return (
-    <div className="admin-portal-theme flex min-h-screen bg-[#0b0d14] text-[#f1f5f9] selection:bg-indigo-600 selection:text-white relative">
+    <div className="admin-portal-theme flex min-h-screen bg-[#0b0d14] text-[#f1f5f9] selection:bg-red-600 selection:text-white relative">
       {/* Subtle cosmic background glow in the top-right corner matching image */}
-      <div className="pointer-events-none fixed top-0 right-0 w-[600px] h-[500px] bg-gradient-to-bl from-indigo-600/10 via-sky-500/5 to-transparent blur-3xl z-0" />
-      <div className="pointer-events-none fixed bottom-0 left-64 w-[450px] h-[450px] bg-gradient-to-tr from-indigo-900/10 via-transparent to-transparent blur-3xl z-0" />
+      <div className="pointer-events-none fixed top-0 right-0 w-[600px] h-[500px] bg-gradient-to-bl from-red-600/10 via-neutral-500/5 to-transparent blur-3xl z-0" />
+      <div className="pointer-events-none fixed bottom-0 left-64 w-[450px] h-[450px] bg-gradient-to-tr from-red-950/15 via-transparent to-transparent blur-3xl z-0" />
 
       {/* DESKTOP SIDEBAR (MATCHING SCREENSHOT) */}
       <aside className="hidden lg:flex w-64 xl:w-72 flex-col shrink-0 border-r border-white/[0.07] bg-[#0e111b] relative z-20">
@@ -191,11 +191,11 @@ export default function AdminPortalLayout({
         <div className="flex h-16 items-center justify-between border-b border-white/[0.07] px-5">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-[#171b29] text-white shadow-inner">
-              <Shield className="h-5 w-5 text-indigo-400" />
+              <Shield className="h-5 w-5 text-red-500" />
             </div>
             <div className="leading-tight">
               <span className="font-bold text-sm tracking-wide text-white flex items-center gap-1.5">
-                Brotherhood <span className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono">HQ</span>
+                Brotherhood <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30 font-mono">HQ</span>
               </span>
               <p className="text-[11px] text-slate-400 font-medium">Management Suite</p>
             </div>
@@ -207,7 +207,7 @@ export default function AdminPortalLayout({
 
         {/* Quick Search Bar with ⌘K Badge */}
         <div className="px-4 pt-4 pb-2">
-          <div className="relative flex items-center rounded-lg bg-[#141724] border border-white/[0.08] px-3 py-2 text-xs text-slate-400 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/30 transition-all">
+          <div className="relative flex items-center rounded-lg bg-[#141724] border border-white/[0.08] px-3 py-2 text-xs text-slate-400 focus-within:border-red-500/50 focus-within:ring-1 focus-within:ring-red-500/30 transition-all">
             <Search className="h-3.5 w-3.5 text-slate-500 mr-2 shrink-0" />
             <input
               type="text"
@@ -250,7 +250,7 @@ export default function AdminPortalLayout({
                       href={item.href}
                       className={`group flex items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition-all duration-150 ${
                         isActive
-                          ? "bg-[#181d2e] text-white font-semibold border border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.22)]"
+                          ? "bg-[#1f1518] text-white font-semibold border border-red-500/40 shadow-[0_0_15px_rgba(220,38,38,0.22)]"
                           : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
                       }`}
                     >
@@ -258,7 +258,7 @@ export default function AdminPortalLayout({
                         <Icon
                           className={`h-4 w-4 transition-colors ${
                             isActive
-                              ? "text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]"
+                              ? "text-red-500 drop-shadow-[0_0_8px_rgba(220,38,38,0.5)]"
                               : "text-slate-500 group-hover:text-slate-300"
                           }`}
                         />
@@ -269,8 +269,8 @@ export default function AdminPortalLayout({
                         <span
                           className={`rounded-full px-2 py-0.5 text-[10px] font-bold font-mono transition-all ${
                             isActive
-                              ? "bg-indigo-500 text-white shadow-sm"
-                              : "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                              ? "bg-red-600 text-white shadow-sm"
+                              : "bg-red-500/20 text-red-300 border border-red-500/30"
                           }`}
                         >
                           {badgeValue}
@@ -299,7 +299,7 @@ export default function AdminPortalLayout({
 
             <div className="flex items-center justify-center p-2 rounded-lg bg-[#0e111a] border border-white/[0.06]">
               <div className="flex items-center gap-2 text-[11px] text-slate-300 font-mono">
-                <QrCode className="h-4 w-4 text-indigo-400" />
+                <QrCode className="h-4 w-4 text-red-500" />
                 <span>HQ-AUTH &bull; VERIFIED</span>
               </div>
             </div>
@@ -415,19 +415,19 @@ export default function AdminPortalLayout({
             >
               <Bell className="h-4 w-4" />
               {(pendingCount > 0 || pendingFinanceCount > 0) && (
-                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]" />
               )}
             </button>
 
             {/* Select Dates Button */}
             <button className="hidden xl:flex items-center gap-2 rounded-lg bg-[#131724] border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-[#181d2e] hover:text-white transition-colors">
-              <CalendarDays className="h-3.5 w-3.5 text-indigo-400" />
+              <CalendarDays className="h-3.5 w-3.5 text-red-400" />
               <span>Select dates</span>
             </button>
 
             {/* Filters Button */}
             <button className="hidden xl:flex items-center gap-2 rounded-lg bg-[#131724] border border-white/10 px-3 py-1.5 text-xs text-slate-300 hover:bg-[#181d2e] hover:text-white transition-colors">
-              <SlidersHorizontal className="h-3.5 w-3.5 text-indigo-400" />
+              <SlidersHorizontal className="h-3.5 w-3.5 text-red-400" />
               <span>Filters</span>
             </button>
 
@@ -436,7 +436,7 @@ export default function AdminPortalLayout({
               <span className="hidden sm:inline-block text-xs font-semibold text-slate-200">
                 Super Admin
               </span>
-              <div className="h-8 w-8 rounded-full border border-indigo-500/40 bg-gradient-to-tr from-indigo-900 to-slate-800 flex items-center justify-center text-xs font-bold text-white shadow-sm">
+              <div className="h-8 w-8 rounded-full border border-red-500/40 bg-gradient-to-tr from-red-950 to-neutral-800 flex items-center justify-center text-xs font-bold text-white shadow-sm">
                 HQ
               </div>
             </div>
@@ -453,7 +453,7 @@ export default function AdminPortalLayout({
             <div className="relative flex w-72 flex-col bg-[#0e111b] p-5 text-white shadow-2xl z-10 border-r border-white/10">
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <span className="font-bold text-sm tracking-wide text-white flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-indigo-400" />
+                  <Shield className="h-4 w-4 text-red-500" />
                   Brotherhood HQ
                 </span>
                 <button
@@ -480,11 +480,11 @@ export default function AdminPortalLayout({
                           onClick={() => setMobileSidebarOpen(false)}
                           className={`flex items-center gap-3 rounded-lg px-3 py-2 text-xs font-medium ${
                             isActive
-                              ? "bg-[#181d2e] text-white font-semibold border border-indigo-500/40"
+                              ? "bg-[#1f1518] text-white font-semibold border border-red-500/40"
                               : "text-slate-400 hover:bg-white/[0.04]"
                           }`}
                         >
-                          <Icon className={`h-4 w-4 ${isActive ? "text-indigo-400" : "text-slate-500"}`} />
+                          <Icon className={`h-4 w-4 ${isActive ? "text-red-500" : "text-slate-500"}`} />
                           <span>{item.label}</span>
                         </Link>
                       );

@@ -344,15 +344,15 @@ export default async function PublicEventDetailPage({
 
             {/* EVENT SPONSORS / OFFICIAL PARTNERS CARD (LAYER 2) */}
             {eventSponsors.length > 0 && (
-              <div className="rounded-2xl border border-indigo-500/30 bg-[#121626] p-5 shadow-xl space-y-4">
+              <div className="rounded-2xl border border-red-500/30 bg-[#121626] p-5 shadow-xl space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Handshake className="h-4 w-4 text-indigo-400" />
+                    <Handshake className="h-4 w-4 text-red-400" />
                     <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white">
                       Didukung Mitra Resmi
                     </h4>
                   </div>
-                  <Badge className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30 text-[9px] font-mono">
+                  <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-[9px] font-mono">
                     EVENT SPONSOR
                   </Badge>
                 </div>
@@ -364,7 +364,7 @@ export default async function PublicEventDetailPage({
                       href={sp.websiteUrl || "#"}
                       target={sp.websiteUrl ? "_blank" : undefined}
                       rel="noreferrer"
-                      className="rounded-xl border border-white/10 bg-[#0a0d14] p-3 flex flex-col items-center justify-center text-center hover:border-indigo-500/50 hover:bg-[#161a2c] transition-all group"
+                      className="rounded-xl border border-white/10 bg-[#0a0d14] p-3 flex flex-col items-center justify-center text-center hover:border-red-500/50 hover:bg-[#161a2c] transition-all group"
                     >
                       <div className="h-14 w-full flex items-center justify-center mb-2 bg-[#080b12] rounded-lg p-2 border border-white/5">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -375,7 +375,7 @@ export default async function PublicEventDetailPage({
                           loading="lazy"
                         />
                       </div>
-                      <span className="text-[11px] font-display font-bold text-slate-200 group-hover:text-indigo-300 truncate w-full">
+                      <span className="text-[11px] font-display font-bold text-slate-200 group-hover:text-red-300 truncate w-full">
                         {sp.name}
                       </span>
                       <span className="text-[9px] font-mono text-emerald-400 truncate w-full mt-0.5">
