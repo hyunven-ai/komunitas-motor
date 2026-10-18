@@ -114,6 +114,7 @@ export default function MemberAttendancePage() {
     if (!dateStr) return "-";
     try {
       return new Date(dateStr).toLocaleDateString("id-ID", {
+        timeZone: "Asia/Jakarta",
         weekday: "long",
         day: "numeric",
         month: "long",
@@ -129,6 +130,7 @@ export default function MemberAttendancePage() {
     try {
       return (
         new Date(dateStr).toLocaleTimeString("id-ID", {
+          timeZone: "Asia/Jakarta",
           hour: "2-digit",
           minute: "2-digit",
         }) + " WIB"

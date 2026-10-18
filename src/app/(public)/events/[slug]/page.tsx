@@ -183,7 +183,9 @@ export default async function PublicEventDetailPage({
                 <Calendar className="h-4 w-4 text-muted-gold" />
                 <div>
                   <p className="text-[10px] uppercase">Waktu Pelaksanaan</p>
-                  <p className="font-bold text-bone">{event.startDate} - {event.endDate}</p>
+                  <p className="font-bold text-bone">
+                    {event.startDate === event.endDate ? event.startDate : `${event.startDate} - ${event.endDate}`}
+                  </p>
                 </div>
               </div>
 

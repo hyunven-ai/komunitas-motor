@@ -187,16 +187,45 @@ export default function AdminEventsPage() {
     fetchEvents();
   }, [fetchEvents]);
 
-  // Helper to convert ISO string to datetime-local input format (YYYY-MM-DDTHH:mm)
+  // Helper to convert ISO string to datetime-local input format (YYYY-MM-DDTHH:mm) in Asia/Jakarta (WIB)
   const toDateTimeLocal = (isoString?: string) => {
     if (!isoString) return "";
     try {
       const d = new Date(isoString);
       if (isNaN(d.getTime())) return "";
-      const pad = (n: number) => String(n).padStart(2, "0");
-      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      const formatter = new Intl.DateTimeFormat("sv-SE", {
+        timeZone: "Asia/Jakarta",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+      return formatter.format(d).replace(" ", "T");
     } catch {
       return "";
+    }
+  };
+
+  // Helper to convert datetime-local input string (YYYY-MM-DDTHH:mm) to ISO string in Asia/Jakarta (WIB, +07:00)
+  const toWibIsoString = (val?: string) => {
+    if (!val) return "";
+    try {
+      if (val.includes("Z") || val.includes("+") || val.lastIndexOf("-") > 7) {
+        return new Date(val).toISOString();
+      }
+      const [datePart, timePart] = val.split("T");
+      if (datePart && timePart) {
+        const timeSegments = timePart.split(":");
+        const hh = (timeSegments[0] || "00").padStart(2, "0");
+        const mm = (timeSegments[1] || "00").padStart(2, "0");
+        const ss = (timeSegments[2] || "00").padStart(2, "0");
+        return new Date(`${datePart}T${hh}:${mm}:${ss}+07:00`).toISOString();
+      }
+      return new Date(val).toISOString();
+    } catch {
+      return new Date(val).toISOString();
     }
   };
 
@@ -420,7 +449,11 @@ export default function AdminEventsPage() {
       setFormError("Waktu mulai, waktu selesai, dan batas registrasi wajib ditentukan.");
       return;
     }
-    if (new Date(formData.startTime) >= new Date(formData.endTime)) {
+    const startIso = toWibIsoString(formData.startTime);
+    const endIso = toWibIsoString(formData.endTime);
+    const deadlineIso = toWibIsoString(formData.registrationDeadline);
+
+    if (new Date(startIso) >= new Date(endIso)) {
       setFormError("Waktu selesai event harus lebih lama daripada waktu mulai.");
       return;
     }
@@ -438,9 +471,9 @@ export default function AdminEventsPage() {
         locationName: formData.locationName,
         locationAddress: formData.locationAddress || null,
         mapLink: formData.mapLink || null,
-        startTime: new Date(formData.startTime).toISOString(),
-        endTime: new Date(formData.endTime).toISOString(),
-        registrationDeadline: new Date(formData.registrationDeadline).toISOString(),
+        startTime: startIso,
+        endTime: endIso,
+        registrationDeadline: deadlineIso,
         capacity: Number(formData.capacity) || 50,
         fee: Number(formData.fee) || 0,
         status: formData.status,

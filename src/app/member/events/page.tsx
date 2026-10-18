@@ -56,11 +56,16 @@ function formatDateRange(start?: string, end?: string): string {
   try {
     const s = new Date(start);
     const dateStr = s.toLocaleDateString("id-ID", {
+      timeZone: "Asia/Jakarta",
       day: "numeric",
       month: "long",
       year: "numeric",
     });
-    const timeStr = s.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+    const timeStr = s.toLocaleTimeString("id-ID", {
+      timeZone: "Asia/Jakarta",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
     return `${dateStr} (${timeStr} WIB)`;
   } catch {
     return start;

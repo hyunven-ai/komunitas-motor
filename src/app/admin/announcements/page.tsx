@@ -153,6 +153,7 @@ export default function AdminAnnouncementsPage() {
     try {
       const d = new Date(dateStr);
       return d.toLocaleDateString("id-ID", {
+        timeZone: "Asia/Jakarta",
         day: "numeric",
         month: "long",
         year: "numeric",

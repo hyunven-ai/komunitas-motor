@@ -91,6 +91,7 @@ export default async function MemberEventDetailPage({
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "-";
     return new Date(dateStr).toLocaleDateString("id-ID", {
+      timeZone: "Asia/Jakarta",
       weekday: "long",
       day: "numeric",
       month: "long",

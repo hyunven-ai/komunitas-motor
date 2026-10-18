@@ -79,6 +79,7 @@ function formatRelativeTime(dateStr?: string) {
   const days = Math.floor(hours / 24);
   if (days < 30) return `${days} hari lalu`;
   return new Date(dateStr).toLocaleDateString("id-ID", {
+    timeZone: "Asia/Jakarta",
     day: "numeric",
     month: "short",
   });
@@ -442,6 +443,7 @@ export default function MemberDashboardPage() {
                           <span className="flex items-center gap-1.5 font-mono text-red-300">
                             <Clock className="h-3.5 w-3.5 shrink-0" />
                             {new Date(nextRegisteredEvent.startTime).toLocaleDateString("id-ID", {
+                              timeZone: "Asia/Jakarta",
                               weekday: "long",
                               day: "numeric",
                               month: "long",
