@@ -1,26 +1,608 @@
 @import "tailwindcss";
 
+@theme {
+  --font-display: var(--font-display), sans-serif;
+  --font-sans: var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --color-charcoal: #0B0D14;
+  --color-charcoal-card: #131724;
+  --color-charcoal-light: #161A29;
+  --color-asphalt: #131724;
+  --color-asphalt-light: #191E2E;
+  --color-bone: #F1F5F9;
+  --color-bone-muted: #94A3B8;
+  --color-muted-gold: #818CF8;
+  --color-muted-gold-hover: #6366F1;
+  --color-gold-dark: #4F46E5;
+  --color-amber-gold: #818CF8;
+  --color-forged-gold: #A5B4FC;
+  --color-tarmac: #07090E;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0B0D14;
+  --foreground: #F1F5F9;
+  --card: #131724;
+  --card-foreground: #F1F5F9;
+  --popover: #131724;
+  --popover-foreground: #F1F5F9;
+  --primary: #6366F1;
+  --primary-foreground: #FFFFFF;
+  --secondary: #191E2E;
+  --secondary-foreground: #F1F5F9;
+  --muted: #161A29;
+  --muted-foreground: #94A3B8;
+  --accent: #6366F1;
+  --accent-foreground: #FFFFFF;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: #161A29;
+  --ring: #6366F1;
+  --radius: 0.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  border-color: var(--border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  selection-background-color: #6366F1;
+  selection-color: #FFFFFF;
+}
+
+/* Custom scrollbar for brotherhood theme */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #0B0D14;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E2438;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6366F1;
+}
+
+/* Mechanical & Biker Design System Utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Tactile Asphalt & Mesh Background */
+.bg-asphalt-grit {
+  background-color: #0B0D14;
+  background-image: radial-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.03) 1px, #0B0D14 1px);
+  background-size: 28px 28px, 14px 14px;
+}
+
+/* Highway Center-line stripe divider */
+.highway-stripe {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #6366F1 0px,
+    #6366F1 24px,
+    transparent 24px,
+    transparent 40px
+  );
+  height: 2px;
+}
+
+/* Chamfered Tactical Corner Cut */
+.tactical-cut {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 16px) 0,
+    100% 16px,
+    100% 100%,
+    16px 100%,
+    0 calc(100% - 16px)
+  );
+}
+
+.tactical-cut-sm {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+}
+
+/* Metallic Indigo & Cool White Sheen Text */
+.text-metallic-gold {
+  background: linear-gradient(135deg, #FFFFFF 0%, #A5B4FC 50%, #6366F1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Embossed Badge Border Glow */
+.gold-glow {
+  box-shadow: 0 0 25px -4px rgba(99, 102, 241, 0.35);
+}
+
+/* Perforated Ticket Notch (Left & Right) */
+.ticket-notch-l {
+  position: relative;
+}
+.ticket-notch-l::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background-color: var(--background);
+}
+
+/* Continuous Marquee Ticker Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ============================================================================ */
+/* WORDPRESS-STYLE RICH ARTICLE PROSE TYPOGRAPHY                                */
+/* ============================================================================ */
+.article-prose h2 {
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.65rem;
+  line-height: 1.25;
+  color: #f59e0b; /* amber-400 */
+  margin-top: 2rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+  letter-spacing: 0.025em;
+}
+
+@media (min-width: 640px) {
+  .article-prose h2 {
+    font-size: 2.15rem;
+  }
+}
+
+.article-prose h3 {
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  line-height: 1.35;
+  color: #F2ECE1; /* bone */
+  margin-top: 1.65rem;
+  margin-bottom: 0.65rem;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 640px) {
+  .article-prose h3 {
+    font-size: 1.55rem;
+  }
+}
+
+.article-prose h4 {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #C2A265;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-prose p {
+  color: rgba(242, 236, 225, 0.9);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+}
+
+.article-prose blockquote {
+  border-left: 4px solid #f59e0b;
+  background-color: rgba(35, 39, 36, 0.7);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  font-family: var(--font-display), serif;
+  color: #F2ECE1;
+  border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.article-prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: rgba(242, 236, 225, 0.9);
+}
+
+.article-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: rgba(242, 236, 225, 0.9);
+}
+
+.article-prose li {
+  margin-bottom: 0.4rem;
+  line-height: 1.65;
+}
+
+.article-prose a {
+  color: #f59e0b;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.15s;
+}
+
+.article-prose a:hover {
+  color: #fbbf24;
+}
+
+.article-prose strong,
+.article-prose b {
+  font-weight: 700;
+  color: #F2ECE1;
+}
+
+.article-prose em,
+.article-prose i {
+  font-style: italic;
+}
+
+.article-prose u {
+  text-decoration: underline;
+}
+
+.article-prose s,
+.article-prose strike {
+  text-decoration: line-through;
+}
+
+.article-prose hr {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 2rem 0;
+}
+
+.article-prose img {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1.5rem 0;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================================ */
+/* APEX COSMIC OBSIDIAN DARK THEME UTILITIES (MATCHING SCREENSHOT)             */
+/* ============================================================================ */
+.bg-apex-dark {
+  background-color: #0b0d14;
+}
+
+.bg-apex-sidebar {
+  background-color: #0f121d;
+}
+
+.bg-apex-card {
+  background-color: #131724;
+}
+
+.bg-apex-card-subtle {
+  background-color: #171c2c;
+}
+
+.bg-apex-active {
+  background-color: #181d2e;
+}
+
+.border-apex {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.border-apex-glow {
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.text-apex-muted {
+  color: #8b95a5;
+}
+
+.text-apex-sub {
+  color: #5d6a7e;
+}
+
+.shadow-apex-glow {
+  box-shadow: 0 0 16px -2px rgba(99, 102, 241, 0.22);
+}
+
+.shadow-apex-light {
+  box-shadow: 0 0 45px 8px rgba(129, 140, 248, 0.18);
+}
+
+.cosmic-radial-glow {
+  background-image: 
+    radial-gradient(circle at 85% 12%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 15% 85%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
+}
+
+/* ============================================================================ */
+/* APEX COSMIC OBSIDIAN THEME OVERRIDES FOR ADMIN & MEMBER PAGES                */
+/* Replaces all brown/gold/charcoal tokens with deep indigo & obsidian palette  */
+/* ============================================================================ */
+.admin-portal-theme,
+.member-portal-theme {
+  --color-charcoal: #0e111b;
+  --color-charcoal-card: #131724;
+  --color-charcoal-light: #181d2e;
+  --color-asphalt: #131724;
+  --color-asphalt-light: #191e2e;
+  --color-bone: #ffffff;
+  --color-bone-muted: #94a3b8;
+  --color-muted-gold: #818cf8;
+  --color-muted-gold-hover: #6366f1;
+  --color-gold-dark: #4f46e5;
+  --color-forged-gold: #a5b4fc;
+  --color-amber-gold: #38bdf8;
+  --color-tarmac: #07090e;
+  --background: #0b0d14;
+  --foreground: #f8fafc;
+  --card: #131724;
+  --card-foreground: #f8fafc;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --secondary: #171b29;
+  --secondary-foreground: #f8fafc;
+  --muted: #171b29;
+  --muted-foreground: #94a3b8;
+  --accent: #6366f1;
+  --accent-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+/* 1. TEXT COLOR OVERRIDES */
+.admin-portal-theme .text-muted-gold,
+.member-portal-theme .text-muted-gold,
+.admin-portal-theme [class*="text-muted-gold"],
+.member-portal-theme [class*="text-muted-gold"] {
+  color: #818cf8 !important;
+}
+
+.admin-portal-theme .text-bone,
+.member-portal-theme .text-bone {
+  color: #ffffff !important;
+}
+
+.admin-portal-theme .text-bone-muted,
+.member-portal-theme .text-bone-muted,
+.admin-portal-theme [class*="text-bone-muted"],
+.member-portal-theme [class*="text-bone-muted"] {
+  color: #94a3b8 !important;
+}
+
+.admin-portal-theme .text-metallic-gold,
+.member-portal-theme .text-metallic-gold {
+  background: linear-gradient(135deg, #ffffff 0%, #818cf8 50%, #38bdf8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* 2. BACKGROUND COLOR OVERRIDES */
+.admin-portal-theme .bg-charcoal,
+.member-portal-theme .bg-charcoal,
+.admin-portal-theme [class*="bg-charcoal/"],
+.member-portal-theme [class*="bg-charcoal/"] {
+  background-color: #0e111b !important;
+}
+
+.admin-portal-theme .bg-asphalt,
+.member-portal-theme .bg-asphalt,
+.admin-portal-theme [class*="bg-asphalt/"],
+.member-portal-theme [class*="bg-asphalt/"],
+.admin-portal-theme .bg-charcoal-card,
+.member-portal-theme .bg-charcoal-card {
+  background-color: #131724 !important;
+}
+
+/* 3. BORDER COLOR OVERRIDES */
+.admin-portal-theme .border-muted-gold,
+.member-portal-theme .border-muted-gold,
+.admin-portal-theme [class*="border-muted-gold"],
+.member-portal-theme [class*="border-muted-gold"] {
+  border-color: rgba(99, 102, 241, 0.35) !important;
+}
+
+.admin-portal-theme .border-white\/10,
+.member-portal-theme .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.admin-portal-theme .border-white\/5,
+.member-portal-theme .border-white\/5 {
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* 4. BADGES (NO MORE SOLID BROWN BLOCKS) */
+.admin-portal-theme div[class*="bg-muted-gold"],
+.member-portal-theme div[class*="bg-muted-gold"],
+.admin-portal-theme span[class*="bg-muted-gold"],
+.member-portal-theme span[class*="bg-muted-gold"] {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  border-color: rgba(99, 102, 241, 0.35) !important;
+  color: #a5b4fc !important;
+}
+
+/* 5. BUTTONS (ELECTRIC INDIGO SHADOW & HOVER) */
+.admin-portal-theme button.bg-muted-gold,
+.member-portal-theme button.bg-muted-gold,
+.admin-portal-theme button[class*="bg-muted-gold"],
+.member-portal-theme button[class*="bg-muted-gold"] {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.32) !important;
+}
+
+.admin-portal-theme button.bg-muted-gold:hover,
+.member-portal-theme button.bg-muted-gold:hover,
+.admin-portal-theme button[class*="bg-muted-gold"]:hover,
+.member-portal-theme button[class*="bg-muted-gold"]:hover {
+  background-color: #4338ca !important;
+}
+
+.admin-portal-theme button[class*="border-muted-gold"],
+.member-portal-theme button[class*="border-muted-gold"] {
+  border-color: rgba(99, 102, 241, 0.35) !important;
+  color: #cbd5e1 !important;
+}
+
+.admin-portal-theme button[class*="border-muted-gold"]:hover,
+.member-portal-theme button[class*="border-muted-gold"]:hover {
+  border-color: #818cf8 !important;
+  background-color: rgba(99, 102, 241, 0.12) !important;
+  color: #ffffff !important;
+}
+
+/* 6. CARD CONTAINERS */
+.admin-portal-theme .rounded-lg.border,
+.member-portal-theme .rounded-lg.border,
+.admin-portal-theme .rounded-xl.border,
+.member-portal-theme .rounded-xl.border,
+.admin-portal-theme .rounded-2xl.border,
+.member-portal-theme .rounded-2xl.border {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 7. MODERN TYPOGRAPHY: Transform vintage serif to sleek modern sans */
+.admin-portal-theme .font-serif,
+.member-portal-theme .font-serif {
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: -0.015em;
+}
+
+/* 8. INPUTS AND DROPDOWNS */
+.admin-portal-theme input,
+.member-portal-theme input,
+.admin-portal-theme select,
+.member-portal-theme select,
+.admin-portal-theme textarea,
+.member-portal-theme textarea {
+  background-color: #131724 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.admin-portal-theme input:focus,
+.member-portal-theme input:focus,
+.admin-portal-theme select:focus,
+.member-portal-theme select:focus,
+.admin-portal-theme textarea:focus,
+.member-portal-theme textarea:focus {
+  border-color: rgba(99, 102, 241, 0.5) !important;
+}
+
+/* 9. MOTORSPORT / TACHOMETER LOADING KEYFRAMES */
+@keyframes scanner-line {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(220%);
+    opacity: 0;
+  }
+}
+
+@keyframes progress-glow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* 10. MODERN SECTION & CARD ANIMATION KEYFRAMES */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.6deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes holographic-shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Luxury Interactive Card Utility */
+.modern-card-interactive {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modern-card-interactive:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.22),
+              0 0 20px rgba(99, 102, 241, 0.15);
+  border-color: rgba(129, 140, 248, 0.45);
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 5s ease-in-out infinite;
 }

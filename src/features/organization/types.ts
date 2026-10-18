@@ -1,0 +1,74 @@
+export interface OrganizationPledgeItem {
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface OrganizationProfile {
+  historySubtitle: string;
+  historyTitle: string;
+  historyDescription: string;
+  visionBadge: string;
+  visionTitle: string;
+  visionText: string;
+  missionBadge: string;
+  missionTitle: string;
+  missions: string[];
+  sopBadge: string;
+  sopTitle: string;
+  sopItems: OrganizationPledgeItem[];
+  updatedAt?: string;
+}
+
+export const DEFAULT_ORGANIZATION_PROFILE: OrganizationProfile = {
+  historySubtitle: "Profil & Sejarah Organisasi",
+  historyTitle: "MENJELAJAH DENGAN KEHORMATAN, BERSAUDARA DALAM KEBAIKAN",
+  historyDescription:
+    "Berdiri sejak Oktober 2018 di kaki Gunung Salak, Bogor. Brotherhood Community lahir dari inisiatif sekelompok rider lintas profesi yang rindu akan komunitas motor yang tertib, jauh dari arogansi, dan memiliki dampak sosial nyata bagi daerah yang dilalui.",
+  visionBadge: "VISION 2030",
+  visionTitle: "Visi Komunitas",
+  visionText:
+    "Menjadi barometer komunitas motor touring di Indonesia yang terdepan dalam keselamatan berkendara, tata kelola organisasi yang transparan, serta persaudaraan sejati tanpa membedakan merk, kapasitas mesin, latar belakang, dan status sosial anggota.",
+  missionBadge: "CORE MISSION",
+  missionTitle: "Misi Pokok",
+  missions: [
+    "Menyelenggarakan kegiatan touring terstruktur dengan manajemen rute dan SOP safety riding berstandar.",
+    "Mengikis stigma negatif klub motor arogan melalui ketertiban di jalan raya dan edukasi berkendara sopan.",
+    "Melaksanakan aksi filantropi dan kepedulian lingkungan di setiap destinasi touring yang disinggahi.",
+    "Tata kelola keuangan mandiri dan laporan terbuka bagi seluruh anggota melalui portal digital.",
+  ],
+  sopBadge: "SOP Jalanan & Dokumen Resmi Ikrar",
+  sopTitle: "5 IKRAR KESELAMATAN BERKENDARA ANGGOTA BROTHERHOOD",
+  sopItems: [
+    {
+      number: "01",
+      title: "Kelengkapan Perlindungan Pribadi",
+      description:
+        "Wajib menggunakan helm standar SNI/DOT/ECE, jaket riding dengan protektor, celana panjang tebal, sarung tangan tertutup, dan sepatu menutupi mata kaki.",
+    },
+    {
+      number: "02",
+      title: "Zero Alcohol & Drugs",
+      description:
+        "Dilarang keras mengonsumsi alkohol, obat terlarang, atau zat yang memicu kantuk sebelum maupun selama mengendalikan kendaraan bermotor.",
+    },
+    {
+      number: "03",
+      title: "Menghormati Pengguna Jalan Lain",
+      description:
+        "Tidak menggunakan sirine, lampu strobo ilegal, atau memotong antrean secara intimidatif. Jalan raya adalah milik bersama.",
+    },
+    {
+      number: "04",
+      title: "Kepatuhan Terhadap Komando Road Captain (RC)",
+      description:
+        "Seluruh peserta konvoi wajib mematuhi sinyal tangan, batas kecepatan konvoi, dan formasi yang ditetapkan oleh Road Captain dan Safety Officer.",
+    },
+    {
+      number: "05",
+      title: "Kelayakan Teknis Kendaraan",
+      description:
+        "Ban laik jalan, rem depan dan belakang berfungsi optimal, lampu penerangan menyala, dan surat-surat kendaraan (STNK & SIM C) masih berlaku sah.",
+    },
+  ],
+};

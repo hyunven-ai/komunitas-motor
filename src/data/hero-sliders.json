@@ -1,0 +1,58 @@
+[
+  {
+    "id": "slide-2",
+    "headlinePart1": "MENAKLUKKAN",
+    "headlineGold": "DIENG PLATEAU.",
+    "taglineSub": "Ekspedisi 2.093 MDPL • Jalur Tanjakan Sikatok • Formasi Zig-zag Tertib",
+    "subtitle": "Menembus medan ekstrem pegunungan berkabut dalam barisan formasi konvoi selang-seling yang disiplin, aman, dan berpegang teguh pada prinsip zero incident.",
+    "location": "Dieng Plateau, Wonosobo",
+    "date": "2.093 MDPL • 1.200 KM",
+    "bgUrl": "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=2400&q=95",
+    "ctaText": "LIHAT AGENDA TOURING",
+    "ctaLink": "/events",
+    "isActive": true,
+    "orderIndex": 0
+  },
+  {
+    "id": "slide-1",
+    "headlinePart1": "SATU ASPAL,",
+    "headlineGold": "SATU JIWA.",
+    "taglineSub": "Touring & Safety Riding • Solidaritas Kemanusiaan • KTA Digital Terverifikasi",
+    "subtitle": "Wadah resmi perkumpulan penjelajah jalanan nusantara yang menjunjung tinggi kehormatan, kepatuhan safety riding tanpa kompromi, dan kepedulian sosial bagi sesama.",
+    "location": "Jalur Pesisir Selatan & Puncak",
+    "date": "Ekspedisi Rutin 2026",
+    "bgUrl": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=2400&q=95",
+    "ctaText": "DAFTAR CALON MEMBER",
+    "ctaLink": "/join",
+    "isActive": true,
+    "orderIndex": 1
+  },
+  {
+    "id": "slide-3",
+    "headlinePart1": "RESPECT ALL,",
+    "headlineGold": "FEAR NONE.",
+    "taglineSub": "Adab Berkendara • Zero Strobo Liar • Santun di Pemukiman Warga",
+    "subtitle": "Arogansi adalah pantangan besar dalam kode etik Brotherhood. Kami mengendarai kuda besi dengan tertib, santun kepada warga lokal dan seluruh pengguna jalan raya.",
+    "location": "Lintas Jawa - Bali & Lombok",
+    "date": "Dedikasi Sewindu 2018-2026",
+    "bgUrl": "https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=2400&q=95",
+    "ctaText": "PELAJARI KODE ETIK",
+    "ctaLink": "/about",
+    "isActive": true,
+    "orderIndex": 2
+  },
+  {
+    "id": "slide-4",
+    "headlinePart1": "LEBIH DARI HOBI,",
+    "headlineGold": "KAMI KELUARGA.",
+    "taglineSub": "Bakti Sosial Panti Asuhan • Tim Rescue Darurat • Dana Gotong Royong",
+    "subtitle": "Setiap perputaran roda selalu membawa misi bakti sosial, renovasi fasilitas desa terpencil, dan aksi pertolongan tanggap darurat jalan raya bagi yang membutuhkan.",
+    "location": "Bakti Sosial & Rescue Darurat",
+    "date": "100% Non-Komersial",
+    "bgUrl": "https://images.unsplash.com/photo-1558981359-219d6364c9c8?auto=format&fit=crop&w=2400&q=95",
+    "ctaText": "DOKUMENTASI BAKSOS",
+    "ctaLink": "/gallery",
+    "isActive": true,
+    "orderIndex": 3
+  }
+]
