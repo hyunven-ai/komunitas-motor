@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Shield,
@@ -190,12 +191,18 @@ export default function AdminPortalLayout({
         {/* Brand / Workspace Switcher Header */}
         <div className="flex h-16 items-center justify-between border-b border-white/[0.07] px-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-[#171b29] text-white shadow-inner">
-              <Shield className="h-5 w-5 text-red-500" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-[#171b29] p-1 text-white shadow-inner">
+              <Image
+                src="/icon.png"
+                alt="Borneo Brotherhood"
+                width={28}
+                height={28}
+                className="h-full w-full object-contain"
+              />
             </div>
             <div className="leading-tight">
               <span className="font-bold text-sm tracking-wide text-white flex items-center gap-1.5">
-                Brotherhood <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30 font-mono">HQ</span>
+                Borneo Brotherhood <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30 font-mono">HQ</span>
               </span>
               <p className="text-[11px] text-slate-400 font-medium">Management Suite</p>
             </div>
@@ -453,8 +460,14 @@ export default function AdminPortalLayout({
             <div className="relative flex w-72 flex-col bg-[#0e111b] p-5 text-white shadow-2xl z-10 border-r border-white/10">
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <span className="font-bold text-sm tracking-wide text-white flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-red-500" />
-                  Brotherhood HQ
+                  <Image
+                    src="/icon.png"
+                    alt="Borneo Brotherhood"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
+                  />
+                  Borneo Brotherhood HQ
                 </span>
                 <button
                   onClick={() => setMobileSidebarOpen(false)}

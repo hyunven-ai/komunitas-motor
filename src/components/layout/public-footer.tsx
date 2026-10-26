@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Shield, MapPin, Phone, Mail } from "lucide-react";
 import { SystemSettings } from "@/features/settings/types";
 
@@ -26,18 +27,17 @@ export function PublicFooter({ settings }: PublicFooterProps) {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4 lg:gap-12">
           {/* Identity */}
           <div className="space-y-4 md:col-span-1 lg:col-span-1">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#12141C]">
-                <Shield className="h-5 w-5 text-red-500" />
-              </div>
-              <div>
-                <span className="font-display text-lg font-bold tracking-wider text-[#F5F5F2] uppercase">
-                  BROTHERHOOD MC
-                </span>
-                <p className="text-[10px] tracking-widest text-neutral-400 font-mono uppercase">
-                  Est. 2018 &bull; {siteName}
-                </p>
-              </div>
+            <div className="flex flex-col gap-2.5">
+              <Image
+                src="/logo.png"
+                alt="Borneo Brotherhood"
+                width={240}
+                height={54}
+                className="h-12 sm:h-14 w-auto object-contain drop-shadow-[0_2px_12px_rgba(239,68,68,0.3)]"
+              />
+              <p className="text-[10px] tracking-widest text-neutral-400 font-mono uppercase">
+                Est. 2018 &bull; {siteName}
+              </p>
             </div>
             <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed font-sans">
               Komunitas pecinta touring motor roda dua berasaskan persaudaraan sejati, ketertiban di jalan raya, dan komitmen zero-accident safety riding di setiap rute aspal Nusantara.

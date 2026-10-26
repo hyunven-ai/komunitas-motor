@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Gauge, Shield, Zap, Sparkles } from "lucide-react";
 
@@ -90,11 +91,17 @@ export function FrontendPreloader() {
               />
             </svg>
 
-            {/* Shield Center Dial */}
-            <div className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-b from-[#181114] to-[#0A0D14] border border-red-500/40 shadow-[0_0_35px_rgba(220,38,38,0.3)] flex flex-col items-center justify-center overflow-hidden">
+            {/* Shield / Emblem Center Dial */}
+            <div className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-b from-[#181114] to-[#0A0D14] border border-red-500/40 shadow-[0_0_35px_rgba(220,38,38,0.3)] flex flex-col items-center justify-center overflow-hidden p-2">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-500/15 to-transparent animate-[scanner-line_2s_ease-in-out_infinite]" />
               
-              <Shield className="w-9 h-9 sm:w-10 sm:h-10 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.9)] animate-pulse" />
+              <Image
+                src="/icon.png"
+                alt="Borneo Brotherhood"
+                width={48}
+                height={48}
+                className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(239,68,68,0.9)] animate-pulse"
+              />
               
               {/* Odometer Progress Count */}
               <div className="mt-1 flex items-baseline justify-center gap-0.5 w-16">
@@ -134,7 +141,7 @@ export function FrontendPreloader() {
             </div>
 
             <p className="text-[10px] font-mono tracking-widest text-slate-400 uppercase">
-              BROTHERHOOD MOTORCYCLE COMMUNITY • GPS READY
+              BORNEO BROTHERHOOD MOTORCYCLE COMMUNITY • GPS READY
             </p>
           </div>
         </div>

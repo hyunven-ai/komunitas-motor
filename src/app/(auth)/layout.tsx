@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Shield } from "lucide-react";
+import Image from "next/image";
 
 export default function AuthLayout({
   children,
@@ -12,18 +12,18 @@ export default function AuthLayout({
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-red-600/10 via-sky-500/5 to-transparent blur-[120px] rounded-full pointer-events-none" />
 
       {/* Top Logo */}
-      <Link href="/" className="mb-6 flex items-center gap-3 group relative z-10">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#161a29] shadow-inner transition-transform group-hover:scale-105">
-          <Shield className="h-6 w-6 text-red-400" />
-        </div>
-        <div className="flex flex-col">
-          <span className="font-bold text-lg tracking-wider text-white uppercase">
-            BROTHERHOOD
-          </span>
-          <span className="text-[10px] tracking-widest text-red-400 font-mono uppercase font-semibold">
-            Community Portal
-          </span>
-        </div>
+      <Link href="/" className="mb-6 flex flex-col items-center gap-2 group relative z-10 text-center">
+        <Image
+          src="/logo.png"
+          alt="Borneo Brotherhood"
+          width={260}
+          height={58}
+          priority
+          className="h-14 sm:h-16 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-[0_2px_14px_rgba(239,68,68,0.35)]"
+        />
+        <span className="text-[10px] tracking-widest text-red-400 font-mono uppercase font-semibold">
+          Community Portal
+        </span>
       </Link>
 
       <main className="w-full max-w-md relative z-10">{children}</main>

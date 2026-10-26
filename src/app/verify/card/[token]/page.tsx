@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Shield, CheckCircle2, AlertTriangle, ArrowLeft, Bike, Calendar, MapPin } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -100,13 +101,15 @@ export default async function VerifyCardPage({
 
       {/* Brand Icon */}
       <div className="mb-6 flex flex-col items-center text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-muted-gold/40 bg-asphalt shadow-inner">
-          <Shield className="h-7 w-7 text-muted-gold" />
-        </div>
-        <h2 className="font-serif text-lg font-black tracking-widest text-bone uppercase mt-2">
-          BROTHERHOOD
-        </h2>
-        <p className="text-[10px] tracking-wider text-muted-gold font-mono uppercase">
+        <Image
+          src="/logo.png"
+          alt="Borneo Brotherhood"
+          width={260}
+          height={58}
+          priority
+          className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_14px_rgba(239,68,68,0.35)]"
+        />
+        <p className="text-[10px] tracking-wider text-red-400 font-mono uppercase mt-1.5 font-semibold">
           Sistem Verifikasi KTA Resmi
         </p>
       </div>

@@ -26,9 +26,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Brotherhood Community Portal — Motorcycle Touring & Brotherhood",
+  title: "Borneo Brotherhood — Motorcycle Touring & Brotherhood Portal",
   description:
-    "Portal resmi manajemen komunitas motor touring Brotherhood. Info touring, pendaftaran anggota, KTA digital dengan verifikasi QR, dan forum anggota.",
+    "Portal resmi manajemen komunitas motor touring Borneo Brotherhood. Info touring, pendaftaran anggota, KTA digital dengan verifikasi QR, dan forum anggota.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png" }],
+  },
 };
 
 export default function RootLayout({

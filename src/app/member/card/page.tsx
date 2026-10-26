@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import QRCode from "qrcode";
 import {
   Shield,
@@ -83,22 +84,34 @@ export default function DigitalCardPage() {
             {/* FRONT OF THE CARD */}
             <div className="absolute inset-0 backface-hidden rounded-2xl border-2 border-muted-gold/50 bg-gradient-to-br from-[#1c1e1c] via-[#161816] to-[#0e100e] p-6 text-bone shadow-2xl flex flex-col justify-between overflow-hidden">
               {/* Subtle background texture & watermark */}
-              <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-muted-gold/10 blur-2xl pointer-events-none" />
-              <div className="absolute right-6 top-6 opacity-5 pointer-events-none">
-                <Shield className="w-48 h-48" />
+              <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-red-600/10 blur-2xl pointer-events-none" />
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
+                <Image
+                  src="/icon.png"
+                  alt="Watermark"
+                  width={140}
+                  height={140}
+                  className="object-contain"
+                />
               </div>
 
               {/* Card Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3 relative z-10">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-muted-gold/60 bg-charcoal shadow-inner">
-                    <Shield className="h-5 w-5 text-muted-gold" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-red-500/50 bg-[#161a29] p-1 shadow-inner">
+                    <Image
+                      src="/icon.png"
+                      alt="Emblem"
+                      width={28}
+                      height={28}
+                      className="object-contain"
+                    />
                   </div>
                   <div>
                     <h3 className="font-serif font-black tracking-widest text-sm text-bone uppercase leading-none">
-                      BROTHERHOOD
+                      BORNEO BROTHERHOOD
                     </h3>
-                    <p className="text-[8px] font-mono tracking-widest text-muted-gold uppercase mt-0.5">
+                    <p className="text-[8px] font-mono tracking-widest text-red-400 uppercase mt-0.5">
                       Motorcycle Community &bull; Indonesia
                     </p>
                   </div>

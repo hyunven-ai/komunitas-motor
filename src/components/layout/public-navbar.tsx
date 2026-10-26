@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Shield, Menu, X, User, UserPlus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -57,23 +58,22 @@ export function PublicNavbar({ settings }: PublicNavbarProps) {
             : "bg-gradient-to-b from-[#0B0D12]/95 via-[#0B0D12]/70 to-transparent border-b border-white/5"
         }`}
       >
-        <div className="container mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto flex h-20 sm:h-22 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Brand Logo & Lockup */}
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="group flex items-center gap-3 shrink-0 pr-4"
+            className="group flex items-center shrink-0 pr-4 sm:pr-6"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#14161F] border border-white/10 transition-colors group-hover:border-red-600/60">
-              <Shield className="h-5 w-5 text-red-500" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display text-xl font-bold tracking-wider text-[#F5F5F2] uppercase group-hover:text-red-400 transition-colors whitespace-nowrap">
-                BROTHERHOOD
-              </span>
-              <span className="text-[10px] tracking-widest text-neutral-400 font-mono uppercase">
-                Touring &bull; Est. 2018
-              </span>
+            <div className="relative flex items-center py-1">
+              <Image
+                src="/logo.png"
+                alt="Borneo Brotherhood"
+                width={260}
+                height={58}
+                priority
+                className="h-12 sm:h-14 lg:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_2px_14px_rgba(239,68,68,0.35)]"
+              />
             </div>
           </Link>
 
@@ -146,19 +146,16 @@ export function PublicNavbar({ settings }: PublicNavbarProps) {
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3"
+              className="flex items-center"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#181B26] border border-white/10">
-                <Shield className="h-4 w-4 text-red-500" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-display text-base font-bold tracking-widest text-[#F5F5F2] uppercase">
-                  BROTHERHOOD MC
-                </span>
-                <span className="text-[9px] tracking-widest text-neutral-400 font-mono uppercase">
-                  Touring Community
-                </span>
-              </div>
+              <Image
+                src="/logo.png"
+                alt="Borneo Brotherhood"
+                width={210}
+                height={46}
+                priority
+                className="h-11 sm:h-12 w-auto object-contain drop-shadow-[0_2px_10px_rgba(239,68,68,0.3)]"
+              />
             </Link>
 
             <button
