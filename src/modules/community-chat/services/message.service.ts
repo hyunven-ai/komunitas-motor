@@ -158,19 +158,19 @@ export async function fetchMessagesByRoom(
     }
 
     // Collect sender IDs to fetch profiles and roles in a single batch
-    const senderIds = Array.from(new Set(messages.map((m) => m.sender_id)));
+    const senderIds = Array.from(new Set(messages.map((m: any) => m.sender_id)));
     const [profilesRes, rolesRes, membersRes] = await Promise.all([
       supabase.from("profiles").select("*").in("id", senderIds),
       supabase.from("user_roles").select("*").in("user_id", senderIds),
       supabase.from("members").select("user_id, member_number").in("user_id", senderIds),
     ]);
 
-    const profileMap = new Map((profilesRes.data || []).map((p) => [p.id, p]));
-    const roleMap = new Map((rolesRes.data || []).map((r) => [r.user_id, r.role as AppRole]));
-    const memberMap = new Map((membersRes.data || []).map((m) => [m.user_id, m.member_number]));
+    const profileMap = new Map(((profilesRes.data || []) as any[]).map((p: any) => [p.id, p]));
+    const roleMap = new Map(((rolesRes.data || []) as any[]).map((r: any) => [r.user_id, r.role as AppRole]));
+    const memberMap = new Map(((membersRes.data || []) as any[]).map((m: any) => [m.user_id, m.member_number]));
 
     return messages.map((m: any) => {
-      const profile = profileMap.get(m.sender_id);
+      const profile = profileMap.get(m.sender_id) as any;
       const role = roleMap.get(m.sender_id) || "member";
       const memberNumber = memberMap.get(m.sender_id) || "BMC-MEMBER";
 

@@ -71,7 +71,7 @@ export default function MemberLoginPage() {
           .select("role")
           .eq("user_id", data.user.id);
 
-        const hasAdmin = roles?.some((r) =>
+        const hasAdmin = roles?.some((r: { role: string }) =>
           ["super_admin", "chairman", "admin", "treasurer", "event_officer", "moderator"].includes(r.role)
         );
 

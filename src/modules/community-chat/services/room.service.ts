@@ -4,7 +4,7 @@ import { ChatRoom, ChatRoomCategory } from "../types/chat.types";
 export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
   // Community
   {
-    id: "room-gen-001",
+    id: "4e966ba6-7ce8-4c84-b97b-87a2556c45a9",
     name: "general",
     slug: "general",
     description: "Obrolan santai seputar komunitas motor dan brotherhood.",
@@ -19,7 +19,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     unread_count: 0,
   },
   {
-    id: "room-intro-002",
+    id: "a0356c96-847c-45ad-aa91-a9a07e77f1f1",
     name: "perkenalan",
     slug: "introductions",
     description: "Ruang perkenalan bagi anggota baru Borneo Brotherhood.",
@@ -34,7 +34,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     unread_count: 0,
   },
   {
-    id: "room-ann-003",
+    id: "823e7240-3533-4f69-90fc-07c25b442e77",
     name: "pengumuman",
     slug: "announcements",
     description: "Pemberitahuan resmi dari Dewan Pengurus & Komite.",
@@ -46,10 +46,10 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     position: 3,
     created_at: "2026-01-01T00:00:00Z",
     updated_at: "2026-01-01T00:00:00Z",
-    unread_count: 1,
+    unread_count: 0,
   },
   {
-    id: "room-rnd-004",
+    id: "0b9828dc-7375-4ee8-8a56-b329e35147b4",
     name: "santai-random",
     slug: "random",
     description: "Topik bebas, guyonan santai, dan berbagi cerita aspal.",
@@ -66,7 +66,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
 
   // Riding & Events
   {
-    id: "room-tour-010",
+    id: "9ae350a2-0785-4330-90b4-c53680a72adc",
     name: "agenda-touring",
     slug: "touring",
     description: "Koordinasi touring lintas kota dan ekspedisi Borneo.",
@@ -78,10 +78,10 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     position: 10,
     created_at: "2026-01-01T00:00:00Z",
     updated_at: "2026-01-01T00:00:00Z",
-    unread_count: 3,
+    unread_count: 0,
   },
   {
-    id: "room-ev-011",
+    id: "cb3f863a-d544-4abd-8636-2db2a6176848",
     name: "event-mendatang",
     slug: "upcoming-events",
     description: "Diskusi seputar agenda kumpul, anniversary, dan baksos.",
@@ -96,7 +96,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     unread_count: 0,
   },
   {
-    id: "room-mc-012",
+    id: "29c7e2b4-9752-42b4-8583-f867691525c2",
     name: "bincang-motor",
     slug: "motorcycle-talk",
     description: "Tips modifikasi, perawatan mesin, ban, suspensi & riding gear.",
@@ -111,7 +111,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     unread_count: 0,
   },
   {
-    id: "room-rep-013",
+    id: "a64f1bb0-3fb4-44b6-a2b4-62107bdfda64",
     name: "catatan-perjalanan",
     slug: "ride-reports",
     description: "Foto dan cerita keseruan setelah ekspedisi touring.",
@@ -128,7 +128,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
 
   // Chapters
   {
-    id: "room-ptk-020",
+    id: "53210682-9929-4b6b-9645-80155ec44927",
     name: "chapter-pontianak",
     slug: "pontianak",
     description: "Ruang komunikasi resmi anggota Chapter Pontianak.",
@@ -143,7 +143,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     unread_count: 0,
   },
   {
-    id: "room-skw-021",
+    id: "b65ebf9c-7c12-4ac3-aa8a-b510a76bb1e0",
     name: "chapter-singkawang",
     slug: "singkawang",
     description: "Ruang komunikasi resmi anggota Chapter Singkawang.",
@@ -158,7 +158,7 @@ export const DEFAULT_CHAT_ROOMS: ChatRoom[] = [
     unread_count: 0,
   },
   {
-    id: "room-mpw-022",
+    id: "6582935b-7679-45b8-8c42-5a7726a3cf91",
     name: "chapter-mempawah",
     slug: "mempawah",
     description: "Ruang komunikasi resmi anggota Chapter Mempawah.",
@@ -186,7 +186,7 @@ export async function fetchChatRooms(): Promise<ChatRoom[]> {
       return DEFAULT_CHAT_ROOMS;
     }
 
-    return data.map((room) => ({
+    return (data as any[]).map((room: any) => ({
       id: room.id,
       name: room.name,
       slug: room.slug,

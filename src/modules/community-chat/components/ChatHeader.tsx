@@ -36,6 +36,7 @@ export function ChatHeader({
   showMembers,
   pinnedCount = 0,
   onTogglePinned,
+  isRealtimeConnected = true,
 }: {
   room: ChatRoom;
   onToggleMembers: () => void;
@@ -43,6 +44,7 @@ export function ChatHeader({
   showMembers: boolean;
   pinnedCount?: number;
   onTogglePinned?: () => void;
+  isRealtimeConnected?: boolean;
 }) {
   const IconComponent = ICON_MAP[room.icon || "Hash"] || Hash;
 
@@ -73,7 +75,26 @@ export function ChatHeader({
         )}
       </div>
 
-      <div className="flex items-center gap-1.5 shrink-0">
+      <div className="flex items-center gap-2.5 shrink-0">
+        {/* Realtime Live Pulse Indicator */}
+        <div
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-mono tracking-wide ${
+            isRealtimeConnected
+              ? "bg-emerald-950/40 border-emerald-500/30 text-emerald-400"
+              : "bg-amber-950/40 border-amber-500/30 text-amber-400 animate-pulse"
+          }`}
+          title={isRealtimeConnected ? "Realtime Supabase Terhubung Aktif" : "Menghubungkan ke Server Realtime..."}
+        >
+          <span
+            className={`w-2 h-2 rounded-full ${
+              isRealtimeConnected ? "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "bg-amber-400"
+            }`}
+          />
+          <span className="hidden sm:inline">
+            {isRealtimeConnected ? "Realtime Live" : "Menghubungkan..."}
+          </span>
+        </div>
+
         {/* Pinned Messages Button */}
         {onTogglePinned && (
           <button

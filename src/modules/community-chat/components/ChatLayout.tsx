@@ -45,6 +45,7 @@ export function ChatLayout({
     deleteMessage,
     replyingTo,
     setReplyingTo,
+    isRealtimeConnected,
   } = useChatMessages({
     roomSlug: activeSlug,
     roomId: activeRoom?.id,
@@ -56,7 +57,7 @@ export function ChatLayout({
 
   // Hook 4: Typing indicator
   const { typingLabel, sendTyping } = useChatTyping(
-    activeRoom?.id,
+    activeSlug,
     currentUser?.display_name || currentUser?.full_name
   );
 
@@ -122,6 +123,7 @@ export function ChatLayout({
           onToggleMembers={() => setShowMembers(!showMembers)}
           onToggleMobileSidebar={() => setMobileSidebarOpen(true)}
           pinnedCount={messages.filter((m) => m.is_pinned).length}
+          isRealtimeConnected={isRealtimeConnected}
         />
 
         <MessageList

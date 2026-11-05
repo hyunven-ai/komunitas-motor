@@ -2,19 +2,27 @@
 
 import * as React from "react";
 import { createClient as createBrowserSupabase } from "@/lib/supabase/client";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 
-export function useChatTyping(roomId?: string, currentUserName?: string) {
+export function useChatTyping(
+  roomSlugOrId?: string,
+  currentUserName?: string
+) {
   const [typingUsers, setTypingUsers] = React.useState<Map<string, number>>(new Map());
+  const channelRef = React.useRef<RealtimeChannel | null>(null);
 
-  // Subscribe to typing broadcasts on the room channel
+  // Subscribe to typing broadcasts on the unified room channel
   React.useEffect(() => {
-    if (!roomId) return;
+    if (!roomSlugOrId) return;
 
     try {
       const supabase = createBrowserSupabase();
+      const channelName = `community_chat_${roomSlugOrId}`;
       const channel = supabase
-        .channel(`typing_${roomId}`)
-        .on("broadcast", { event: "typing" }, (payload) => {
+        .channel(channelName, {
+          config: { broadcast: { self: false } },
+        })
+        .on("broadcast", { event: "typing" }, (payload: { payload: { user_name?: string } }) => {
           const { user_name } = payload.payload || {};
           if (user_name && user_name !== currentUserName) {
             setTypingUsers((prev) => {
@@ -25,6 +33,8 @@ export function useChatTyping(roomId?: string, currentUserName?: string) {
           }
         })
         .subscribe();
+
+      channelRef.current = channel;
 
       // Interval to clean up stale typing indicators
       const interval = setInterval(() => {
@@ -44,20 +54,18 @@ export function useChatTyping(roomId?: string, currentUserName?: string) {
 
       return () => {
         clearInterval(interval);
-        supabase.removeChannel(channel);
+        channelRef.current = null;
       };
     } catch {
       // Fallback
     }
-  }, [roomId, currentUserName]);
+  }, [roomSlugOrId, currentUserName]);
 
   // Broadcast current user typing
   const sendTyping = React.useCallback(() => {
-    if (!roomId || !currentUserName) return;
+    if (!roomSlugOrId || !currentUserName || !channelRef.current) return;
     try {
-      const supabase = createBrowserSupabase();
-      const channel = supabase.channel(`typing_${roomId}`);
-      channel.send({
+      channelRef.current.send({
         type: "broadcast",
         event: "typing",
         payload: { user_name: currentUserName },
@@ -65,7 +73,7 @@ export function useChatTyping(roomId?: string, currentUserName?: string) {
     } catch {
       // Fallback
     }
-  }, [roomId, currentUserName]);
+  }, [roomSlugOrId, currentUserName]);
 
   const activeTypers = Array.from(typingUsers.keys());
 
@@ -82,4 +90,3 @@ export function useChatTyping(roomId?: string, currentUserName?: string) {
     sendTyping,
   };
 }
-

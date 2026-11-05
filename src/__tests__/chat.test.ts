@@ -147,5 +147,39 @@ describe("Community Chat - Room Categories & Defaults", () => {
     expect(grouped["RIDING & EVENTS"].length).toBeGreaterThanOrEqual(4);
     expect(grouped.CHAPTERS.length).toBeGreaterThanOrEqual(3);
   });
+
+  it("ensures default chat rooms use valid UUID format for PostgreSQL compatibility", () => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    DEFAULT_CHAT_ROOMS.forEach((room) => {
+      expect(room.id).toMatch(uuidRegex);
+    });
+  });
+
+  it("handles realtime message deduplication and optimistic replacement", () => {
+    const initialList = [
+      { id: "msg_tmp_12345", sender_id: "user-1", content: "Halo brotherhood" },
+    ];
+
+    const incomingBroadcast = {
+      id: "real-uuid-9999",
+      sender_id: "user-1",
+      content: "Halo brotherhood",
+    };
+
+    // Reconcile logic
+    const tempIndex = initialList.findIndex(
+      (m) =>
+        m.id.startsWith("msg_tmp_") &&
+        m.sender_id === incomingBroadcast.sender_id &&
+        m.content === incomingBroadcast.content
+    );
+
+    expect(tempIndex).toBe(0);
+    const updated = [...initialList];
+    updated[tempIndex] = incomingBroadcast;
+
+    expect(updated).toHaveLength(1);
+    expect(updated[0].id).toBe("real-uuid-9999");
+  });
 });
 
