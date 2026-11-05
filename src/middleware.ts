@@ -42,11 +42,12 @@ export async function middleware(request: NextRequest) {
   // Protected paths
   const isMemberPath = pathname.startsWith("/member");
   const isAdminPath = pathname.startsWith("/admin") && pathname !== "/admin/login";
+  const isChatPath = pathname.startsWith("/community/chat");
 
   // Skip auth checking if in local dev with mock keys, to allow development viewing
   const isMockEnv = supabaseUrl.includes("mock-project") || !process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-  if (isMemberPath || isAdminPath) {
+  if (isMemberPath || isAdminPath || isChatPath) {
     if (isMockEnv) {
       // In mock development mode, allow navigation to inspect UI layouts
       return response;

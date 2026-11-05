@@ -28,6 +28,7 @@ import {
   CalendarDays,
   ExternalLink,
   Gift,
+  MessagesSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -60,6 +61,7 @@ const MEMBER_NAV_GROUPS: NavGroup[] = [
       { href: "/member/events", label: "Agenda Event", icon: Calendar },
       { href: "/member/attendance", label: "Riwayat Presensi", icon: CheckSquare },
       { href: "/member/forum", label: "Forum Komunitas", icon: MessageSquare },
+      { href: "/community/chat", label: "Community Chat Live", icon: MessagesSquare },
     ],
   },
   {

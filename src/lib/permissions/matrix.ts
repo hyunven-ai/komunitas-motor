@@ -16,7 +16,10 @@ export type Permission =
   | "manage_gallery"
   | "view_audit_logs"
   | "access_member_portal"
-  | "post_in_forum";
+  | "post_in_forum"
+  | "access_chat"
+  | "moderate_chat"
+  | "manage_chat";
 
 export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
   super_admin: [
@@ -36,6 +39,9 @@ export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
     "view_audit_logs",
     "access_member_portal",
     "post_in_forum",
+    "access_chat",
+    "moderate_chat",
+    "manage_chat",
   ],
   chairman: [
     "view_admin_dashboard",
@@ -50,6 +56,9 @@ export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
     "view_audit_logs",
     "access_member_portal",
     "post_in_forum",
+    "access_chat",
+    "moderate_chat",
+    "manage_chat",
   ],
   admin: [
     "view_admin_dashboard",
@@ -62,6 +71,9 @@ export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
     "manage_gallery",
     "access_member_portal",
     "post_in_forum",
+    "access_chat",
+    "moderate_chat",
+    "manage_chat",
   ],
   treasurer: [
     "view_admin_dashboard",
@@ -70,6 +82,7 @@ export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
     "view_financial_reports",
     "access_member_portal",
     "post_in_forum",
+    "access_chat",
   ],
   event_officer: [
     "view_admin_dashboard",
@@ -77,16 +90,21 @@ export const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
     "checkin_attendance",
     "access_member_portal",
     "post_in_forum",
+    "access_chat",
+    "moderate_chat",
   ],
   moderator: [
     "view_admin_dashboard",
     "moderate_forum",
     "access_member_portal",
     "post_in_forum",
+    "access_chat",
+    "moderate_chat",
   ],
   member: [
     "access_member_portal",
     "post_in_forum",
+    "access_chat",
   ],
 };
 

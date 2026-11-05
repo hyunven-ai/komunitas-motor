@@ -34,6 +34,7 @@ import {
   ExternalLink,
   Handshake,
   Globe,
+  MessagesSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -79,6 +80,7 @@ const ADMIN_NAV_GROUPS: NavGroup[] = [
       { href: "/admin/news", label: "Berita & Konten", icon: Newspaper },
       { href: "/admin/gallery", label: "Dokumentasi Galeri", icon: ImageIcon },
       { href: "/admin/forum", label: "Moderasi Forum", icon: MessageSquare },
+      { href: "/admin/chat", label: "Community Chat", icon: MessagesSquare },
     ],
   },
   {
