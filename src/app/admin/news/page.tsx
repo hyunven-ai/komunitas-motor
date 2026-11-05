@@ -551,7 +551,7 @@ export default function AdminNewsPage() {
               ) : (
                 paginatedArticles.map((art) => (
                   <tr key={art.id} className="hover:bg-charcoal/60 transition-colors">
-                    <td className="py-3.5 px-4 max-w-sm">
+                    <td className="py-3.5 px-4 max-w-md">
                       <div className="flex items-center gap-3">
                         <div className="h-12 w-16 rounded-lg overflow-hidden border border-white/15 bg-charcoal shrink-0">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -565,11 +565,12 @@ export default function AdminNewsPage() {
                             }}
                           />
                         </div>
-                        <div className="space-y-0.5 truncate">
+                        <div className="space-y-0.5 min-w-0">
                           <Link
                             href={`/news/${art.slug}`}
                             target="_blank"
-                            className="hover:text-amber-400 font-bold text-sm text-bone line-clamp-1 block transition-colors"
+                            title={art.title}
+                            className="hover:text-amber-400 font-bold text-sm text-bone line-clamp-2 block transition-colors leading-snug"
                           >
                             {art.title}
                           </Link>
@@ -690,9 +691,10 @@ export default function AdminNewsPage() {
       {/* MODAL 1: TULIS ARTIKEL BARU                                              */}
       {/* ========================================================================= */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl rounded-2xl border border-amber-400/50 bg-[#0d0f14] p-6 text-bone shadow-2xl space-y-4 my-8">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="relative w-full max-w-3xl max-h-[92vh] flex flex-col rounded-2xl border border-amber-400/50 bg-[#0d0f14] text-bone shadow-2xl overflow-hidden">
+            {/* Header (Sticky / Fixed) */}
+            <div className="shrink-0 flex items-center justify-between border-b border-white/10 px-6 py-4 bg-[#0d0f14]">
               <div>
                 <Badge variant="gold">EDITOR ARTIKEL RESMI</Badge>
                 <h3 className="font-serif font-black uppercase text-lg text-bone mt-1">
@@ -703,19 +705,22 @@ export default function AdminNewsPage() {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => setShowCreateModal(false)}
                 disabled={isSubmitting}
-                className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-bone-muted hover:text-white"
+                className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-bone-muted hover:text-white transition"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-1.5">
-                <Label htmlFor="title" className="text-xs">
-                  Judul Artikel *
-                </Label>
+            {/* Form with Scrollable Body and Fixed Footer */}
+            <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex flex-col overflow-hidden min-h-0">
+              <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="title" className="text-xs font-semibold text-bone">
+                    Judul Artikel *
+                  </Label>
                 <Input
                   id="title"
                   placeholder="Contoh: Ekspedisi Lintas Jawa-Bali: Menguji Daya Tahan Rider dan Mesin"
@@ -919,8 +924,10 @@ export default function AdminNewsPage() {
                   <p className="text-xs text-red-400">{errors.content.message}</p>
                 )}
               </div>
+              </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
+              {/* Footer (Sticky / Fixed at bottom of modal) */}
+              <div className="shrink-0 flex items-center justify-end gap-2 px-6 py-3.5 border-t border-white/10 bg-[#0d0f14]">
                 <Button
                   type="button"
                   variant="outline"
@@ -958,9 +965,10 @@ export default function AdminNewsPage() {
       {/* MODAL 2: EDIT ARTIKEL BERITA                                              */}
       {/* ========================================================================= */}
       {showEditModal && editingArticle && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl rounded-2xl border border-amber-400/50 bg-[#0d0f14] p-6 text-bone shadow-2xl space-y-4 my-8">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="relative w-full max-w-3xl max-h-[92vh] flex flex-col rounded-2xl border border-amber-400/50 bg-[#0d0f14] text-bone shadow-2xl overflow-hidden">
+            {/* Header (Sticky / Fixed) */}
+            <div className="shrink-0 flex items-center justify-between border-b border-white/10 px-6 py-4 bg-[#0d0f14]">
               <div>
                 <Badge variant="gold">EDIT ARTIKEL BERITA</Badge>
                 <h3 className="font-serif font-black uppercase text-lg text-bone mt-1">
@@ -971,24 +979,27 @@ export default function AdminNewsPage() {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => setShowEditModal(false)}
                 disabled={isEditSubmitting}
-                className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-bone-muted hover:text-white"
+                className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-bone-muted hover:text-white transition"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
+            {/* Form with Scrollable Body and Fixed Footer */}
             <form
               onSubmit={handleSubmitEdit(onSubmitEdit, (errors) => {
                 console.warn("Edit modal validation errors:", errors);
               })}
-              className="space-y-4"
+              className="flex-1 flex flex-col overflow-hidden min-h-0"
             >
-              <div className="space-y-1.5">
-                <Label htmlFor="edit-title" className="text-xs">
-                  Judul Artikel *
-                </Label>
+              <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-title" className="text-xs font-semibold text-bone">
+                    Judul Artikel *
+                  </Label>
                 <Input
                   id="edit-title"
                   {...registerEdit("title")}
@@ -1191,8 +1202,10 @@ export default function AdminNewsPage() {
                   <p className="text-xs text-red-400">{errorsEdit.content.message}</p>
                 )}
               </div>
+              </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
+              {/* Footer (Sticky / Fixed at bottom of modal) */}
+              <div className="shrink-0 flex items-center justify-end gap-2 px-6 py-3.5 border-t border-white/10 bg-[#0d0f14]">
                 <Button
                   type="button"
                   variant="outline"

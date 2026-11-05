@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { MainSponsors } from "@/components/home/main-sponsors";
+import { CommunityMediaCarousel } from "@/components/home/community-media-carousel";
 import { fetchEventsList } from "@/features/events/queries";
 import { getActiveHeroSlides } from "@/features/sliders/queries";
 import { getMainSponsors } from "@/features/sponsors/queries";
@@ -43,8 +44,6 @@ export default async function HomePage() {
     .filter((e) => e.status === "published")
     .slice(0, 3);
 
-  const featuredAlbum = galleryAlbums[0] || null;
-  const recentStories = newsArticles.slice(0, 2);
   const featuredLeaders = (committeeData?.members || []).slice(0, 4);
 
   return (
@@ -352,94 +351,8 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            {/* Featured Documentary Photo Frame (7 Cols) */}
-            <div className="lg:col-span-7 flex flex-col justify-between rounded-lg border border-white/10 bg-[#12141C] overflow-hidden">
-              <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full bg-[#181B26] overflow-hidden">
-                {featuredAlbum?.coverImageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={featuredAlbum.coverImageUrl}
-                    alt={featuredAlbum.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-[#181B26] text-neutral-500 font-mono text-xs">
-                    Dokumentasi Ekspedisi
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <div className="flex items-center gap-2 text-[10px] font-mono text-red-400 uppercase tracking-wider mb-1">
-                    <span>{featuredAlbum?.category || "Ekspedisi Resmi"}</span>
-                    <span>&bull;</span>
-                    <span>{featuredAlbum?.location || "Nusantara"}</span>
-                  </div>
-                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase tracking-tight text-white leading-snug">
-                    {featuredAlbum?.title || "Ekspedisi Dieng Plateau: Kabut Negeri di Atas Awan"}
-                  </h3>
-                </div>
-              </div>
-
-              <div className="p-6 flex flex-col justify-between flex-1 space-y-4">
-                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans">
-                  {featuredAlbum?.description ||
-                    "Dokumentasi barisan konvoi saat melintasi tanjakan ekstrem Sikatok dan penyerahan santunan pendidikan bagi warga di lereng pegunungan."}
-                </p>
-                <div className="flex items-center justify-between pt-3 border-t border-white/5 text-xs font-mono text-neutral-400">
-                  <span>Waktu: {featuredAlbum?.date || "Oktober 2026"}</span>
-                  <Link
-                    href="/gallery"
-                    className="text-neutral-200 hover:text-white font-medium flex items-center gap-1 group"
-                  >
-                    <span>Buka Album Foto Lengkap</span>
-                    <ArrowRight className="h-3.5 w-3.5 text-red-500 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Stacked Field Dispatches / Stories (5 Cols) */}
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              {recentStories.map((story) => (
-                <div
-                  key={story.id}
-                  className="rounded-lg border border-white/10 bg-[#12141C] p-6 flex flex-col justify-between flex-1 transition-colors hover:border-white/20"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 uppercase">
-                      <span className="text-red-400 font-semibold">{story.category}</span>
-                      <span>{story.publishedAt}</span>
-                    </div>
-
-                    <Link href={`/news/${story.slug}`}>
-                      <h4 className="font-display text-lg font-bold text-white uppercase tracking-tight hover:text-red-400 transition-colors line-clamp-2">
-                        {story.title}
-                      </h4>
-                    </Link>
-
-                    <p className="text-xs text-neutral-400 leading-relaxed line-clamp-3 font-sans">
-                      {story.summary}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-white/5 mt-4 flex items-center justify-between text-xs">
-                    <span className="text-[11px] font-mono text-neutral-500">
-                      Oleh: {story.authorName}
-                    </span>
-                    <Link
-                      href={`/news/${story.slug}`}
-                      className="text-xs font-display font-semibold uppercase tracking-wider text-neutral-300 hover:text-white flex items-center gap-1 group"
-                    >
-                      <span>Baca Catatan</span>
-                      <ChevronRight className="h-3.5 w-3.5 text-red-500 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Media Carousel (Max 1 Gallery & 1 News side-by-side with slider controls) */}
+          <CommunityMediaCarousel albums={galleryAlbums} articles={newsArticles} />
         </div>
       </section>
 
