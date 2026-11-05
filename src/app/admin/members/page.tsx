@@ -45,6 +45,7 @@ interface EditMemberForm {
   id: string;
   member_number: string;
   full_name: string;
+  username?: string;
   email?: string;
   phone_number: string;
   city: string;
@@ -134,6 +135,7 @@ export default function AdminMembersPage() {
       const matchesSearch =
         m.member_number.toLowerCase().includes(q) ||
         (m.profile?.full_name || "").toLowerCase().includes(q) ||
+        (m.profile?.username || "").toLowerCase().includes(q) ||
         (m.email || "").toLowerCase().includes(q) ||
         (m.motorcycle_model || "").toLowerCase().includes(q) ||
         (m.motorcycle_plate || "").toLowerCase().includes(q) ||
@@ -187,11 +189,12 @@ export default function AdminMembersPage() {
 
   // Export CSV
   const exportCSV = () => {
-    const headers = ["Nomor KTA,Nama Lengkap,Email,Kota,Model Motor,Plat Motor,Status,Tanggal Bergabung"];
+    const headers = ["Nomor KTA,Nama Lengkap,Username,Email,Kota,Model Motor,Plat Motor,Status,Tanggal Bergabung"];
     const rows = filteredAndSortedMembers.map((m) =>
       [
         m.member_number,
         `"${m.profile?.full_name || ""}"`,
+        `"${m.profile?.username ? `@${m.profile.username}` : ""}"`,
         `"${m.email || ""}"`,
         `"${m.profile?.city || ""}"`,
         `"${m.motorcycle_model || ""}"`,
@@ -217,6 +220,7 @@ export default function AdminMembersPage() {
       id: member.id,
       member_number: member.member_number,
       full_name: member.profile?.full_name || "",
+      username: member.profile?.username || "",
       email: member.email || "",
       phone_number: member.profile?.phone_number || "",
       city: member.profile?.city || "",
@@ -330,6 +334,7 @@ export default function AdminMembersPage() {
                       phone_number: editingMember.phone_number,
                       city: editingMember.city,
                       blood_type: editingMember.blood_type,
+                      username: editingMember.username,
                     }
                   : undefined,
               };
@@ -457,7 +462,7 @@ export default function AdminMembersPage() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-3 h-4 w-4 text-bone-muted" />
           <Input
-            placeholder="Cari nomor KTA, nama anggota, motor, plat, atau kota domisili..."
+            placeholder="Cari nomor KTA, nama, @username, motor, plat, atau kota domisili..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -617,9 +622,20 @@ export default function AdminMembersPage() {
                         </span>
                       </td>
                       <td className="py-3.5 px-4">
-                        <span className="font-bold text-bone block text-sm">
-                          {member.profile?.full_name || "Anggota Brotherhood"}
-                        </span>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-bold text-bone block text-sm">
+                            {member.profile?.full_name || "Anggota Brotherhood"}
+                          </span>
+                          {member.profile?.username ? (
+                            <span className="px-1.5 py-0.5 rounded bg-crimson/15 text-red-400 border border-crimson/30 font-mono text-[10px] font-semibold tracking-wide">
+                              @{member.profile.username}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] text-bone-muted/40 font-mono italic">
+                              tanpa username
+                            </span>
+                          )}
+                        </div>
                         {member.profile?.phone_number && (
                           <span className="text-[10px] text-bone-muted font-mono block">
                             {member.profile.phone_number}
@@ -809,6 +825,25 @@ export default function AdminMembersPage() {
                       setEditingMember({ ...editingMember, full_name: e.target.value })
                     }
                     className="text-xs bg-charcoal"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <Label htmlFor="edit_username" className="text-[11px] text-bone-muted flex items-center justify-between">
+                    <span>Username Akun *</span>
+                    <span className="text-[10px] text-crimson font-mono">login alternatif</span>
+                  </Label>
+                  <Input
+                    id="edit_username"
+                    placeholder="contoh: biker_borneo"
+                    value={editingMember.username || ""}
+                    onChange={(e) =>
+                      setEditingMember({
+                        ...editingMember,
+                        username: e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""),
+                      })
+                    }
+                    className="text-xs bg-charcoal font-mono"
                   />
                 </div>
 
@@ -1108,7 +1143,13 @@ export default function AdminMembersPage() {
                   <span className="text-bone-muted uppercase text-[10px]">Tanggal Bergabung</span>
                   <p className="font-mono text-bone">{selectedMember.joined_date}</p>
                 </div>
-                <div className="p-3 bg-charcoal rounded-md border border-white/5 space-y-1 col-span-2">
+                <div className="p-3 bg-charcoal rounded-md border border-white/5 space-y-1">
+                  <span className="text-bone-muted uppercase text-[10px]">Username Akun</span>
+                  <p className="font-semibold text-crimson font-mono">
+                    {selectedMember.profile?.username ? `@${selectedMember.profile.username}` : "-"}
+                  </p>
+                </div>
+                <div className="p-3 bg-charcoal rounded-md border border-white/5 space-y-1">
                   <span className="text-bone-muted uppercase text-[10px]">Email Akun</span>
                   <div className="flex items-center gap-1.5">
                     <Mail className="h-3.5 w-3.5 text-muted-gold shrink-0" />

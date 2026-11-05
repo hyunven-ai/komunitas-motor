@@ -22,6 +22,12 @@ export async function approveApplicationAndCreateMember(
   }
 
   // 2. Resolve or create user account
+  const resolvedUsername = (
+    app.username ||
+    (app.reason_to_join?.match(/\[Username:\s*([^\]]+)\]/)?.[1]) ||
+    app.email.split("@")[0]
+  ).toLowerCase().replace(/[^a-z0-9_]/g, "");
+
   let userId = app.user_id;
 
   if (!userId) {
@@ -32,12 +38,15 @@ export async function approveApplicationAndCreateMember(
 
     if (existingUser) {
       userId = existingUser.id;
+      if (!existingUser.user_metadata?.username) {
+        await supabase.auth.admin.updateUserById(userId, {
+          user_metadata: {
+            ...existingUser.user_metadata,
+            username: resolvedUsername,
+          },
+        });
+      }
     } else {
-      const resolvedUsername =
-        app.username ||
-        (app.reason_to_join?.match(/\[Username:\s*([^\]]+)\]/)?.[1]) ||
-        app.email.split("@")[0];
-
       const tempPassword = "Bmc" + crypto.randomBytes(4).toString("hex") + "!";
       const { data: newUser, error: createErr } = await supabase.auth.admin.createUser({
         email: app.email,
@@ -59,14 +68,10 @@ export async function approveApplicationAndCreateMember(
   }
 
   // 3. Upsert Profile
-  const resolvedUsername =
-    app.username ||
-    (app.reason_to_join?.match(/\[Username:\s*([^\]]+)\]/)?.[1]) ||
-    app.full_name.split(" ")[0];
-
   const profilePayload: Record<string, unknown> = {
     id: userId,
     full_name: app.full_name,
+    username: resolvedUsername,
     display_name: resolvedUsername,
     phone_number: app.phone_number,
     city: app.city,
@@ -74,10 +79,6 @@ export async function approveApplicationAndCreateMember(
     emergency_contact_phone: app.emergency_contact_phone,
     updated_at: new Date().toISOString(),
   };
-
-  if (app.username) {
-    profilePayload.username = app.username;
-  }
 
   const { error: profErr } = await supabase.from("profiles").upsert(profilePayload);
   if (profErr) {

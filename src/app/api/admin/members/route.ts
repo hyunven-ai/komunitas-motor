@@ -38,29 +38,36 @@ export async function GET() {
 
     const profileMap = new Map((profiles || []).map((p) => [p.id, p]));
 
-    // 3. Also fetch applications to backfill emails if needed
+    // 3. Also fetch applications to backfill emails and usernames if needed
     const { data: apps } = await supabase
       .from("membership_applications")
-      .select("user_id, email, full_name, phone_number, city")
+      .select("user_id, email, username, full_name, phone_number, city, reason_to_join")
       .in("user_id", userIds);
 
     const appMap = new Map((apps || []).map((a) => [a.user_id, a]));
 
-    // 4. Fetch auth users to get email directly from auth.users
+    // 4. Fetch auth users to get email and username directly from auth.users
     const authEmailMap = new Map<string, string>();
+    const authUsernameMap = new Map<string, string>();
     try {
       const { data: authUsers } = await supabase.auth.admin.listUsers({
         perPage: 1000,
       });
       if (authUsers?.users) {
         for (const u of authUsers.users) {
-          if (u.id && u.email) {
-            authEmailMap.set(u.id, u.email);
+          if (u.id) {
+            if (u.email) {
+              authEmailMap.set(u.id, u.email);
+            }
+            const uName = (u.user_metadata?.username as string) || null;
+            if (uName) {
+              authUsernameMap.set(u.id, uName);
+            }
           }
         }
       }
     } catch (e) {
-      console.warn("Could not list auth users for email map:", e);
+      console.warn("Could not list auth users for email/username map:", e);
     }
 
     const combined: Member[] = members.map((m) => {
@@ -68,18 +75,34 @@ export async function GET() {
       const app = appMap.get(m.user_id);
       const email = authEmailMap.get(m.user_id) || app?.email || null;
 
+      // Smart cascade to resolve username
+      const resolvedUsername =
+        prof?.username ||
+        app?.username ||
+        authUsernameMap.get(m.user_id) ||
+        (app?.reason_to_join?.match(/\[Username:\s*([^\]]+)\]/)?.[1]) ||
+        (email ? email.split("@")[0].toLowerCase().replace(/[^a-z0-9_]/g, "_") : null);
+
+      const resolvedProfile = prof
+        ? {
+            ...prof,
+            username: resolvedUsername,
+          }
+        : {
+            id: m.user_id,
+            username: resolvedUsername,
+            full_name: app?.full_name || "Anggota Brotherhood",
+            display_name: resolvedUsername || app?.full_name?.split(" ")[0] || "Anggota",
+            phone_number: app?.phone_number || null,
+            city: app?.city || null,
+            created_at: m.created_at,
+            updated_at: m.updated_at,
+          };
+
       return {
         ...m,
         email,
-        profile: prof || {
-          id: m.user_id,
-          full_name: app?.full_name || "Anggota Brotherhood",
-          display_name: app?.full_name?.split(" ")[0] || "Anggota",
-          phone_number: app?.phone_number || null,
-          city: app?.city || null,
-          created_at: m.created_at,
-          updated_at: m.updated_at,
-        },
+        profile: resolvedProfile,
       };
     });
 
@@ -104,6 +127,7 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const {
       id,
+      username,
       status,
       motorcycle_model,
       motorcycle_plate,
@@ -180,6 +204,9 @@ export async function PUT(req: NextRequest) {
       const profileUpdate: Record<string, unknown> = {
         updated_at: new Date().toISOString(),
       };
+      if (username !== undefined) {
+        profileUpdate.username = username ? username.toLowerCase().trim() : null;
+      }
       if (full_name !== undefined) profileUpdate.full_name = full_name;
       if (display_name !== undefined) profileUpdate.display_name = display_name;
       if (phone_number !== undefined) profileUpdate.phone_number = phone_number;
@@ -194,8 +221,16 @@ export async function PUT(req: NextRequest) {
       }
 
       // Also keep membership_applications in sync if matched
-      if (full_name !== undefined || phone_number !== undefined || city !== undefined) {
+      if (
+        full_name !== undefined ||
+        phone_number !== undefined ||
+        city !== undefined ||
+        username !== undefined
+      ) {
         const appUpdate: Record<string, unknown> = {};
+        if (username !== undefined) {
+          appUpdate.username = username ? username.toLowerCase().trim() : null;
+        }
         if (full_name !== undefined) appUpdate.full_name = full_name;
         if (phone_number !== undefined) appUpdate.phone_number = phone_number;
         if (city !== undefined) appUpdate.city = city;
@@ -209,18 +244,24 @@ export async function PUT(req: NextRequest) {
           .eq("user_id", currentMember.user_id);
       }
 
-      if (email !== undefined && email.trim() && currentMember.user_id) {
+      // Sync username and/or email in Auth User metadata
+      if (username !== undefined || (email !== undefined && email.trim())) {
         try {
-          await supabase.auth.admin.updateUserById(currentMember.user_id, {
-            email: email.trim(),
-            email_confirm: true,
-          });
-          await supabase
-            .from("membership_applications")
-            .update({ email: email.trim() })
-            .eq("user_id", currentMember.user_id);
+          const authUpdatePayload: Record<string, unknown> = {};
+          if (email !== undefined && email.trim()) {
+            authUpdatePayload.email = email.trim();
+            authUpdatePayload.email_confirm = true;
+          }
+          if (username !== undefined) {
+            authUpdatePayload.user_metadata = {
+              username: username ? username.toLowerCase().trim() : null,
+              full_name: full_name || undefined,
+            };
+          }
+
+          await supabase.auth.admin.updateUserById(currentMember.user_id, authUpdatePayload);
         } catch (e) {
-          console.warn("Failed to update email in auth:", e);
+          console.warn("Failed to update user auth/metadata:", e);
         }
       }
     }
