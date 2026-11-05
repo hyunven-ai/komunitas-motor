@@ -17,13 +17,16 @@ import { Badge } from "@/components/ui/badge";
 import { formatRupiah, formatDate } from "@/lib/utils";
 import { fetchEventsList } from "@/features/events/queries";
 import { getEventSponsors } from "@/features/sponsors/queries";
-
-export const metadata = {
-  title: "Detail Event Touring — Brotherhood Community Portal",
-  description: "Rute, itinerary, kapasitas kuota, dan registrasi touring resmi Brotherhood.",
-};
+import { constructMetadata } from "@/lib/seo/config";
+import { generateEventSchema, generateBreadcrumbSchema } from "@/lib/seo/schema-generator";
+import { JsonLd } from "@/components/seo/json-ld";
 
 export const dynamic = "force-dynamic";
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ lang?: string }>;
+}
 
 const SAMPLE_EVENTS: Record<string, {
   title: string;
@@ -85,11 +88,38 @@ const SAMPLE_EVENTS: Record<string, {
   },
 };
 
+export async function generateMetadata({ params, searchParams }: PageProps) {
+  const { slug } = await params;
+  const sParams = searchParams ? await searchParams : {};
+  const isEn = sParams.lang === "en";
+
+  const allEvents = await fetchEventsList();
+  const matchedEvent = allEvents.find((e) => e.slug === slug);
+  const fallback = SAMPLE_EVENTS[slug] || SAMPLE_EVENTS["touring-jalur-selatan-2026"];
+
+  const title = matchedEvent?.title || fallback?.title || "Detail Event Touring";
+  const desc =
+    matchedEvent?.description ||
+    fallback?.description ||
+    "Rute, itinerary, kapasitas kuota, dan registrasi touring resmi Borneo Brotherhood.";
+  const cover = matchedEvent?.cover_image_url || fallback?.coverImageUrl || undefined;
+
+  return constructMetadata({
+    title: `${title} — Agenda Touring Borneo Brotherhood`,
+    titleEn: `${title} | Borneo Brotherhood Touring Event`,
+    description: desc,
+    descriptionEn: desc,
+    path: `/events/${slug}`,
+    image: cover,
+    type: "website",
+    locale: isEn ? "en" : "id",
+  });
+}
+
 export default async function PublicEventDetailPage({
   params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+  searchParams,
+}: PageProps) {
   const { slug } = await params;
   const [allEvents, eventSponsors] = await Promise.all([
     fetchEventsList(),
@@ -131,8 +161,28 @@ export default async function PublicEventDetailPage({
   const quotaPercent = Math.round((event.registeredCount / Math.max(1, event.capacity)) * 100);
   const remainingQuota = Math.max(0, event.capacity - event.registeredCount);
 
+  const eventSchema = generateEventSchema({
+    title: event.title,
+    description: event.description,
+    slug,
+    startTime: matchedEvent?.start_time || new Date().toISOString(),
+    endTime: matchedEvent?.end_time,
+    locationName: event.locationName,
+    coverImageUrl: event.coverImageUrl,
+    fee: event.fee,
+    capacity: event.capacity,
+  });
+
+  const breadcrumbsSchema = generateBreadcrumbSchema([
+    { name: "Beranda", path: "/" },
+    { name: "Agenda Touring", path: "/events" },
+    { name: event.title, path: `/events/${slug}` },
+  ]);
+
   return (
     <div className="py-12 sm:py-20">
+      <JsonLd data={eventSchema} />
+      <JsonLd data={breadcrumbsSchema} />
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Breadcrumb back */}
         <div>

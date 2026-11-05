@@ -119,6 +119,7 @@ export default function AdminApplicationsPage() {
     const matchesStatus = statusFilter === "all" || app.status === statusFilter;
     const matchesSearch =
       app.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (app.username && app.username.toLowerCase().includes(searchQuery.toLowerCase())) ||
       app.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
       app.motorcycle_model.toLowerCase().includes(searchQuery.toLowerCase()) ||
       app.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -366,6 +367,11 @@ export default function AdminApplicationsPage() {
                         <h3 className="text-lg font-serif font-bold text-bone">
                           {app.full_name}
                         </h3>
+                        {app.username && (
+                          <span className="text-xs font-mono text-muted-gold bg-muted-gold/10 px-2 py-0.5 rounded border border-muted-gold/30">
+                            @{app.username}
+                          </span>
+                        )}
                         {app.status === "pending" && (
                           <Badge variant="gold" className="text-[10px]">
                             MENUNGGU REVIEW
@@ -524,6 +530,12 @@ export default function AdminApplicationsPage() {
 
             <div className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-3 bg-charcoal rounded-md border border-white/5 space-y-1">
+                  <span className="text-bone-muted uppercase text-[10px]">Username Akun (Login ID)</span>
+                  <p className="font-semibold text-muted-gold font-mono">
+                    {selectedApp.username ? `@${selectedApp.username}` : "-"}
+                  </p>
+                </div>
                 <div className="p-3 bg-charcoal rounded-md border border-white/5 space-y-1">
                   <span className="text-bone-muted uppercase text-[10px]">Alamat Email</span>
                   <p className="font-semibold text-bone">{selectedApp.email}</p>

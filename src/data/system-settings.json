@@ -1,5 +1,10 @@
 {
-  "siteName": "Borneo Brotherhood Motorcycle Community",
+  "siteName": "Brotherhood Motorcycle Community",
+  "siteUrl": "https://borneobikers.com",
+  "logoUrl": "/icon.png",
+  "faviconUrl": "/favicon.ico",
+  "siteDescription": "Portal resmi manajemen komunitas motor touring Borneo Brotherhood. Info touring akbar, pendaftaran anggota, e-KTA digital verifikasi QR, dan forum bikers se-Borneo.",
+  "siteDescriptionEn": "Official Borneo Brotherhood motorcycle touring portal. Expedition routes, membership registration, digital e-KTA verification, and cross-border riders community.",
   "basecampAddress": "Sungai Pinyuh Kabupaten Mempawah",
   "hotlinePhone": "+62 812-9988-7711",
   "adminWhatsApp": "6281299887711",
@@ -11,8 +16,14 @@
   "mandiriAccountHolder": "Test",
   "operationalStatus": "Sekretariat Sungai Pinyuh Aktif",
   "roadCode": "Respect All, Fear None",
-  "convoyFormation": "Staggered Formation (Selang-Seling)",
-  "complianceNote": "100% Zero-Alcohol",
+  "convoyFormation": "Staggered Formation",
+  "complianceNote": "100% Zero-Alcohol & Safety Riding",
   "showOperationalBar": true,
-  "updatedAt": "2026-10-18T05:15:21.369Z"
+  "defaultLocale": "id",
+  "latitude": -0.0263,
+  "longitude": 109.3425,
+  "geoRegion": "ID-KB",
+  "aiProvider": "gemini",
+  "updatedAt": "2026-11-05T06:18:21.705Z",
+  "googleVerificationToken": "google-site-verification=GDsdvkIJfvgLc-q7kgkfg6FnLmzU1TflzPn3OflEByM"
 }

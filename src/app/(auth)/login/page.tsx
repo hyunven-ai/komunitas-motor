@@ -12,7 +12,7 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function MemberLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = React.useState("");
+  const [identifier, setIdentifier] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
@@ -34,9 +34,27 @@ export default function MemberLoginPage() {
     }
 
     try {
+      let resolvedEmail = identifier.trim();
+
+      // If user typed a username (no @ symbol), resolve it to registered email
+      if (!resolvedEmail.includes("@")) {
+        const resolveRes = await fetch("/api/auth/resolve-identifier", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identifier: resolvedEmail }),
+        });
+        const resolveJson = await resolveRes.json();
+        if (!resolveJson.success || !resolveJson.email) {
+          setErrorMessage(resolveJson.message || "Username tidak ditemukan dalam database.");
+          setLoading(false);
+          return;
+        }
+        resolvedEmail = resolveJson.email;
+      }
+
       const supabase = createClient();
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+        email: resolvedEmail,
         password,
       });
 
@@ -93,17 +111,17 @@ export default function MemberLoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="email" className="text-xs font-medium text-slate-300">
-              Email Terdaftar
+            <Label htmlFor="identifier" className="text-xs font-medium text-slate-300">
+              Email atau Username
             </Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+              <User className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
               <Input
-                id="email"
-                type="email"
-                placeholder="nama@brotherhood.id"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="identifier"
+                type="text"
+                placeholder="nama@brotherhood.id atau username_anda"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 className="pl-9 h-10 text-xs bg-[#171b29] border-white/10 text-white placeholder-slate-500 focus:border-red-500/50"
                 required
               />

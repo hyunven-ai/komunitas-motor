@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Calendar, MapPin, Users, ArrowRight, Image as ImageIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/states";
 import { fetchEventsList } from "@/features/events/queries";
 import { formatRupiah, formatDate } from "@/lib/utils";
 
@@ -32,8 +33,22 @@ export default async function PublicEventsPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {publishedEvents.map((event) => {
+        {publishedEvents.length === 0 ? (
+          <EmptyState
+            title="Belum Ada Jadwal Touring Aktif"
+            reason="Divisi Touring & Road Captain sedang melakukan survei kelayakan rute aspal dan koordinasi kepolisian untuk agenda ekspedisi akbar bulan ini."
+            action={{
+              label: "Lihat Dokumentasi Touring Sebelumnya",
+              href: "/gallery",
+            }}
+            secondaryAction={{
+              label: "Usulkan Rute Baru Melalui Forum Komunitas",
+              href: "/member/forum",
+            }}
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {publishedEvents.map((event) => {
             const isFull = event.registeredCount >= event.capacity;
 
             return (
@@ -122,6 +137,7 @@ export default async function PublicEventsPage() {
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );

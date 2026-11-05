@@ -11,21 +11,37 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { fetchNewsArticleBySlug } from "@/features/cms/queries";
+import { constructMetadata } from "@/lib/seo/config";
+import { generateArticleSchema, generateBreadcrumbSchema } from "@/lib/seo/schema-generator";
+import { JsonLd } from "@/components/seo/json-ld";
 
 export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ lang?: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const sParams = searchParams ? await searchParams : {};
+  const isEn = sParams.lang === "en";
+
   const article = await fetchNewsArticleBySlug(slug);
-  if (!article) return { title: "Artikel Tidak Ditemukan — Brotherhood" };
-  return {
-    title: `${article.title} — Brotherhood Community`,
+  if (!article) return { title: "Artikel Tidak Ditemukan — Borneo Brotherhood" };
+
+  return constructMetadata({
+    title: `${article.title} — Warta Borneo Brotherhood`,
+    titleEn: `${article.title} | Borneo Brotherhood News`,
     description: article.summary,
-  };
+    descriptionEn: article.summary,
+    path: `/news/${article.slug}`,
+    image: article.coverImageUrl || undefined,
+    type: "article",
+    publishedTime: article.publishedAt,
+    authorName: article.authorName,
+    locale: isEn ? "en" : "id",
+  });
 }
 
 export default async function PublicArticleDetailPage({ params }: PageProps) {
@@ -45,8 +61,26 @@ export default async function PublicArticleDetailPage({ params }: PageProps) {
   const wordCount = (article.content || "").split(/\s+/).length;
   const readMinutes = Math.max(2, Math.ceil(wordCount / 180));
 
+  const articleSchema = generateArticleSchema({
+    title: article.title,
+    summary: article.summary,
+    slug: article.slug,
+    content: article.content,
+    coverImageUrl: article.coverImageUrl,
+    authorName: article.authorName,
+    publishedAt: article.publishedAt,
+  });
+
+  const breadcrumbsSchema = generateBreadcrumbSchema([
+    { name: "Beranda", path: "/" },
+    { name: "Warta Berita", path: "/news" },
+    { name: article.title, path: `/news/${article.slug}` },
+  ]);
+
   return (
     <article className="py-12 sm:py-20 bg-charcoal min-h-screen text-bone">
+      <JsonLd data={articleSchema} />
+      <JsonLd data={breadcrumbsSchema} />
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Back Link */}
         <div>

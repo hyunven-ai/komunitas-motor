@@ -33,12 +33,18 @@ export async function approveApplicationAndCreateMember(
     if (existingUser) {
       userId = existingUser.id;
     } else {
+      const resolvedUsername =
+        app.username ||
+        (app.reason_to_join?.match(/\[Username:\s*([^\]]+)\]/)?.[1]) ||
+        app.email.split("@")[0];
+
       const tempPassword = "Bmc" + crypto.randomBytes(4).toString("hex") + "!";
       const { data: newUser, error: createErr } = await supabase.auth.admin.createUser({
         email: app.email,
         password: tempPassword,
         email_confirm: true,
         user_metadata: {
+          username: resolvedUsername,
           full_name: app.full_name,
           phone_number: app.phone_number,
           city: app.city,
@@ -53,16 +59,27 @@ export async function approveApplicationAndCreateMember(
   }
 
   // 3. Upsert Profile
-  const { error: profErr } = await supabase.from("profiles").upsert({
+  const resolvedUsername =
+    app.username ||
+    (app.reason_to_join?.match(/\[Username:\s*([^\]]+)\]/)?.[1]) ||
+    app.full_name.split(" ")[0];
+
+  const profilePayload: Record<string, unknown> = {
     id: userId,
     full_name: app.full_name,
-    display_name: app.full_name.split(" ")[0] || app.full_name,
+    display_name: resolvedUsername,
     phone_number: app.phone_number,
     city: app.city,
     emergency_contact_name: app.emergency_contact_name,
     emergency_contact_phone: app.emergency_contact_phone,
     updated_at: new Date().toISOString(),
-  });
+  };
+
+  if (app.username) {
+    profilePayload.username = app.username;
+  }
+
+  const { error: profErr } = await supabase.from("profiles").upsert(profilePayload);
   if (profErr) {
     console.error("Profile upsert warning:", profErr);
   }

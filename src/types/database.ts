@@ -18,6 +18,7 @@ export type ArticleStatus = "draft" | "published";
 
 export interface Profile {
   id: string; // references auth.users
+  username?: string | null;
   full_name: string;
   display_name: string;
   phone_number?: string | null;
@@ -59,6 +60,7 @@ export interface Member {
 export interface MembershipApplication {
   id: string;
   user_id?: string | null;
+  username?: string | null;
   full_name: string;
   email: string;
   phone_number: string;

@@ -33,6 +33,7 @@ import {
   CalendarDays,
   ExternalLink,
   Handshake,
+  Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -83,6 +84,7 @@ const ADMIN_NAV_GROUPS: NavGroup[] = [
   {
     group: "SISTEM",
     items: [
+      { href: "/admin/seo", label: "SEO & Brand Authority", icon: Globe },
       { href: "/admin/audit-logs", label: "Audit Log Sistem", icon: ScrollText },
       { href: "/admin/settings", label: "Pengaturan Portal", icon: Settings },
     ],
@@ -172,6 +174,7 @@ export default function AdminPortalLayout({
     if (pathname.startsWith("/admin/events")) return "Manajemen Event";
     if (pathname.startsWith("/admin/applications")) return "Review Pendaftaran";
     if (pathname.startsWith("/admin/finance")) return "Kas & Keuangan";
+    if (pathname.startsWith("/admin/seo")) return "SEO & Brand Authority";
     return "Dashboard";
   }, [pathname]);
 

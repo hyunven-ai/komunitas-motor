@@ -5,6 +5,13 @@ export const membershipApplicationSchema = z.object({
     .string()
     .min(3, "Nama lengkap minimal 3 karakter")
     .max(100, "Nama lengkap maksimal 100 karakter"),
+  username: z
+    .string()
+    .min(3, "Username minimal 3 karakter")
+    .max(30, "Username maksimal 30 karakter")
+    .regex(/^[a-zA-Z0-9_.-]+$/, "Username hanya boleh berisi huruf, angka, strip, titik, atau garis bawah tanpa spasi")
+    .toLowerCase()
+    .trim(),
   email: z.string().email("Format email tidak valid"),
   phoneNumber: z
     .string()

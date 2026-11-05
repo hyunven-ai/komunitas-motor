@@ -55,25 +55,45 @@ export async function submitMembershipApplication(
       };
     }
 
-    const { data: inserted, error } = await supabase
+    // Attempt to insert with username column
+    const insertPayload: Record<string, unknown> = {
+      username: validData.username,
+      full_name: validData.fullName,
+      email: validData.email,
+      phone_number: validData.phoneNumber,
+      city: validData.city,
+      motorcycle_model: validData.motorcycleModel,
+      motorcycle_plate: validData.motorcyclePlate,
+      motorcycle_year: validData.motorcycleYear,
+      id_card_number: validData.idCardNumber || null,
+      driving_license_number: validData.drivingLicenseNumber || null,
+      emergency_contact_name: validData.emergencyContactName,
+      emergency_contact_phone: validData.emergencyContactPhone,
+      reason_to_join: validData.reasonToJoin?.trim() || "-",
+      status: "pending",
+    };
+
+    let { data: inserted, error } = await supabase
       .from("membership_applications")
-      .insert({
-        full_name: validData.fullName,
-        email: validData.email,
-        phone_number: validData.phoneNumber,
-        city: validData.city,
-        motorcycle_model: validData.motorcycleModel,
-        motorcycle_plate: validData.motorcyclePlate,
-        motorcycle_year: validData.motorcycleYear,
-        id_card_number: validData.idCardNumber || null,
-        driving_license_number: validData.drivingLicenseNumber || null,
-        emergency_contact_name: validData.emergencyContactName,
-        emergency_contact_phone: validData.emergencyContactPhone,
-        reason_to_join: validData.reasonToJoin?.trim() || "-",
-        status: "pending",
-      })
+      .insert(insertPayload)
       .select("id")
       .single();
+
+    // Graceful fallback if remote database does not have username column yet
+    if (error && error.message.toLowerCase().includes("username")) {
+      console.warn("Retrying application insert without username column (fallback to legacy schema)...");
+      delete insertPayload.username;
+      insertPayload.reason_to_join = `[Username: ${validData.username}] ${validData.reasonToJoin || ""}`;
+
+      const retry = await supabase
+        .from("membership_applications")
+        .insert(insertPayload)
+        .select("id")
+        .single();
+
+      inserted = retry.data;
+      error = retry.error;
+    }
 
     if (error) {
       console.error("Supabase application insert error:", error);
