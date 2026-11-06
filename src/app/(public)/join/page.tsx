@@ -221,7 +221,7 @@ export default function JoinPage() {
     const waUrl = getWhatsAppApprovalUrl();
 
     return (
-      <div className="py-16 sm:py-24 bg-asphalt-grit min-h-screen">
+      <div className="py-16 sm:py-24 bg-[#0B0D12] min-h-screen">
         <div className="container mx-auto max-w-4xl px-4 sm:px-6 space-y-8">
           <SuccessState
             title="Aplikasi Pendaftaran Berhasil Dikirimkan!"

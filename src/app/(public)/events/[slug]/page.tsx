@@ -137,6 +137,7 @@ export default async function PublicEventDetailPage({
     registeredCount: matchedEvent?.registeredCount ?? fallback.registeredCount,
     startDate: matchedEvent?.start_time ? formatDate(matchedEvent.start_time) : fallback.startDate,
     endDate: matchedEvent?.end_time ? formatDate(matchedEvent.end_time) : fallback.endDate,
+    hasRegistrationDeadline: matchedEvent?.has_registration_deadline !== false,
     registrationDeadline: matchedEvent?.registration_deadline ? formatDate(matchedEvent.registration_deadline) : fallback.registrationDeadline,
     locationName: matchedEvent?.location_name || fallback.locationName,
     locationAddress: matchedEvent?.location_address || fallback.locationAddress,
@@ -180,7 +181,7 @@ export default async function PublicEventDetailPage({
   ]);
 
   return (
-    <div className="py-12 sm:py-20">
+    <div className="py-12 sm:py-20 bg-[#0B0D12] min-h-screen text-[#F5F5F2]">
       <JsonLd data={eventSchema} />
       <JsonLd data={breadcrumbsSchema} />
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
@@ -243,7 +244,13 @@ export default async function PublicEventDetailPage({
                 <Clock className="h-4 w-4 text-muted-gold" />
                 <div>
                   <p className="text-[10px] uppercase">Batas Pendaftaran</p>
-                  <p className="font-bold text-bone">{event.registrationDeadline}</p>
+                  <p className="font-bold text-bone">
+                    {event.hasRegistrationDeadline ? (
+                      event.registrationDeadline
+                    ) : (
+                      <span className="text-emerald-400">Terbuka Hingga Hari-H</span>
+                    )}
+                  </p>
                 </div>
               </div>
 

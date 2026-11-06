@@ -72,7 +72,6 @@ export function EmptyState({
     >
       {/* Background ambient gradient accent */}
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-32 bg-red-600/10 blur-3xl pointer-events-none rounded-full" />
-      <div className="absolute inset-0 bg-asphalt-grit opacity-40 pointer-events-none" />
 
       <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center space-y-5">
         {/* Tactical Badge & Icon Assembly */}

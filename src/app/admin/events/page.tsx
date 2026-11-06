@@ -75,6 +75,7 @@ interface FormState {
   mapLink: string;
   startTime: string;
   endTime: string;
+  hasRegistrationDeadline: boolean;
   registrationDeadline: string;
   capacity: number;
   fee: number;
@@ -95,6 +96,7 @@ const INITIAL_FORM: FormState = {
   mapLink: "",
   startTime: "",
   endTime: "",
+  hasRegistrationDeadline: true,
   registrationDeadline: "",
   capacity: 50,
   fee: 0,
@@ -131,12 +133,30 @@ export default function AdminEventsPage() {
   const [selectedCategory, setSelectedCategory] = React.useState("ALL");
   const [selectedStatus, setSelectedStatus] = React.useState("ALL");
 
+  // Dynamic categories combined from defaults + existing events
+  const allAvailableCategories = React.useMemo(() => {
+    const set = new Set(CATEGORIES);
+    events.forEach((ev) => {
+      if (ev.category && ev.category.trim()) {
+        set.add(ev.category.trim());
+      }
+    });
+    return Array.from(set);
+  }, [events]);
+
   // Modal State
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isEditing, setIsEditing] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
   const [formError, setFormError] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState<FormState>(INITIAL_FORM);
+
+  // Custom category input state
+  const [isCustomCategory, setIsCustomCategory] = React.useState(false);
+  const [customCategoryInput, setCustomCategoryInput] = React.useState("");
+
+  // Optional registration deadline toggle state
+  const [hasRegistrationDeadline, setHasRegistrationDeadline] = React.useState(true);
 
   // Custom facility & gear input state
   const [newFacilityInput, setNewFacilityInput] = React.useState("");
@@ -247,6 +267,9 @@ export default function AdminEventsPage() {
     setShowUrlInput(false);
     setNewFacilityInput("");
     setNewGearInput("");
+    setIsCustomCategory(false);
+    setCustomCategoryInput("");
+    setHasRegistrationDeadline(true);
 
     const now = new Date();
     const start = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -258,6 +281,7 @@ export default function AdminEventsPage() {
 
     setFormData({
       ...INITIAL_FORM,
+      hasRegistrationDeadline: true,
       startTime: toDateTimeLocal(start.toISOString()),
       endTime: toDateTimeLocal(end.toISOString()),
       registrationDeadline: toDateTimeLocal(deadline.toISOString()),
@@ -274,6 +298,13 @@ export default function AdminEventsPage() {
     setNewFacilityInput("");
     setNewGearInput("");
 
+    const isCustom = Boolean(event.category && !CATEGORIES.includes(event.category));
+    setIsCustomCategory(isCustom);
+    setCustomCategoryInput(event.category || "");
+
+    const deadlineActive = event.has_registration_deadline !== false;
+    setHasRegistrationDeadline(deadlineActive);
+
     setFormData({
       id: event.id,
       title: event.title,
@@ -286,6 +317,7 @@ export default function AdminEventsPage() {
       mapLink: event.map_link || "",
       startTime: toDateTimeLocal(event.start_time),
       endTime: toDateTimeLocal(event.end_time),
+      hasRegistrationDeadline: deadlineActive,
       registrationDeadline: toDateTimeLocal(event.registration_deadline),
       capacity: event.capacity,
       fee: event.fee,
@@ -441,20 +473,34 @@ export default function AdminEventsPage() {
       setFormError("Slug event wajib diisi.");
       return;
     }
+    if (!formData.category.trim()) {
+      setFormError("Kategori kegiatan wajib diisi atau dipilih.");
+      return;
+    }
     if (!formData.locationName.trim()) {
       setFormError("Nama lokasi titik kumpul wajib diisi.");
       return;
     }
-    if (!formData.startTime || !formData.endTime || !formData.registrationDeadline) {
-      setFormError("Waktu mulai, waktu selesai, dan batas registrasi wajib ditentukan.");
+    if (!formData.startTime || !formData.endTime) {
+      setFormError("Waktu mulai dan waktu selesai event wajib ditentukan.");
+      return;
+    }
+    if (hasRegistrationDeadline && !formData.registrationDeadline) {
+      setFormError("Batas registrasi aktif, silakan tentukan tanggal dan jam batas akhir pendaftaran.");
       return;
     }
     const startIso = toWibIsoString(formData.startTime);
     const endIso = toWibIsoString(formData.endTime);
-    const deadlineIso = toWibIsoString(formData.registrationDeadline);
+    const deadlineIso = hasRegistrationDeadline && formData.registrationDeadline
+      ? toWibIsoString(formData.registrationDeadline)
+      : endIso;
 
     if (new Date(startIso) >= new Date(endIso)) {
       setFormError("Waktu selesai event harus lebih lama daripada waktu mulai.");
+      return;
+    }
+    if (hasRegistrationDeadline && new Date(deadlineIso) > new Date(endIso)) {
+      setFormError("Batas registrasi tidak boleh melebihi waktu selesai kegiatan.");
       return;
     }
 
@@ -465,7 +511,7 @@ export default function AdminEventsPage() {
         id: formData.id,
         title: formData.title,
         slug: formData.slug,
-        category: formData.category,
+        category: formData.category.trim(),
         description: formData.description || `Kegiatan resmi ${formData.title}`,
         coverImageUrl: formData.coverImageUrl || null,
         locationName: formData.locationName,
@@ -473,6 +519,7 @@ export default function AdminEventsPage() {
         mapLink: formData.mapLink || null,
         startTime: startIso,
         endTime: endIso,
+        hasRegistrationDeadline,
         registrationDeadline: deadlineIso,
         capacity: Number(formData.capacity) || 50,
         fee: Number(formData.fee) || 0,
@@ -684,7 +731,7 @@ export default function AdminEventsPage() {
             className="h-9 px-3 text-xs bg-asphalt/80 border border-white/10 rounded-md text-bone focus:outline-none focus:border-muted-gold"
           >
             <option value="ALL">Semua Kategori</option>
-            {CATEGORIES.map((cat) => (
+            {allAvailableCategories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
               </option>
@@ -861,6 +908,15 @@ export default function AdminEventsPage() {
                         <span className="flex items-center gap-1 text-emerald-400">
                           <Shirt className="h-3 w-3" />
                           {event.includes?.length || 0} Paket Fasilitas
+                        </span>
+                        <span className="text-white/20">&bull;</span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3 text-muted-gold" />
+                          {event.has_registration_deadline === false ? (
+                            <span className="text-emerald-400 font-semibold">Tanpa Batas Registrasi</span>
+                          ) : (
+                            <span>Batas: {formatDate(event.registration_deadline)}</span>
+                          )}
                         </span>
                       </div>
 
@@ -1131,20 +1187,72 @@ export default function AdminEventsPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-bone">
-                      Kategori Kegiatan <span className="text-red-400">*</span>
-                    </label>
-                    <select
-                      value={formData.category}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
-                      className="w-full h-9 px-3 text-xs bg-charcoal/70 border border-white/10 rounded-md text-bone focus:outline-none focus:border-muted-gold"
-                    >
-                      {CATEGORIES.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-medium text-bone">
+                        Kategori Kegiatan <span className="text-red-400">*</span>
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const nextState = !isCustomCategory;
+                          setIsCustomCategory(nextState);
+                          if (nextState) {
+                            setCustomCategoryInput(formData.category);
+                          } else if (allAvailableCategories.length > 0) {
+                            const fallbackCat = allAvailableCategories.includes(formData.category)
+                              ? formData.category
+                              : allAvailableCategories[0];
+                            setFormData((prev) => ({ ...prev, category: fallbackCat }));
+                          }
+                        }}
+                        className="text-[11px] text-muted-gold hover:underline font-mono"
+                      >
+                        {isCustomCategory ? "Pilih dari Kategori Tersedia" : "+ Kategori Kustom Baru"}
+                      </button>
+                    </div>
+
+                    {!isCustomCategory ? (
+                      <select
+                        value={formData.category}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (val === "__CUSTOM__") {
+                            setIsCustomCategory(true);
+                            setCustomCategoryInput("");
+                            setFormData((prev) => ({ ...prev, category: "" }));
+                          } else {
+                            setFormData((prev) => ({ ...prev, category: val }));
+                          }
+                        }}
+                        className="w-full h-9 px-3 text-xs bg-charcoal/70 border border-white/10 rounded-md text-bone focus:outline-none focus:border-muted-gold"
+                      >
+                        {allAvailableCategories.map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                        <option value="__CUSTOM__" className="text-muted-gold font-bold">
+                          + Tambah Kategori Kustom...
                         </option>
-                      ))}
-                    </select>
+                      </select>
+                    ) : (
+                      <div className="space-y-1">
+                        <Input
+                          required
+                          value={customCategoryInput}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCustomCategoryInput(val);
+                            setFormData((prev) => ({ ...prev, category: val }));
+                          }}
+                          placeholder="Ketik nama kategori kustom (contoh: Night Ride / Rolling Thunder)"
+                          className="bg-charcoal/70 border-muted-gold/60 text-xs text-bone focus:border-muted-gold"
+                        />
+                        <span className="text-[10px] text-bone-muted block">
+                          Kategori kustom akan otomatis tersimpan dan tersedia pada filter event.
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1198,9 +1306,39 @@ export default function AdminEventsPage() {
 
               {/* 4. WAKTU & JADWAL */}
               <div className="space-y-4 pt-3 border-t border-white/10">
-                <span className="text-xs font-mono font-bold text-muted-gold uppercase tracking-wider block">
-                  Waktu & Batas Pendaftaran
-                </span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span className="text-xs font-mono font-bold text-muted-gold uppercase tracking-wider block">
+                    Waktu & Batas Pendaftaran
+                  </span>
+
+                  {/* Toggle Aktifkan Batas Registrasi */}
+                  <label className="flex items-center gap-2 cursor-pointer select-none bg-charcoal/80 px-2.5 py-1 rounded border border-white/10 hover:border-muted-gold/40 transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={hasRegistrationDeadline}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        setHasRegistrationDeadline(checked);
+                        if (checked && !formData.registrationDeadline) {
+                          try {
+                            const start = formData.startTime ? new Date(formData.startTime) : new Date();
+                            const dl = new Date(start.getTime() - 2 * 24 * 60 * 60 * 1000);
+                            dl.setHours(23, 59, 0, 0);
+                            setFormData((prev) => ({
+                              ...prev,
+                              registrationDeadline: toDateTimeLocal(dl.toISOString()),
+                            }));
+                          } catch {}
+                        }
+                      }}
+                      className="h-3.5 w-3.5 rounded bg-charcoal border-white/20 accent-red-600 cursor-pointer"
+                    />
+                    <span className="text-[11px] font-medium text-bone flex items-center gap-1.5">
+                      <Clock className="h-3.5 w-3.5 text-muted-gold" />
+                      <span>Aktifkan Batas Waktu Registrasi</span>
+                    </span>
+                  </label>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="space-y-1.5">
@@ -1229,20 +1367,43 @@ export default function AdminEventsPage() {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-bone">
-                      Batas Registrasi <span className="text-red-400">*</span>
-                    </label>
-                    <Input
-                      type="datetime-local"
-                      required
-                      value={formData.registrationDeadline}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, registrationDeadline: e.target.value }))
-                      }
-                      className="bg-charcoal/70 border-white/10 text-xs font-mono text-bone focus:border-muted-gold"
-                    />
-                  </div>
+                  {hasRegistrationDeadline ? (
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-bone">
+                          Batas Registrasi <span className="text-red-400">*</span>
+                        </label>
+                        <span className="text-[10px] text-red-400 font-mono font-semibold">Aktif</span>
+                      </div>
+                      <Input
+                        type="datetime-local"
+                        required
+                        value={formData.registrationDeadline}
+                        onChange={(e) =>
+                          setFormData((prev) => ({ ...prev, registrationDeadline: e.target.value }))
+                        }
+                        className="bg-charcoal/70 border-red-500/50 text-xs font-mono text-bone focus:border-red-500"
+                      />
+                      <span className="text-[10px] text-bone-muted block">
+                        Pendaftaran ditutup otomatis pada tanggal & jam ini.
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-bone">
+                          Batas Registrasi
+                        </label>
+                        <span className="text-[10px] text-emerald-400 font-mono font-bold">Nonaktif (Opsional)</span>
+                      </div>
+                      <div className="h-9 px-3 rounded-md bg-white/[0.03] border border-dashed border-emerald-500/30 flex items-center text-[11px] text-emerald-400 font-mono">
+                        <span>Terbuka hingga hari-H</span>
+                      </div>
+                      <span className="text-[10px] text-bone-muted block">
+                        Centang opsi di atas bila ingin menetapkan batas waktu akhir pendaftaran.
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 

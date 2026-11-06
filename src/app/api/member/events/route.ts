@@ -91,7 +91,8 @@ export async function GET(req: NextRequest) {
       const userReg = memberRegs[ev.id];
       const userInv = memberInvoices[ev.id];
 
-      const deadline = ev.registration_deadline ? new Date(ev.registration_deadline) : null;
+      const hasDeadline = !ev.description?.includes("<!--NO_REGISTRATION_DEADLINE:true-->");
+      const deadline = hasDeadline && ev.registration_deadline ? new Date(ev.registration_deadline) : null;
       const isPastDeadline = deadline ? now > deadline : false;
       const isFull = ev.capacity ? registeredCount >= ev.capacity : false;
 
@@ -106,7 +107,8 @@ export async function GET(req: NextRequest) {
         mapLink: ev.map_link,
         startTime: ev.start_time,
         endTime: ev.end_time,
-        registrationDeadline: ev.registration_deadline,
+        hasRegistrationDeadline: hasDeadline,
+        registrationDeadline: hasDeadline ? ev.registration_deadline : null,
         capacity: ev.capacity,
         fee: ev.fee || 0,
         registeredCount,
@@ -198,7 +200,8 @@ export async function POST(req: NextRequest) {
     }
 
     const now = new Date();
-    if (event.registration_deadline && now > new Date(event.registration_deadline)) {
+    const hasDeadline = !event.description?.includes("<!--NO_REGISTRATION_DEADLINE:true-->");
+    if (hasDeadline && event.registration_deadline && now > new Date(event.registration_deadline)) {
       return NextResponse.json(
         { success: false, message: "Batas waktu pendaftaran event ini telah berakhir." },
         { status: 400 }

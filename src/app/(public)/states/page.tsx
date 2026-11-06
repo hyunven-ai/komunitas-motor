@@ -75,7 +75,7 @@ export default function StatesInteractiveShowcase() {
   ];
 
   return (
-    <div className="py-12 sm:py-20 bg-asphalt-grit min-h-screen">
+    <div className="py-12 sm:py-20 bg-[#0B0D12] min-h-screen">
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 space-y-10">
         {/* Title */}
         <div className="space-y-3 border-b border-white/10 pb-8">

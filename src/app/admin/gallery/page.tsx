@@ -529,7 +529,7 @@ export default function AdminGalleryPage() {
 
       const fd = new FormData();
       fd.append("file", item.file);
-      fd.append("folder", "gallery");
+      fd.append("folder", targetAlbum ? `gallery/${targetAlbum}` : "gallery");
 
       try {
         const res = await fetch("/api/admin/upload", {

@@ -249,10 +249,13 @@ export async function createGalleryAlbumAction(
       return { success: false, message: "Akses ditolak: Silakan login sebagai pengurus." };
     }
 
-    // Embed location and category into description: "[Location] Description\n<!--CATEGORY:category-->"
+    // Embed location, category, and isolated initial photos into description
     const cat = validation.data.category || "Touring Resmi";
     const loc = validation.data.location ? `[${validation.data.location}] ` : "";
-    const finalDescription = `${loc}${validation.data.description}\n<!--CATEGORY:${cat}-->`;
+    const initialPhotos = validation.data.coverImageUrl
+      ? [{ url: validation.data.coverImageUrl, caption: `${validation.data.title} - Foto Sampul` }]
+      : [];
+    const finalDescription = `${loc}${validation.data.description}\n<!--CATEGORY:${cat}-->\n<!--PHOTOS:${JSON.stringify(initialPhotos)}-->`;
 
     const payload = {
       title: validation.data.title,

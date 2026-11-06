@@ -20,6 +20,7 @@ export interface EventItem {
   start_time: string;
   end_time: string;
   registration_deadline: string;
+  has_registration_deadline?: boolean;
   capacity: number;
   fee: number;
   status: "draft" | "published" | "cancelled" | "completed";
@@ -266,6 +267,14 @@ export async function fetchEventsList(): Promise<EventItem[]> {
         } catch {}
       }
 
+      // 5. Extract optional registration deadline flag
+      let has_registration_deadline = true;
+      const noDeadlineMatch = rawDesc.match(/<!--NO_REGISTRATION_DEADLINE:true-->/);
+      if (noDeadlineMatch) {
+        has_registration_deadline = false;
+        rawDesc = rawDesc.replace(/<!--NO_REGISTRATION_DEADLINE:[\s\S]*?-->/, "").trim();
+      }
+
       const computedRegistered =
         regCounts[item.id] !== undefined
           ? regCounts[item.id]
@@ -284,6 +293,7 @@ export async function fetchEventsList(): Promise<EventItem[]> {
         start_time: item.start_time,
         end_time: item.end_time,
         registration_deadline: item.registration_deadline,
+        has_registration_deadline,
         capacity: Number(item.capacity) || 50,
         fee: Number(item.fee) || 0,
         status: item.status || "published",

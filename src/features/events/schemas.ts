@@ -10,7 +10,7 @@ export const eventFormSchema = z.object({
     .string()
     .min(3, "Slug harus diisi")
     .regex(/^[a-z0-9-]+$/, "Slug hanya boleh berisi huruf kecil, angka, dan strip (-)"),
-  category: z.string(),
+  category: z.string().min(1, "Kategori kegiatan harus diisi"),
   description: z.string().min(10, "Deskripsi event minimal 10 karakter"),
   coverImageUrl: z.string().optional().or(z.literal("")),
   locationName: z.string().min(3, "Nama lokasi / meeting point harus diisi"),
@@ -18,7 +18,8 @@ export const eventFormSchema = z.object({
   mapLink: z.string().url("Format link Google Maps tidak valid").optional().or(z.literal("")),
   startTime: z.string().min(1, "Waktu mulai event harus ditentukan"),
   endTime: z.string().min(1, "Waktu selesai event harus ditentukan"),
-  registrationDeadline: z.string().min(1, "Batas akhir pendaftaran harus ditentukan"),
+  hasRegistrationDeadline: z.boolean().optional(),
+  registrationDeadline: z.string().optional().or(z.literal("")).nullable(),
   capacity: z.number().min(1, "Kapasitas minimal 1 peserta").max(1000, "Kapasitas maksimal 1000 peserta"),
   fee: z.number().min(0, "Biaya pendaftaran tidak boleh negatif"),
   status: z.enum(["draft", "published", "cancelled", "completed"]),

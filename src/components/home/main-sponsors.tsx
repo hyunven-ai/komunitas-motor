@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Sponsor } from "@/features/sponsors/types";
 import { recordSponsorClickAction } from "@/features/sponsors/actions";
+import { StaggerContainer, StaggerItem } from "@/components/ui/motion";
 
 interface MainSponsorsProps {
   sponsors: Sponsor[];
@@ -39,52 +40,53 @@ export function MainSponsors({ sponsors }: MainSponsorsProps) {
         </div>
 
         {/* Integrated Monochrome Logo Row */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-          {sponsors.map((s) => (
-            <div
-              key={s.id}
-              className="group rounded-lg border border-white/5 bg-[#12141C] p-4 flex flex-col justify-between items-center text-center transition-all duration-200 hover:border-white/20 hover:bg-[#161924]"
-            >
-              <div className="h-16 w-full flex items-center justify-center p-2 mb-2">
-                {s.logoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={s.logoUrl}
-                    alt={s.name}
-                    className="max-h-12 max-w-full object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-200"
-                    loading="lazy"
-                  />
-                ) : (
-                  <span className="font-display font-bold text-xs text-neutral-400 uppercase tracking-wider">
+        <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          {sponsors.map((s, index) => (
+            <StaggerItem key={s.id} index={index}>
+              <div
+                className="group rounded-lg border border-white/5 bg-[#12141C] p-4 flex flex-col justify-between items-center text-center transition-all duration-200 hover:border-white/20 hover:bg-[#161924] h-full"
+              >
+                <div className="h-16 w-full flex items-center justify-center p-2 mb-2">
+                  {s.logoUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={s.logoUrl}
+                      alt={s.name}
+                      className="max-h-12 max-w-full object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-200"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="font-display font-bold text-xs text-neutral-400 uppercase tracking-wider">
+                      {s.name}
+                    </span>
+                  )}
+                </div>
+
+                <div className="w-full pt-2 border-t border-white/5">
+                  <p className="font-display text-xs font-semibold text-neutral-300 truncate">
                     {s.name}
-                  </span>
+                  </p>
+                  <p className="text-[10px] font-mono text-neutral-500 truncate mt-0.5">
+                    {s.memberPerk?.discountText || "Mitra Resmi"}
+                  </p>
+                </div>
+
+                {s.websiteUrl && (
+                  <a
+                    href={s.websiteUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => handleSponsorClick(s.id)}
+                    className="mt-2 text-[10px] font-mono text-neutral-500 hover:text-neutral-300 flex items-center gap-1"
+                  >
+                    <span>Situs Mitra</span>
+                    <ExternalLink className="h-2.5 w-2.5" />
+                  </a>
                 )}
               </div>
-
-              <div className="w-full pt-2 border-t border-white/5">
-                <p className="font-display text-xs font-semibold text-neutral-300 truncate">
-                  {s.name}
-                </p>
-                <p className="text-[10px] font-mono text-neutral-500 truncate mt-0.5">
-                  {s.memberPerk?.discountText || "Mitra Resmi"}
-                </p>
-              </div>
-
-              {s.websiteUrl && (
-                <a
-                  href={s.websiteUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => handleSponsorClick(s.id)}
-                  className="mt-2 text-[10px] font-mono text-neutral-500 hover:text-neutral-300 flex items-center gap-1"
-                >
-                  <span>Situs Mitra</span>
-                  <ExternalLink className="h-2.5 w-2.5" />
-                </a>
-              )}
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

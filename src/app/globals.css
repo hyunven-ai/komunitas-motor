@@ -87,8 +87,6 @@ body {
 /* Tactile Asphalt Background */
 .bg-asphalt-grit {
   background-color: #0B0D12;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 24px 24px;
 }
 
 /* Highway Center-line stripe divider */
@@ -608,6 +606,67 @@ body {
 .animate-pulse-glow {
   animation: pulse-glow 5s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   Tactical Animation System: Fade In, Slide Up, Stagger & Scroll Utilities
+   ========================================================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Stagger animation utilities for lists & grids */
+.stagger-1 { animation-delay: 80ms !important; }
+.stagger-2 { animation-delay: 160ms !important; }
+.stagger-3 { animation-delay: 240ms !important; }
+.stagger-4 { animation-delay: 320ms !important; }
+.stagger-5 { animation-delay: 400ms !important; }
+.stagger-6 { animation-delay: 480ms !important; }
 
 /* Accessible reduced motion */
 @media (prefers-reduced-motion: reduce) {

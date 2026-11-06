@@ -16,7 +16,7 @@ export default function RootError({
   }, [error]);
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center p-4 sm:p-8 bg-asphalt-grit">
+    <div className="min-h-[80vh] flex items-center justify-center p-4 sm:p-8 bg-[#0B0D12]">
       <div className="w-full max-w-3xl">
         <ErrorState
           error={error}

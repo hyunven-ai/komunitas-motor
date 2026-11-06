@@ -22,15 +22,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { eventFormSchema, type EventFormInput } from "@/features/events/schemas";
 import { createEventAction } from "@/features/events/actions";
 
+const PRESET_CATEGORIES = [
+  "Touring Akbar",
+  "Sunmori & Morning Ride",
+  "Workshop & Edukasi",
+  "Anniversary Gathering",
+  "Bakti Sosial",
+  "Ekspedisi Gunung",
+  "Jelajah Pantai",
+];
+
 export default function NewEventPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
+  // Custom Category & Optional Deadline State
+  const [isCustomCategory, setIsCustomCategory] = React.useState(false);
+  const [customCategoryInput, setCustomCategoryInput] = React.useState("");
+  const [hasDeadline, setHasDeadline] = React.useState(true);
+
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<EventFormInput>({
     resolver: zodResolver(eventFormSchema),
@@ -45,6 +61,7 @@ export default function NewEventPage() {
       mapLink: "",
       startTime: "",
       endTime: "",
+      hasRegistrationDeadline: true,
       registrationDeadline: "",
       capacity: 50,
       fee: 0,
@@ -66,7 +83,13 @@ export default function NewEventPage() {
     setIsSubmitting(true);
     setErrorMessage(null);
 
-    const res = await createEventAction(values);
+    const payload = {
+      ...values,
+      hasRegistrationDeadline: hasDeadline,
+      registrationDeadline: hasDeadline ? values.registrationDeadline : values.endTime,
+    };
+
+    const res = await createEventAction(payload);
     setIsSubmitting(false);
 
     if (res.success) {
@@ -126,6 +149,61 @@ export default function NewEventPage() {
               <Label htmlFor="slug">URL Slug (Otomatis) *</Label>
               <Input id="slug" {...register("slug")} />
               {errors.slug && <p className="text-xs text-red-400">{errors.slug.message}</p>}
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="category">Kategori Kegiatan *</Label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const next = !isCustomCategory;
+                    setIsCustomCategory(next);
+                    if (!next) {
+                      setValue("category", "Touring Akbar");
+                    }
+                  }}
+                  className="text-[11px] text-muted-gold hover:underline font-mono"
+                >
+                  {isCustomCategory ? "Pilih dari Kategori Tersedia" : "+ Kategori Kustom Baru"}
+                </button>
+              </div>
+
+              {!isCustomCategory ? (
+                <select
+                  id="category"
+                  {...register("category")}
+                  onChange={(e) => {
+                    if (e.target.value === "__CUSTOM__") {
+                      setIsCustomCategory(true);
+                      setValue("category", "");
+                    } else {
+                      setValue("category", e.target.value);
+                    }
+                  }}
+                  className="w-full h-9 px-3 text-xs bg-asphalt/80 border border-white/10 rounded-md text-bone focus:outline-none focus:border-muted-gold"
+                >
+                  {PRESET_CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                  <option value="__CUSTOM__" className="text-muted-gold font-bold">
+                    + Tambah Kategori Kustom...
+                  </option>
+                </select>
+              ) : (
+                <Input
+                  placeholder="Ketik kategori kustom (contoh: Night Ride / Rolling Thunder)"
+                  value={customCategoryInput}
+                  onChange={(e) => {
+                    setCustomCategoryInput(e.target.value);
+                    setValue("category", e.target.value);
+                  }}
+                  className="bg-asphalt/80 border-muted-gold/50 text-xs text-bone focus:border-muted-gold"
+                />
+              )}
+              {errors.category && <p className="text-xs text-red-400">{errors.category.message}</p>}
             </div>
 
             <div className="space-y-1.5">
@@ -196,15 +274,43 @@ export default function NewEventPage() {
               {errors.endTime && <p className="text-xs text-red-400">{errors.endTime.message}</p>}
             </div>
 
-            <div className="space-y-1.5 sm:col-span-2">
-              <Label htmlFor="registrationDeadline">Batas Akhir Pendaftaran & Pembayaran *</Label>
-              <Input
-                id="registrationDeadline"
-                type="datetime-local"
-                {...register("registrationDeadline")}
-              />
-              {errors.registrationDeadline && (
-                <p className="text-xs text-red-400">{errors.registrationDeadline.message}</p>
+            <div className="space-y-3 sm:col-span-2 pt-2 border-t border-white/10">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="toggle-deadline" className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    id="toggle-deadline"
+                    type="checkbox"
+                    checked={hasDeadline}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setHasDeadline(checked);
+                      setValue("hasRegistrationDeadline", checked);
+                    }}
+                    className="h-4 w-4 rounded bg-charcoal border-white/20 accent-red-600 cursor-pointer"
+                  />
+                  <span>Aktifkan Batas Waktu Registrasi</span>
+                </Label>
+                <span className={`text-[10px] font-mono font-bold ${hasDeadline ? "text-red-400" : "text-emerald-400"}`}>
+                  {hasDeadline ? "Waktu Batas Aktif" : "Nonaktif (Terbuka Hingga Hari-H)"}
+                </span>
+              </div>
+
+              {hasDeadline ? (
+                <div className="space-y-1.5">
+                  <Label htmlFor="registrationDeadline">Batas Akhir Pendaftaran & Pembayaran *</Label>
+                  <Input
+                    id="registrationDeadline"
+                    type="datetime-local"
+                    {...register("registrationDeadline")}
+                  />
+                  {errors.registrationDeadline && (
+                    <p className="text-xs text-red-400">{errors.registrationDeadline.message}</p>
+                  )}
+                </div>
+              ) : (
+                <div className="p-3 rounded-md bg-white/[0.03] border border-dashed border-emerald-500/30 text-xs text-emerald-400 font-mono">
+                  Batas registrasi dinonaktifkan — pendaftaran dibuka hingga hari kegiatan berlangsung atau kuota peserta terpenuhi.
+                </div>
               )}
             </div>
           </CardContent>

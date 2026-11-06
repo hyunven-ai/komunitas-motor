@@ -107,7 +107,13 @@ export const DEFAULT_ALBUMS: GalleryAlbumItem[] = [
  */
 export async function fetchGalleryAlbumsList(): Promise<GalleryAlbumItem[]> {
   try {
-    const supabase = await createClient();
+    let supabase;
+    if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const { createAdminClient } = await import("@/lib/supabase/admin");
+      supabase = createAdminClient();
+    } else {
+      supabase = await createClient();
+    }
 
     // 1. Fetch real objects from Cloudflare R2 (strictly gallery folder)
     let allR2Photos: AlbumPhotoItem[] = [];
@@ -178,18 +184,14 @@ export async function fetchGalleryAlbumsList(): Promise<GalleryAlbumItem[]> {
         }
       }
 
-      // If no explicit photos or only 1, intelligently link R2 photos
+      // If no explicit photos, link only R2 photos strictly matching this album's slug
       if (photos.length === 0) {
-        // Find R2 photos targeting this album slug
         const matchingSlugPhotos = allR2Photos.filter(
-          (p) => p.key && p.key.includes(row.slug)
+          (p) => p.key && p.key.toLowerCase().includes(row.slug.toLowerCase())
         );
 
         if (matchingSlugPhotos.length > 0) {
           photos = matchingSlugPhotos;
-        } else if (allR2Photos.length > 0) {
-          // If this is the active custom album, associate available R2 photos
-          photos = allR2Photos;
         }
       }
 

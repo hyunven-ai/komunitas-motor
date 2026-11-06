@@ -295,14 +295,23 @@ export async function createEventAction(
     }
 
     const category = validation.data.category || "Touring Akbar";
+    const hasDeadline = validation.data.hasRegistrationDeadline !== false;
+    const finalDeadline = (hasDeadline && validation.data.registrationDeadline)
+      ? validation.data.registrationDeadline
+      : validation.data.endTime;
+
     let descWithMetadata = validation.data.description
       .replace(/<!--CATEGORY:[\s\S]*?-->/, "")
+      .replace(/<!--NO_REGISTRATION_DEADLINE:[\s\S]*?-->/, "")
       .replace(/<!--ITINERARY:[\s\S]*?-->/, "")
       .replace(/<!--INCLUDES:[\s\S]*?-->/, "")
       .replace(/<!--MANDATORY_GEARS:[\s\S]*?-->/, "")
       .trim();
 
     descWithMetadata += `\n<!--CATEGORY:${category}-->`;
+    if (!hasDeadline) {
+      descWithMetadata += `\n<!--NO_REGISTRATION_DEADLINE:true-->`;
+    }
     if (validation.data.itinerary && validation.data.itinerary.length > 0) {
       descWithMetadata += `\n<!--ITINERARY:${JSON.stringify(validation.data.itinerary)}-->`;
     }
@@ -323,7 +332,7 @@ export async function createEventAction(
       map_link: validation.data.mapLink || null,
       start_time: validation.data.startTime,
       end_time: validation.data.endTime,
-      registration_deadline: validation.data.registrationDeadline,
+      registration_deadline: finalDeadline,
       capacity: validation.data.capacity,
       fee: validation.data.fee,
       status: validation.data.status,
@@ -380,7 +389,11 @@ export async function updateEventAction(
     if (data.mapLink !== undefined) updatePayload.map_link = data.mapLink || null;
     if (data.startTime !== undefined) updatePayload.start_time = data.startTime;
     if (data.endTime !== undefined) updatePayload.end_time = data.endTime;
-    if (data.registrationDeadline !== undefined) updatePayload.registration_deadline = data.registrationDeadline;
+    if (data.hasRegistrationDeadline === false) {
+      updatePayload.registration_deadline = data.endTime || data.startTime || new Date().toISOString();
+    } else if (data.registrationDeadline) {
+      updatePayload.registration_deadline = data.registrationDeadline;
+    }
     if (data.capacity !== undefined) updatePayload.capacity = data.capacity;
     if (data.fee !== undefined) updatePayload.fee = data.fee;
     if (data.status !== undefined) updatePayload.status = data.status;
@@ -390,16 +403,20 @@ export async function updateEventAction(
       data.category !== undefined ||
       data.itinerary !== undefined ||
       data.includes !== undefined ||
-      data.mandatoryGears !== undefined
+      data.mandatoryGears !== undefined ||
+      data.hasRegistrationDeadline !== undefined
     ) {
       // Fetch existing row to preserve other metadata if partially updated
       const { data: existingRow } = await supabase
         .from("events")
-        .select("description")
+        .select("description, end_time")
         .eq("id", eventId)
         .maybeSingle();
 
       const existingDesc = existingRow?.description || "";
+      if (data.hasRegistrationDeadline === false && !updatePayload.registration_deadline) {
+        updatePayload.registration_deadline = existingRow?.end_time || new Date().toISOString();
+      }
 
       let cat = data.category;
       if (!cat) {
@@ -434,12 +451,20 @@ export async function updateEventAction(
       const rawBase = data.description !== undefined ? data.description : existingDesc;
       let cleanDesc = rawBase
         .replace(/<!--CATEGORY:[\s\S]*?-->/, "")
+        .replace(/<!--NO_REGISTRATION_DEADLINE:[\s\S]*?-->/, "")
         .replace(/<!--ITINERARY:[\s\S]*?-->/, "")
         .replace(/<!--INCLUDES:[\s\S]*?-->/, "")
         .replace(/<!--MANDATORY_GEARS:[\s\S]*?-->/, "")
         .trim();
 
       cleanDesc += `\n<!--CATEGORY:${cat}-->`;
+      const isNoDeadline =
+        data.hasRegistrationDeadline === false ||
+        (data.hasRegistrationDeadline === undefined && /<!--NO_REGISTRATION_DEADLINE:true-->/.test(existingDesc));
+
+      if (isNoDeadline) {
+        cleanDesc += `\n<!--NO_REGISTRATION_DEADLINE:true-->`;
+      }
       if (itin && itin.length > 0) {
         cleanDesc += `\n<!--ITINERARY:${JSON.stringify(itin)}-->`;
       }

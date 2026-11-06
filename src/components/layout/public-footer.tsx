@@ -19,10 +19,7 @@ export function PublicFooter({ settings }: PublicFooterProps) {
   const cleanPhoneForTel = hotlinePhone.replace(/[^\d+]/g, "");
 
   return (
-    <footer className="border-t border-white/10 bg-[#07080C] text-[#F5F5F2]">
-      {/* Highway Center Line Stripe */}
-      <div className="highway-stripe opacity-40" />
-
+    <footer className="bg-[#07080C] text-[#F5F5F2]">
       <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4 lg:gap-12">
           {/* Identity */}

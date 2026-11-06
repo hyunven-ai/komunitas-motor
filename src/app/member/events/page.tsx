@@ -31,7 +31,8 @@ interface MemberEventItem {
   mapLink?: string | null;
   startTime: string;
   endTime: string;
-  registrationDeadline: string;
+  hasRegistrationDeadline?: boolean;
+  registrationDeadline?: string | null;
   capacity: number;
   fee: number;
   registeredCount: number;

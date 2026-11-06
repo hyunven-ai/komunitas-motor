@@ -55,8 +55,9 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 
     // Compute dimensions based on container size
     const getLayoutConfig = () => {
-      const width = container.offsetWidth || window.innerWidth;
-      const height = container.offsetHeight || window.innerHeight;
+      const rect = container.getBoundingClientRect();
+      const width = Math.ceil(rect.width || container.offsetWidth || window.innerWidth);
+      const height = Math.ceil(rect.height || container.offsetHeight || window.innerHeight);
 
       const isMobile = width < 768;
       const cardWidth = isMobile ? 140 : width < 1200 ? 180 : 210;
@@ -86,9 +87,12 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
         gsap.set(activeCard, {
           x: 0,
           y: 0,
-          width: config.width,
-          height: config.height,
+          width: "100%",
+          height: "100%",
           borderRadius: 0,
+          border: "none",
+          borderWidth: 0,
+          boxShadow: "none",
           scale: 1,
           zIndex: 10,
           opacity: 1,
@@ -114,6 +118,9 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
             width: config.cardWidth,
             height: config.cardHeight,
             borderRadius: 16,
+            border: "none",
+            borderWidth: 0,
+            boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.85)",
             scale: 1,
             zIndex: 25,
             opacity: 1,
@@ -269,17 +276,21 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
       // 6. THE CORE OPENING EFFECT: Active card expands to 100% full-screen
       const activeCard = getCard(active);
       if (activeCard) {
-        gsap.set(activeCard, { zIndex: 20 });
+        gsap.set(activeCard, { zIndex: 20, border: "none", borderWidth: 0 });
         gsap.to(activeCard, {
           x: 0,
           y: 0,
           width: config.width,
           height: config.height,
           borderRadius: 0,
+          boxShadow: "none",
           duration: 0.85,
           ease,
           onComplete: () => {
             if (!isMounted) return;
+
+            // Lock to 100% full bleed fill
+            gsap.set(activeCard, { width: "100%", height: "100%" });
 
             // Reset previously active card to the end of the preview stack
             const xNew = config.offsetLeft + (rest.length - 1) * (config.cardWidth + config.gap);
@@ -291,6 +302,9 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
                 height: config.cardHeight,
                 zIndex: 25,
                 borderRadius: 16,
+                border: "none",
+                borderWidth: 0,
+                boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.85)",
                 scale: 1,
               });
             }
@@ -324,12 +338,13 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
           const xNew = config.offsetLeft + index * (config.cardWidth + config.gap);
 
           if (card) {
-            gsap.set(card, { zIndex: 25 });
+            gsap.set(card, { zIndex: 25, border: "none", borderWidth: 0 });
             gsap.to(card, {
               x: xNew,
               y: config.offsetTop,
               width: config.cardWidth,
               height: config.cardHeight,
+              borderRadius: 16,
               duration: 0.75,
               ease,
               delay: 0.08 * (index + 1),
@@ -443,15 +458,14 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
             key={slide.id}
             id={`tc-card-${index}`}
             onClick={() => onCardClicked(index)}
-            className="absolute left-0 top-0 bg-center bg-cover shadow-2xl overflow-hidden cursor-pointer pointer-events-auto border border-white/15 hover:border-red-500/70 group"
+            className="absolute left-0 top-0 bg-center bg-cover overflow-hidden cursor-pointer pointer-events-auto border-0 select-none group"
             style={{
               backgroundImage: `url(${slide.bgUrl})`,
               boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.85)",
             }}
           >
-            {/* Dark contrast vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-85 group-hover:opacity-60 transition-opacity" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+            {/* Soft bottom scrim for preview typography legibility (keeps photo colors natural & vivid) */}
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
           </div>
         ))}
 
@@ -474,8 +488,14 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
         ))}
       </div>
 
+      {/* 2.5 ACTIVE BACKGROUND CONTRAST OVERLAY (Behind preview cards, enhances headline legibility seamlessly) */}
+      <div className="absolute inset-0 pointer-events-none z-[21]">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07080C] via-transparent to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07080C]/85 via-[#07080C]/40 to-transparent" />
+      </div>
+
       {/* 3. DUAL DETAILS LAYER: #tc-details-even & #tc-details-odd FOR FLAWLESS CROSS-FADE */}
-      <div className="container relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-28 pb-6 z-35 w-full flex-1 flex flex-col justify-center pointer-events-none">
+      <div className="container relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-28 pb-6 z-[35] w-full flex-1 flex flex-col justify-center pointer-events-none">
         {["even", "odd"].map((type) => (
           <div
             key={type}

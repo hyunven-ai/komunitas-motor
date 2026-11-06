@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/states";
 import { fetchEventsList } from "@/features/events/queries";
 import { formatRupiah, formatDate } from "@/lib/utils";
+import { FadeInSlideUp, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 
 export const metadata = {
   title: "Agenda Touring — Brotherhood Community Portal",
@@ -18,9 +19,9 @@ export default async function PublicEventsPage() {
   const publishedEvents = allEvents.filter((e) => e.status === "published");
 
   return (
-    <div className="py-16 sm:py-24 bg-asphalt-grit">
+    <div className="py-16 sm:py-24 bg-[#0B0D12] min-h-screen text-[#F5F5F2]">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-16">
-        <div className="max-w-4xl space-y-4">
+        <FadeInSlideUp trigger="mount" duration={800} className="max-w-4xl space-y-4">
           <div className="inline-flex items-center gap-2 text-xs font-mono text-muted-gold uppercase tracking-widest">
             <span className="h-1.5 w-6 bg-muted-gold rounded-full" />
             <span>Kalender Ekspedisi Resmi</span>
@@ -31,7 +32,7 @@ export default async function PublicEventsPage() {
           <p className="text-base sm:text-lg text-bone-muted leading-relaxed font-sans max-w-3xl">
             Pilih dan ikuti kegiatan touring resmi komunitas. Pendaftaran member dilakukan secara terkoordinasi dengan penguncian kapasitas demi menjaga keselamatan barisan konvoi di jalur aspal.
           </p>
-        </div>
+        </FadeInSlideUp>
 
         {publishedEvents.length === 0 ? (
           <EmptyState
@@ -47,15 +48,15 @@ export default async function PublicEventsPage() {
             }}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {publishedEvents.map((event) => {
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {publishedEvents.map((event, index) => {
             const isFull = event.registeredCount >= event.capacity;
 
             return (
-              <div
-                key={event.id || event.slug}
-                className="tactical-panel rounded-2xl border border-muted-gold/40 bg-asphalt/90 overflow-hidden flex flex-col justify-between shadow-2xl hover:border-muted-gold transition-all duration-300 group"
-              >
+              <StaggerItem key={event.id || event.slug} index={index}>
+                <div
+                  className="tactical-panel rounded-2xl border border-muted-gold/40 bg-asphalt/90 overflow-hidden flex flex-col justify-between shadow-2xl hover:border-muted-gold transition-all duration-300 group h-full"
+                >
                 <div>
                   {/* FEATURED IMAGE BANNER */}
                   <div className="relative aspect-[16/9] w-full bg-charcoal overflow-hidden border-b border-white/10">
@@ -134,9 +135,10 @@ export default async function PublicEventsPage() {
                   </Link>
                 </div>
               </div>
+            </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
         )}
       </div>
     </div>

@@ -2,7 +2,7 @@ import { SkeletonEventCard } from "@/components/states";
 
 export default function EventsLoading() {
   return (
-    <div className="py-16 sm:py-24 bg-asphalt-grit min-h-screen">
+    <div className="py-16 sm:py-24 bg-[#0B0D12] min-h-screen">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Header Shape */}
         <div className="max-w-4xl space-y-4">
