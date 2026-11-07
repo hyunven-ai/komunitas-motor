@@ -13,14 +13,11 @@ import {
 } from "lucide-react";
 import { HeroSlide, DEFAULT_HERO_SLIDES } from "@/features/sliders/types";
 
-function cleanSlideImageUrl(url: string, isPreview = false): string {
+function cleanSlideImageUrl(url: string): string {
   if (!url) return url;
   if (url.includes("images.unsplash.com")) {
     const base = url.split("?")[0];
-    if (isPreview) {
-      return `${base}?auto=format&fit=crop&w=480&q=75`;
-    }
-    return `${base}?auto=format&fit=crop&w=1200&q=80`;
+    return `${base}?auto=format&fit=crop&w=2000&q=85`;
   }
   return url;
 }
@@ -480,20 +477,16 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
               boxShadow: index === 0 ? "none" : "0 20px 40px -10px rgba(0, 0, 0, 0.85)",
             }}
           >
-            {/* Next.js Optimized Hero & Preview Image */}
+            {/* Next.js Optimized Full-Bleed Sharp Hero & Slide Image */}
             <Image
-              src={cleanSlideImageUrl(slide.bgUrl, index > 0)}
+              src={cleanSlideImageUrl(slide.bgUrl)}
               alt={slide.headlinePart1 || "Borneo Brotherhood Hero"}
               fill
               priority={index === 0}
               {...(index === 0 ? { fetchPriority: "high" } : {})}
               loading={index === 0 ? "eager" : "lazy"}
-              quality={index === 0 ? 80 : 70}
-              sizes={
-                index === 0
-                  ? "(max-width: 768px) 100vw, 100vw"
-                  : "(max-width: 768px) 180px, 240px"
-              }
+              quality={85}
+              sizes="100vw"
               className="object-cover pointer-events-none select-none"
             />
             {/* Soft bottom scrim for preview typography legibility (keeps photo colors natural & vivid) */}
