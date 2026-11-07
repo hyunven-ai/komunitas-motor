@@ -10,17 +10,20 @@ import { JsonLd } from "@/components/seo/json-ld";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const oswaldDisplay = Oswald({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const viewport: Viewport = {
@@ -107,6 +110,12 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${oswaldDisplay.variable} h-full antialiased dark`}
     >
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://3kabrotherbikers.gambarku.my.id" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://3kabrotherbikers.gambarku.my.id" />
+        <link rel="preconnect" href="https://gambarku.my.id" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://gambarku.my.id" />
         <JsonLd data={orgSchema} />
         {/* Google Analytics 4 (GA4) Integration */}
         {settings.gaMeasurementId && (

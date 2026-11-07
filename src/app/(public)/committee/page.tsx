@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Shield,
   Award,
@@ -95,11 +96,13 @@ export default async function CommitteePage() {
                       <div className="relative shrink-0">
                         <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl overflow-hidden border-2 border-amber-400/40 bg-charcoal shadow-xl relative group-hover:border-amber-400 group-hover:shadow-amber-400/10 transition-all">
                           {officer.avatarUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
+                            <Image
                               src={officer.avatarUrl}
                               alt={officer.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              fill
+                              sizes="(max-width: 640px) 80px, 96px"
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
                             />
                           ) : (
                             <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-charcoal via-asphalt to-charcoal text-amber-400">

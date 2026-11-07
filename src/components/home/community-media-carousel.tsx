@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Camera,
   BookOpen,
@@ -176,11 +177,12 @@ export function CommunityMediaCarousel({
                   {/* Image Frame */}
                   <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full bg-[#181B26] overflow-hidden">
                     {album.coverImageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={album.coverImageUrl}
                         alt={album.title}
-                        className="w-full h-full object-cover group-hover/gallery:scale-105 transition-transform duration-700 ease-out"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover group-hover/gallery:scale-105 transition-transform duration-700 ease-out"
                         loading="lazy"
                       />
                     ) : (
@@ -190,7 +192,7 @@ export function CommunityMediaCarousel({
                       </div>
                     )}
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#12141C] via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#12141C] via-black/20 to-transparent pointer-events-none" />
 
                     {/* Overlaid Badges */}
                     <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
@@ -341,11 +343,12 @@ export function CommunityMediaCarousel({
                     className="block relative aspect-[16/10] sm:aspect-[16/9] w-full bg-[#181B26] overflow-hidden"
                   >
                     {article.coverImageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={article.coverImageUrl}
                         alt={article.title}
-                        className="w-full h-full object-cover group-hover/news:scale-105 transition-transform duration-700 ease-out"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover group-hover/news:scale-105 transition-transform duration-700 ease-out"
                         loading="lazy"
                       />
                     ) : (
@@ -355,7 +358,7 @@ export function CommunityMediaCarousel({
                       </div>
                     )}
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#12141C] via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#12141C] via-black/20 to-transparent pointer-events-none" />
 
                     {/* Overlaid Badges */}
                     <div className="absolute top-3 left-3 right-3 flex items-center justify-between">

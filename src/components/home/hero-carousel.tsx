@@ -451,19 +451,32 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
         <div className="tc-progress-foreground h-full bg-gradient-to-r from-red-600 via-red-500 to-amber-400 w-1/6 transition-all" />
       </div>
 
-      {/* 2. ABSOLUTE CARDS LAYER (OPENING EFFECT ENGINE) */}
+      {/* 2. ABSOLUTE CARDS LAYER (OPENING EFFECT ENGINE & LCP DISCOVERABLE) */}
       <div className="absolute inset-0 pointer-events-none z-10">
         {activeSlides.map((slide, index) => (
           <div
             key={slide.id}
             id={`tc-card-${index}`}
             onClick={() => onCardClicked(index)}
-            className="absolute left-0 top-0 bg-center bg-cover overflow-hidden cursor-pointer pointer-events-auto border-0 select-none group"
+            className={`absolute left-0 top-0 overflow-hidden cursor-pointer pointer-events-auto border-0 select-none group ${
+              index === 0
+                ? "w-full h-full inset-0 z-10 opacity-100"
+                : "z-20 opacity-0"
+            }`}
             style={{
-              backgroundImage: `url(${slide.bgUrl})`,
-              boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.85)",
+              boxShadow: index === 0 ? "none" : "0 20px 40px -10px rgba(0, 0, 0, 0.85)",
             }}
           >
+            {/* LCP Discovery Native Hero Image with High Fetch Priority for First Slide */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={slide.bgUrl}
+              alt={slide.headlinePart1 || "Borneo Brotherhood Hero"}
+              fetchPriority={index === 0 ? "high" : "low"}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding={index === 0 ? "sync" : "async"}
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            />
             {/* Soft bottom scrim for preview typography legibility (keeps photo colors natural & vivid) */}
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
           </div>
@@ -475,7 +488,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
             key={`content-${slide.id}`}
             id={`tc-content-${index}`}
             onClick={() => onCardClicked(index)}
-            className="absolute left-0 top-0 pl-4 pr-3 pointer-events-auto cursor-pointer z-30 select-none"
+            className="absolute left-0 top-0 pl-4 pr-3 pointer-events-auto cursor-pointer z-30 select-none opacity-0"
           >
             <div className="w-6 h-1 rounded-full bg-red-500 mb-2" />
             <div className="text-[10px] font-mono uppercase tracking-wider text-neutral-300 truncate max-w-[170px]">
@@ -496,70 +509,81 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 
       {/* 3. DUAL DETAILS LAYER: #tc-details-even & #tc-details-odd FOR FLAWLESS CROSS-FADE */}
       <div className="container relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-28 pb-6 z-[35] w-full flex-1 flex flex-col justify-center pointer-events-none">
-        {["even", "odd"].map((type) => (
-          <div
-            key={type}
-            id={`tc-details-${type}`}
-            className="absolute max-w-2xl flex flex-col justify-center space-y-4 sm:space-y-6 pointer-events-auto"
-            style={{ opacity: 0 }}
-          >
-            {/* Location with accent line */}
-            <div className="flex items-center gap-2.5 text-xs font-mono tracking-widest text-neutral-300 uppercase">
-              <span className="h-0.5 w-6 bg-red-500 rounded-full" />
-              <span className="tc-place font-semibold text-white tracking-wider">
-                Borneo Brotherhood Destination
-              </span>
-            </div>
-
-            {/* Giant Bold Dramatic Headline */}
-            <div>
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-display font-black uppercase tracking-tight text-white leading-[0.95] drop-shadow-2xl">
-                <span className="tc-title-1 block">DESTINASI</span>
-                <span className="tc-title-2 block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-amber-400">
-                  NUSANTARA
+        {["even", "odd"].map((type) => {
+          const isInitialActive = type === "even";
+          const initialSlide = activeSlides[0];
+          return (
+            <div
+              key={type}
+              id={`tc-details-${type}`}
+              className="absolute max-w-2xl flex flex-col justify-center space-y-4 sm:space-y-6 pointer-events-auto"
+              style={{
+                opacity: isInitialActive ? 1 : 0,
+                zIndex: isInitialActive ? 35 : 12,
+              }}
+            >
+              {/* Location with accent line */}
+              <div className="flex items-center gap-2.5 text-xs font-mono tracking-widest text-neutral-300 uppercase">
+                <span className="h-0.5 w-6 bg-red-500 rounded-full" />
+                <span className="tc-place font-semibold text-white tracking-wider">
+                  {isInitialActive ? initialSlide?.location || "Borneo Brotherhood Destination" : "Borneo Brotherhood Destination"}
                 </span>
-              </h1>
-            </div>
+              </div>
 
-            {/* Descriptive Paragraph */}
-            <p className="tc-desc text-xs sm:text-sm md:text-base text-neutral-300/90 leading-relaxed max-w-xl font-sans drop-shadow">
-              Menembus bentang alam eksotis dengan formasi konvoi selang-seling yang disiplin dan aman.
-            </p>
+              {/* Giant Bold Dramatic Headline */}
+              <div>
+                <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-display font-black uppercase tracking-tight text-white leading-[0.95] drop-shadow-2xl">
+                  <span className="tc-title-1 block">
+                    {isInitialActive ? initialSlide?.headlinePart1 || "DESTINASI" : "DESTINASI"}
+                  </span>
+                  <span className="tc-title-2 block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-amber-400">
+                    {isInitialActive ? initialSlide?.headlineGold || "NUSANTARA" : "NUSANTARA"}
+                  </span>
+                </h1>
+              </div>
 
-            {/* Action Row */}
-            <div className="tc-cta flex items-center gap-4 pt-2 sm:pt-4">
-              {/* Sound / Ambient Toggle Button */}
-              <button
-                onClick={() => setIsAudioActive(!isAudioActive)}
-                className={`h-11 w-11 rounded-full border flex items-center justify-center transition-all duration-300 backdrop-blur-md ${
-                  isAudioActive
-                    ? "border-amber-400/80 bg-amber-500/20 text-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
-                    : "border-white/20 bg-black/40 text-neutral-400 hover:text-white hover:border-white/40"
-                }`}
-                title={isAudioActive ? "Matikan Efek Suara" : "Aktifkan Efek Suara"}
-                aria-label="Sound Toggle"
-              >
-                {isAudioActive ? (
-                  <div className="flex items-center gap-0.5">
-                    <span className="w-0.5 h-3 bg-amber-400 animate-pulse" />
-                    <span className="w-0.5 h-4 bg-amber-300 animate-pulse delay-75" />
-                    <span className="w-0.5 h-2 bg-amber-400 animate-pulse delay-150" />
-                  </div>
-                ) : (
-                  <VolumeX className="h-4 w-4" />
-                )}
-              </button>
+              {/* Descriptive Paragraph */}
+              <p className="tc-desc text-xs sm:text-sm md:text-base text-neutral-300/90 leading-relaxed max-w-xl font-sans drop-shadow">
+                {isInitialActive
+                  ? initialSlide?.subtitle || "Menembus bentang alam eksotis dengan formasi konvoi selang-seling yang disiplin dan aman."
+                  : "Menembus bentang alam eksotis dengan formasi konvoi selang-seling yang disiplin dan aman."}
+              </p>
 
-              {/* Discover Location Glowing Pill Button */}
-              <Link href="/events">
-                <button className="relative group px-6 py-3 rounded-full border border-white/25 hover:border-red-500 bg-white/5 hover:bg-red-600/20 backdrop-blur-md text-white text-xs font-display font-bold uppercase tracking-wider shadow-lg flex items-center gap-2.5 transition-all duration-300 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] active:scale-95">
-                  <span>DISCOVER LOCATION</span>
-                  <ArrowRight className="h-4 w-4 text-red-400 group-hover:translate-x-1 transition-transform" />
+              {/* Action Row */}
+              <div className="tc-cta flex items-center gap-4 pt-2 sm:pt-4">
+                {/* Sound / Ambient Toggle Button */}
+                <button
+                  onClick={() => setIsAudioActive(!isAudioActive)}
+                  className={`h-11 w-11 rounded-full border flex items-center justify-center transition-all duration-300 backdrop-blur-md ${
+                    isAudioActive
+                      ? "border-amber-400/80 bg-amber-500/20 text-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
+                      : "border-white/20 bg-black/40 text-neutral-400 hover:text-white hover:border-white/40"
+                  }`}
+                  title={isAudioActive ? "Matikan Efek Suara" : "Aktifkan Efek Suara"}
+                  aria-label="Sound Toggle"
+                >
+                  {isAudioActive ? (
+                    <div className="flex items-center gap-0.5">
+                      <span className="w-0.5 h-3 bg-amber-400 animate-pulse" />
+                      <span className="w-0.5 h-4 bg-amber-300 animate-pulse delay-75" />
+                      <span className="w-0.5 h-2 bg-amber-400 animate-pulse delay-150" />
+                    </div>
+                  ) : (
+                    <VolumeX className="h-4 w-4" />
+                  )}
                 </button>
-              </Link>
+
+                {/* Discover Location Glowing Pill Button */}
+                <Link href="/events">
+                  <button className="relative group px-6 py-3 rounded-full border border-white/25 hover:border-red-500 bg-white/5 hover:bg-red-600/20 backdrop-blur-md text-white text-xs font-display font-bold uppercase tracking-wider shadow-lg flex items-center gap-2.5 transition-all duration-300 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] active:scale-95">
+                    <span>DISCOVER LOCATION</span>
+                    <ArrowRight className="h-4 w-4 text-red-400 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </Link>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* 4. BOTTOM PAGINATION & SLIDE NUMBERS */}

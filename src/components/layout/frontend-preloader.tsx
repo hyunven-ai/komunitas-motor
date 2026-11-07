@@ -7,28 +7,40 @@ import { Gauge, Shield, Zap, Sparkles } from "lucide-react";
 
 export function FrontendPreloader() {
   const pathname = usePathname();
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [progress, setProgress] = useState(12);
+  const [initialLoading, setInitialLoading] = useState(false);
+  const [progress, setProgress] = useState(15);
   const [routeTransitioning, setRouteTransitioning] = useState(false);
 
-  // Initial page entrance ignition animation
+  // Snappy motorcycle ignition sequence on first session entry
   useEffect(() => {
-    let current = 0;
-    const interval = setInterval(() => {
-      current += Math.floor(Math.random() * 8) + 5;
-      if (current >= 100) {
-        current = 100;
-        setProgress(100);
-        clearInterval(interval);
-        setTimeout(() => {
-          setInitialLoading(false);
-        }, 400);
-      } else {
-        setProgress(current);
+    try {
+      if (typeof window !== "undefined" && window.sessionStorage?.getItem("bb_ignited")) {
+        return;
       }
-    }, 65);
+      if (typeof window !== "undefined") {
+        window.sessionStorage?.setItem("bb_ignited", "1");
+      }
+      setInitialLoading(true);
 
-    return () => clearInterval(interval);
+      let current = 15;
+      const interval = setInterval(() => {
+        current += Math.floor(Math.random() * 15) + 18;
+        if (current >= 100) {
+          current = 100;
+          setProgress(100);
+          clearInterval(interval);
+          setTimeout(() => {
+            setInitialLoading(false);
+          }, 200);
+        } else {
+          setProgress(current);
+        }
+      }, 25);
+
+      return () => clearInterval(interval);
+    } catch {
+      setInitialLoading(false);
+    }
   }, []);
 
   // Top progress bar on route changes

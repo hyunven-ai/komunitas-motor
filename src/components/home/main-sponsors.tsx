@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Sponsor } from "@/features/sponsors/types";
 import { recordSponsorClickAction } from "@/features/sponsors/actions";
@@ -46,13 +47,14 @@ export function MainSponsors({ sponsors }: MainSponsorsProps) {
               <div
                 className="group rounded-lg border border-white/5 bg-[#12141C] p-4 flex flex-col justify-between items-center text-center transition-all duration-200 hover:border-white/20 hover:bg-[#161924] h-full"
               >
-                <div className="h-16 w-full flex items-center justify-center p-2 mb-2">
+                <div className="h-16 w-full flex items-center justify-center p-2 mb-2 relative">
                   {s.logoUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={s.logoUrl}
                       alt={s.name}
-                      className="max-h-12 max-w-full object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-200"
+                      width={120}
+                      height={48}
+                      className="max-h-12 w-auto object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-200"
                       loading="lazy"
                     />
                   ) : (

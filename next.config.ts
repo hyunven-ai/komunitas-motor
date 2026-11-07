@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* Standard stable config for Next.js App Router */
+  compress: true,
+  poweredByHeader: false,
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days cache for optimized images
     remotePatterns: [
       {
         protocol: "https",
@@ -27,6 +30,26 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "borneobikers.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.gambarku.my.id",
+      },
+      {
+        protocol: "https",
+        hostname: "gambarku.my.id",
+      },
+      {
+        protocol: "https",
+        hostname: "**.qardasku.my.id",
+      },
+      {
+        protocol: "https",
+        hostname: "qardasku.my.id",
+      },
+      {
+        protocol: "https",
+        hostname: "**.my.id",
       },
     ],
   },

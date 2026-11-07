@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Shield,
   Calendar,
@@ -47,7 +48,21 @@ export const dynamic = "force-dynamic";
  */
 async function HeroSection() {
   const heroSlides = await getActiveHeroSlides();
-  return <HeroCarousel slides={heroSlides} />;
+  const firstSlide = heroSlides[0];
+
+  return (
+    <>
+      {firstSlide?.bgUrl && (
+        <link
+          rel="preload"
+          as="image"
+          href={firstSlide.bgUrl}
+          fetchPriority="high"
+        />
+      )}
+      <HeroCarousel slides={heroSlides} />
+    </>
+  );
 }
 
 /**
@@ -161,11 +176,12 @@ async function SpotlightEventsSection() {
                         {/* Image Banner */}
                         <div className="relative aspect-[16/10] w-full bg-[#181B26] overflow-hidden">
                           {event.cover_image_url ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
+                            <Image
                               src={event.cover_image_url}
                               alt={event.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
                               loading="lazy"
                             />
                           ) : (
@@ -173,7 +189,7 @@ async function SpotlightEventsSection() {
                               Brotherhood Expedition
                             </div>
                           )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
                           {/* Status Stamp */}
                           <div className="absolute top-3 right-3">
@@ -473,11 +489,12 @@ export default function HomePage() {
                       {/* Portrait Avatar */}
                       <div className="relative aspect-square w-full rounded-md overflow-hidden bg-[#181B26] border border-white/5">
                         {m.avatarUrl ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
+                          <Image
                             src={m.avatarUrl}
                             alt={m.name}
-                            className="w-full h-full object-cover filter grayscale contrast-110"
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            className="object-cover filter grayscale contrast-110"
                             loading="lazy"
                           />
                         ) : (
@@ -485,7 +502,7 @@ export default function HomePage() {
                             <Users className="h-8 w-8" />
                           </div>
                         )}
-                        <div className="absolute top-2 left-2">
+                        <div className="absolute top-2 left-2 z-10">
                           <span className="text-[9px] font-mono uppercase tracking-wider bg-black/80 text-white px-2 py-0.5 rounded border border-white/10">
                             {m.code}
                           </span>
