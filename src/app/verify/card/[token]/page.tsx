@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { DigitalKtaCard } from "@/components/member/digital-kta-card";
 
 export const metadata = {
   title: "Verifikasi Keaslian KTA — Brotherhood Community Portal",
@@ -144,8 +145,22 @@ export default async function VerifyCardPage({
         </CardHeader>
 
         <CardContent className="pt-6 space-y-4">
-          {isValid ? (
-            <div className="space-y-3.5">
+          {isValid && member ? (
+            <div className="space-y-4">
+              {/* Official Digital KTA Visual Replica */}
+              <div className="w-full drop-shadow-xl">
+                <DigitalKtaCard
+                  fullName={fullName}
+                  memberNumber={member.member_number}
+                  motorcyclePlate={member.motorcycle_plate || "-"}
+                  motorcycleModel={member.motorcycle_model || undefined}
+                  joinedDate={formatJoinedDate(member.joined_date)}
+                  validUntil="SEUMUR HIDUP"
+                  status={member.status || "active"}
+                  priority
+                />
+              </div>
+
               <div className="rounded-lg bg-charcoal p-4 border border-white/5 space-y-3">
                 <div className="flex items-center justify-between border-b border-white/5 pb-2">
                   <span className="text-xs text-bone-muted uppercase">Nama Anggota</span>

@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { MainSponsors } from "@/components/home/main-sponsors";
 import { CommunityMediaCarousel } from "@/components/home/community-media-carousel";
+import { DigitalKtaCard } from "@/components/member/digital-kta-card";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import {
   FadeInSlideUp,
@@ -604,60 +605,19 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Right: Grounded Matte KTA Card Replica */}
-              <div className="lg:col-span-6 flex justify-center">
-                <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#12141C] p-7 text-white shadow-xl space-y-6">
-                  {/* Card Header */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-5">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#181B26]">
-                        <Shield className="h-5 w-5 text-red-500" />
-                      </div>
-                      <div>
-                        <p className="font-display text-base font-bold tracking-widest text-white uppercase">
-                          BROTHERHOOD MC
-                        </p>
-                        <p className="text-[9px] uppercase tracking-widest text-neutral-400 font-mono">
-                          Official Member Pass
-                        </p>
-                      </div>
-                    </div>
-
-                    <span className="font-mono text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">
-                      TERVERIFIKASI
-                    </span>
-                  </div>
-
-                  {/* Card Bio */}
-                  <div className="flex items-center gap-5">
-                    <div className="h-20 w-20 rounded-lg border border-white/10 bg-[#181B26] flex flex-col items-center justify-center shrink-0">
-                      <Users className="h-8 w-8 text-neutral-500" />
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-[9px] uppercase font-mono text-neutral-400">Nama Anggota</p>
-                      <p className="font-display text-xl font-bold uppercase text-white">
-                        BAMBANG WIJAYA
-                      </p>
-                      <p className="font-mono text-xs font-semibold text-red-400">
-                        NO: BMC-2024-0012
-                      </p>
-                      <p className="text-[10px] font-mono text-neutral-400 pt-0.5">
-                        Kawasaki Versys 650 &bull; Chapter Bogor
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Card Footer */}
-                  <div className="flex items-center justify-between border-t border-white/10 pt-4 text-xs font-mono text-neutral-400">
-                    <div>
-                      <p className="text-[9px] uppercase text-neutral-500">Masa Berlaku</p>
-                      <p className="font-semibold text-neutral-200">SEUMUR HIDUP</p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-[#181B26] border border-white/5 px-3 py-1.5 rounded">
-                      <QrCode className="h-4 w-4 text-red-500" />
-                      <span className="text-[10px] text-neutral-300">SECURITY QR</span>
-                    </div>
-                  </div>
+              {/* Right: Official High-Tech Digital KTA Card */}
+              <div className="lg:col-span-6 flex justify-center items-center">
+                <div className="w-full max-w-[480px]">
+                  <DigitalKtaCard
+                    fullName="BAMBANG WIJAYA"
+                    memberNumber="BMC-2024-0012"
+                    nrta="NRTA-0012"
+                    motorcyclePlate="KB 4521 XX"
+                    motorcycleModel="Kawasaki Versys 650"
+                    joinedDate="12 Oktober 2024"
+                    validUntil="SEUMUR HIDUP"
+                    status="active"
+                  />
                 </div>
               </div>
             </div>

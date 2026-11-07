@@ -2,11 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import QRCode from "qrcode";
 import {
-  Shield,
-  QrCode,
   Download,
   Share2,
   CheckCircle2,
@@ -18,6 +15,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useMember } from "@/context/member-context";
+import { DigitalKtaCard, DigitalKtaCardBack } from "@/components/member/digital-kta-card";
 
 export default function DigitalCardPage() {
   const { member, loading } = useMember();
@@ -36,11 +34,11 @@ export default function DigitalCardPage() {
     if (!verificationToken) return;
     // Generate QR Code containing strictly the verification URL (No sensitive PII inside the QR)
     QRCode.toDataURL(verificationUrl, {
-      width: 256,
-      margin: 1,
+      width: 400,
+      margin: 0,
       color: {
-        dark: "#171918",
-        light: "#E9E2D3",
+        dark: "#000000",
+        light: "#FFFFFF",
       },
     })
       .then((url) => setQrDataUrl(url))
@@ -73,125 +71,35 @@ export default function DigitalCardPage() {
       {/* Card Display Container */}
       <div className="flex flex-col items-center justify-center gap-6">
         {/* Interactive Flip Card */}
-        <div className="w-full max-w-[430px] aspect-[1.586/1] perspective-1000">
+        <div className="w-full max-w-[460px] aspect-[1024/682] perspective-1000">
           <div
-            className={`relative w-full h-full duration-500 rounded-2xl shadow-2xl transition-transform transform-style-3d cursor-pointer ${
+            className={`relative w-full h-full duration-500 rounded-[22px] sm:rounded-[36px] transition-transform transform-style-3d cursor-pointer ${
               isFlipped ? "rotate-y-180" : ""
             }`}
             onClick={() => setIsFlipped(!isFlipped)}
             title="Klik untuk membalik kartu"
           >
             {/* FRONT OF THE CARD */}
-            <div className="absolute inset-0 backface-hidden rounded-2xl border-2 border-muted-gold/50 bg-gradient-to-br from-[#1c1e1c] via-[#161816] to-[#0e100e] p-6 text-bone shadow-2xl flex flex-col justify-between overflow-hidden">
-              {/* Subtle background texture & watermark */}
-              <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-red-600/10 blur-2xl pointer-events-none" />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
-                <Image
-                  src="/icon.png"
-                  alt="Watermark"
-                  width={140}
-                  height={140}
-                  className="object-contain"
-                />
-              </div>
-
-              {/* Card Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-3 relative z-10">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-red-500/50 bg-[#161a29] p-1 shadow-inner">
-                    <Image
-                      src="/icon.png"
-                      alt="Emblem"
-                      width={28}
-                      height={28}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-serif font-black tracking-widest text-sm text-bone uppercase leading-none">
-                      BORNEO BROTHERHOOD
-                    </h3>
-                    <p className="text-[8px] font-mono tracking-widest text-red-400 uppercase mt-0.5">
-                      Motorcycle Community &bull; Indonesia
-                    </p>
-                  </div>
-                </div>
-                <Badge variant="gold" className="text-[9px] py-0.5 px-2 font-mono tracking-wider">
-                  ACTIVE
-                </Badge>
-              </div>
-
-              {/* Card Body: Photo & Member Details */}
-              <div className="flex items-center gap-4 py-2 relative z-10">
-                {/* Photo / Avatar */}
-                <div className="h-24 w-20 rounded-lg border border-muted-gold/50 bg-charcoal flex flex-col items-center justify-center shrink-0 overflow-hidden shadow-md relative">
-                  <div className="h-full w-full bg-gradient-to-t from-asphalt to-charcoal flex flex-col items-center justify-center">
-                    <Shield className="h-8 w-8 text-muted-gold/50 mb-1" />
-                    <span className="text-[8px] font-mono text-bone-muted uppercase">RIDER</span>
-                  </div>
-                </div>
-
-                {/* Details */}
-                <div className="space-y-1 overflow-hidden">
-                  <p className="text-[9px] uppercase tracking-widest text-bone-muted">Nama Anggota</p>
-                  <p className="text-base font-bold font-serif text-bone uppercase tracking-wide truncate">
-                    {member?.fullName || "Anggota Brotherhood"}
-                  </p>
-                  <p className="text-xs font-mono font-bold text-muted-gold">
-                    No: {member?.memberNumber || "BMC-MEMBER"}
-                  </p>
-                  <div className="pt-1 flex flex-wrap gap-x-3 text-[10px] text-bone-muted font-sans">
-                    <span>{member?.motorcycleModel || "-"}</span>
-                    <span>Plat: {member?.motorcyclePlate || "-"}</span>
-                    <span>Gol. Darah: {member?.bloodType || "-"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card Footer: Joined Date & QR Code Preview */}
-              <div className="flex items-end justify-between border-t border-white/10 pt-2.5 relative z-10">
-                <div className="text-[9px] text-bone-muted space-y-0.5">
-                  <p>Masa Berlaku: <strong className="text-bone">Seumur Hidup</strong></p>
-                  <p>Bergabung: <strong className="text-muted-gold">{member?.joinedDate || "-"}</strong></p>
-                </div>
-
-                {/* QR Code Canvas */}
-                <div className="rounded-md border border-muted-gold/40 bg-bone p-1 shadow-md">
-                  {qrDataUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={qrDataUrl}
-                      alt="Verification QR Code"
-                      className="h-12 w-12"
-                    />
-                  ) : (
-                    <div className="h-12 w-12 flex items-center justify-center">
-                      <QrCode className="h-8 w-8 text-charcoal animate-pulse" />
-                    </div>
-                  )}
-                </div>
-              </div>
+            <div className="absolute inset-0 backface-hidden">
+              <DigitalKtaCard
+                fullName={member?.fullName || "Anggota Brotherhood"}
+                memberNumber={member?.memberNumber || "BMC-2024-0012"}
+                motorcyclePlate={member?.motorcyclePlate || "-"}
+                motorcycleModel={member?.motorcycleModel}
+                joinedDate={member?.joinedDate || "Oktober 2024"}
+                photoUrl={member?.avatarUrl}
+                qrDataUrl={qrDataUrl}
+                status={member?.status || "active"}
+                priority
+              />
             </div>
 
             {/* BACK OF THE CARD */}
-            <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-muted-gold/50 bg-gradient-to-br from-[#161816] to-[#0e100e] p-6 text-bone shadow-2xl flex flex-col justify-between">
-              <div className="border-b border-white/10 pb-2">
-                <h4 className="text-xs font-serif font-bold uppercase tracking-wider text-muted-gold">
-                  Ketentuan Pemegang Kartu
-                </h4>
-              </div>
-
-              <div className="space-y-2 text-[10px] text-bone-muted leading-relaxed">
-                <p>1. Kartu ini adalah bukti keabsahan keanggotaan resmi Brotherhood Motorcycle Community.</p>
-                <p>2. Tidak dapat dipindahtangankan kepada pihak lain yang tidak berhak.</p>
-                <p>3. Pemegang kartu wajib mematuhi seluruh kode etik, AD/ART, dan ikrar safety riding.</p>
-                <p>4. Verifikasi keabsahan kartu dapat dilakukan dengan memindai kode QR melalui kamera ponsel.</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-3 flex items-center justify-between text-[9px] font-mono text-muted-gold">
-                <span>SEKRETARIAT BROTHERHOOD</span>
-                <span>TOKEN: {member?.qrVerificationToken ? member.qrVerificationToken.replace("bmc_tok_", "").slice(0, 12).toUpperCase() : "BMC-OFFICIAL"}</span>
-              </div>
+            <div className="absolute inset-0 backface-hidden rotate-y-180">
+              <DigitalKtaCardBack
+                memberNumber={member?.memberNumber || "BMC-2024-0012"}
+                verificationToken={member?.qrVerificationToken}
+              />
             </div>
           </div>
         </div>
