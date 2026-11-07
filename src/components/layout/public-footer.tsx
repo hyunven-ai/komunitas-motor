@@ -48,9 +48,9 @@ export function PublicFooter({ settings }: PublicFooterProps) {
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-300 font-mono">
+            <p className="text-xs font-bold uppercase tracking-widest text-neutral-300 font-mono">
               Eksplorasi
-            </h4>
+            </p>
             <ul className="space-y-2 text-xs sm:text-sm text-neutral-400 font-sans">
               <li>
                 <Link href="/about" className="transition-colors hover:text-white">
@@ -87,9 +87,9 @@ export function PublicFooter({ settings }: PublicFooterProps) {
 
           {/* Member & Legal */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-300 font-mono">
+            <p className="text-xs font-bold uppercase tracking-widest text-neutral-300 font-mono">
               Keanggotaan
-            </h4>
+            </p>
             <ul className="space-y-2 text-xs sm:text-sm text-neutral-400 font-sans">
               <li>
                 <Link href="/join" className="transition-colors hover:text-white">
@@ -111,9 +111,9 @@ export function PublicFooter({ settings }: PublicFooterProps) {
 
           {/* Secretariat Contact (Dynamic from Admin Settings) */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-300 font-mono">
+            <p className="text-xs font-bold uppercase tracking-widest text-neutral-300 font-mono">
               Sekretariat &amp; Hotline
-            </h4>
+            </p>
             <div className="space-y-3 text-xs sm:text-sm text-neutral-400 font-sans">
               <div className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 shrink-0 text-red-500 mt-0.5" />

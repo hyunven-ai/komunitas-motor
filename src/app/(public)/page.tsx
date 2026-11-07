@@ -62,31 +62,31 @@ async function DispatchBarSection() {
     <SectionReveal direction="none">
       <section className="bg-[#10121A] border-y border-white/10 py-3.5">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-y-2 text-xs font-mono text-neutral-400">
+          <div className="flex flex-wrap items-center justify-between gap-y-2 text-xs font-mono text-neutral-300">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-red-600 animate-pulse" />
-              <span className="text-neutral-200 font-semibold tracking-wider uppercase">
+              <span className="text-neutral-100 font-semibold tracking-wider uppercase">
                 Status Operasional
               </span>
-              <span className="text-neutral-600">&bull;</span>
-              <span>{settings.operationalStatus || "Sekretariat Wilayah Aktif"}</span>
+              <span className="text-neutral-400">&bull;</span>
+              <span className="text-neutral-300">{settings.operationalStatus || "Sekretariat Wilayah Aktif"}</span>
             </div>
 
             <div className="hidden md:flex items-center gap-6">
               <span>
-                <strong className="text-neutral-200">KODE JALAN:</strong>{" "}
-                {settings.roadCode || "Respect All, Fear None"}
+                <strong className="text-neutral-100">KODE JALAN:</strong>{" "}
+                <span className="text-neutral-300">{settings.roadCode || "Respect All, Fear None"}</span>
               </span>
-              <span className="text-neutral-600">&bull;</span>
+              <span className="text-neutral-400">&bull;</span>
               <span>
-                <strong className="text-neutral-200">FORMASI KONVOI:</strong>{" "}
-                {settings.convoyFormation || "Staggered Formation (Selang-Seling)"}
+                <strong className="text-neutral-100">FORMASI KONVOI:</strong>{" "}
+                <span className="text-neutral-300">{settings.convoyFormation || "Staggered Formation (Selang-Seling)"}</span>
               </span>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-neutral-500">Kepatuhan AD/ART:</span>
-              <span className="text-neutral-200 font-bold">
+              <span className="text-neutral-300 font-medium">Kepatuhan AD/ART:</span>
+              <span className="text-neutral-100 font-bold">
                 {settings.complianceNote || "100% Zero-Alcohol"}
               </span>
             </div>
@@ -326,10 +326,8 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col w-full overflow-x-hidden bg-[#0B0D12] text-[#F5F5F2]">
-      {/* 1. DOCUMENTARY HERO (Progressive Stream) */}
-      <Suspense fallback={<HeroSkeleton />}>
-        <HeroSection />
-      </Suspense>
+      {/* 1. DOCUMENTARY HERO (Above-the-fold Instant Initial Document Paint) */}
+      <HeroSection />
 
       {/* 2. GROUNDED DISPATCH BAR (Progressive Stream) */}
       <Suspense fallback={<DispatchBarSkeleton />}>
@@ -499,9 +497,9 @@ export default function HomePage() {
                         <span className="text-[10px] font-mono text-red-400 uppercase tracking-wider">
                           {m.position}
                         </span>
-                        <h4 className="font-display text-lg font-bold text-white uppercase tracking-tight mt-0.5">
+                        <h3 className="font-display text-lg font-bold text-white uppercase tracking-tight mt-0.5">
                           {m.name}
-                        </h4>
+                        </h3>
                         <p className="text-[11px] font-mono text-neutral-400">
                           KTA: {m.memberNumber}
                         </p>
@@ -550,9 +548,9 @@ export default function HomePage() {
                   <div className="flex items-start gap-3 p-3.5 rounded-lg bg-[#12141C] border border-white/5">
                     <CheckCircle2 className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
                     <div>
-                      <h5 className="text-xs font-bold font-display uppercase tracking-wider text-white">
+                      <h3 className="text-xs font-bold font-display uppercase tracking-wider text-white">
                         Nomor Anggota Unik Berurutan
-                      </h5>
+                      </h3>
                       <p className="text-[11px] text-neutral-400">
                         Format resmi serial PostgreSQL mencegah duplikasi nomor anggota (misal: BMC-2018-0001).
                       </p>
@@ -562,9 +560,9 @@ export default function HomePage() {
                   <div className="flex items-start gap-3 p-3.5 rounded-lg bg-[#12141C] border border-white/5">
                     <QrCode className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
                     <div>
-                      <h5 className="text-xs font-bold font-display uppercase tracking-wider text-white">
+                      <h3 className="text-xs font-bold font-display uppercase tracking-wider text-white">
                         Presensi QR di Titik Kumpul (Tikum)
-                      </h5>
+                      </h3>
                       <p className="text-[11px] text-neutral-400">
                         Road Captain dan Safety Officer memindai kode QR dari layar smartphone member untuk verifikasi kehadiran cepat.
                       </p>
@@ -574,9 +572,9 @@ export default function HomePage() {
                   <div className="flex items-start gap-3 p-3.5 rounded-lg bg-[#12141C] border border-white/5">
                     <Shield className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
                     <div>
-                      <h5 className="text-xs font-bold font-display uppercase tracking-wider text-white">
+                      <h3 className="text-xs font-bold font-display uppercase tracking-wider text-white">
                         Hak Suara Musyawarah &amp; Akses Forum
-                      </h5>
+                      </h3>
                       <p className="text-[11px] text-neutral-400">
                         Hak memilih kepengurusan dalam Musyawarah Besar dan akses ruang diskusi internal tertutup.
                       </p>
@@ -616,9 +614,9 @@ export default function HomePage() {
                         <Shield className="h-5 w-5 text-red-500" />
                       </div>
                       <div>
-                        <h4 className="font-display text-base font-bold tracking-widest text-white uppercase">
+                        <p className="font-display text-base font-bold tracking-widest text-white uppercase">
                           BROTHERHOOD MC
-                        </h4>
+                        </p>
                         <p className="text-[9px] uppercase tracking-widest text-neutral-400 font-mono">
                           Official Member Pass
                         </p>

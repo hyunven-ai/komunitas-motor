@@ -486,6 +486,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
               alt={slide.headlinePart1 || "Borneo Brotherhood Hero"}
               fill
               priority={index === 0}
+              {...(index === 0 ? { fetchPriority: "high" } : {})}
               loading={index === 0 ? "eager" : "lazy"}
               quality={index === 0 ? 80 : 70}
               sizes={

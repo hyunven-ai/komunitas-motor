@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
 import { HeroSlide, DEFAULT_HERO_SLIDES } from "./types";
 import fs from "fs";
 import path from "path";
@@ -59,10 +60,14 @@ export async function getHeroSlides(): Promise<HeroSlide[]> {
 }
 
 /**
- * Fetch only active hero slides (for public frontend)
+ * Fetch only active hero slides (cached for high performance and fast TTFB)
  */
-export async function getActiveHeroSlides(): Promise<HeroSlide[]> {
-  const all = await getHeroSlides();
-  const active = all.filter((s) => s.isActive !== false);
-  return active.length > 0 ? active : DEFAULT_HERO_SLIDES;
-}
+export const getActiveHeroSlides = unstable_cache(
+  async (): Promise<HeroSlide[]> => {
+    const all = await getHeroSlides();
+    const active = all.filter((s) => s.isActive !== false);
+    return active.length > 0 ? active : DEFAULT_HERO_SLIDES;
+  },
+  ["active_hero_slides_public"],
+  { revalidate: 300, tags: ["hero_sliders"] }
+);
