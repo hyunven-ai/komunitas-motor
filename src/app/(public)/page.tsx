@@ -48,21 +48,7 @@ export const dynamic = "force-dynamic";
  */
 async function HeroSection() {
   const heroSlides = await getActiveHeroSlides();
-  const firstSlide = heroSlides[0];
-
-  return (
-    <>
-      {firstSlide?.bgUrl && (
-        <link
-          rel="preload"
-          as="image"
-          href={firstSlide.bgUrl}
-          fetchPriority="high"
-        />
-      )}
-      <HeroCarousel slides={heroSlides} />
-    </>
-  );
+  return <HeroCarousel slides={heroSlides} />;
 }
 
 /**

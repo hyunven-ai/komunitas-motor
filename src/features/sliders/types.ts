@@ -26,7 +26,7 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     location: "Cappadocia - Turkey",
     date: "1.200 MDPL • 2.400 KM",
     bgUrl:
-      "https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=2400&q=95",
+      "https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1200&q=80",
     ctaText: "DISCOVER LOCATION",
     ctaLink: "/events",
     isActive: true,
@@ -42,7 +42,7 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     location: "Switzerland Alps",
     date: "2.100 MDPL • Alpine Tour",
     bgUrl:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2400&q=95",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
     ctaText: "DISCOVER LOCATION",
     ctaLink: "/events",
     isActive: true,
@@ -58,7 +58,7 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     location: "Japan Alps",
     date: "1.850 MDPL • Culture Ride",
     bgUrl:
-      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2400&q=95",
+      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
     ctaText: "DISCOVER LOCATION",
     ctaLink: "/events",
     isActive: true,
@@ -74,7 +74,7 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     location: "Sahara Desert - Morocco",
     date: "Gurun Sahara • Sunset Safari",
     bgUrl:
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=2400&q=95",
+      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200&q=80",
     ctaText: "DISCOVER LOCATION",
     ctaLink: "/events",
     isActive: true,
@@ -90,7 +90,7 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     location: "Sierra Nevada - USA",
     date: "2.400 MDPL • Wilderness",
     bgUrl:
-      "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=2400&q=95",
+      "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1200&q=80",
     ctaText: "DISCOVER LOCATION",
     ctaLink: "/events",
     isActive: true,
@@ -106,7 +106,7 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     location: "Borneo Brotherhood • Central",
     date: "Dedikasi Sewindu • 100% Solidaritas",
     bgUrl:
-      "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=2400&q=95",
+      "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80",
     ctaText: "DAFTAR CALON MEMBER",
     ctaLink: "/join",
     isActive: true,

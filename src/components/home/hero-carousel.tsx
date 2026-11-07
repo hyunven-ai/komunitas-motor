@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { gsap } from "gsap";
 import {
   ArrowRight,
@@ -11,6 +12,18 @@ import {
   VolumeX,
 } from "lucide-react";
 import { HeroSlide, DEFAULT_HERO_SLIDES } from "@/features/sliders/types";
+
+function cleanSlideImageUrl(url: string, isPreview = false): string {
+  if (!url) return url;
+  if (url.includes("images.unsplash.com")) {
+    const base = url.split("?")[0];
+    if (isPreview) {
+      return `${base}?auto=format&fit=crop&w=480&q=75`;
+    }
+    return `${base}?auto=format&fit=crop&w=1200&q=80`;
+  }
+  return url;
+}
 
 interface HeroCarouselProps {
   slides?: HeroSlide[];
@@ -467,15 +480,20 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
               boxShadow: index === 0 ? "none" : "0 20px 40px -10px rgba(0, 0, 0, 0.85)",
             }}
           >
-            {/* LCP Discovery Native Hero Image with High Fetch Priority for First Slide */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={slide.bgUrl}
+            {/* Next.js Optimized Hero & Preview Image */}
+            <Image
+              src={cleanSlideImageUrl(slide.bgUrl, index > 0)}
               alt={slide.headlinePart1 || "Borneo Brotherhood Hero"}
-              fetchPriority={index === 0 ? "high" : "low"}
+              fill
+              priority={index === 0}
               loading={index === 0 ? "eager" : "lazy"}
-              decoding={index === 0 ? "sync" : "async"}
-              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+              quality={index === 0 ? 80 : 70}
+              sizes={
+                index === 0
+                  ? "(max-width: 768px) 100vw, 100vw"
+                  : "(max-width: 768px) 180px, 240px"
+              }
+              className="object-cover pointer-events-none select-none"
             />
             {/* Soft bottom scrim for preview typography legibility (keeps photo colors natural & vivid) */}
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
